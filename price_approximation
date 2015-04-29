@@ -1,0 +1,31 @@
+function [price]=price_apprximation(exponent,tau,alpha,z)
+%General parametrs 
+S0=100; %the stock value
+K=100; % the strike value
+r= 0.05; % the risk free interest rate 
+%%% The function "f_alpha_hata" represents the fourier transform of the damped
+%%% version of the conditional expectation of the terminal payoff g(ST ) under the 
+%%%risk-neutral probability Q:
+
+    function [f_alpha_trans]=f_alpha_hata(alpha,w,tau)
+    x=alpha-1i*w;
+    k=log(K/S0);
+    g_alpha_trans= S0*exp((1-alpha+1i*w)*k)/((1+1i*w-alpha)*(1i*w-alpha));
+    f_alpha_trans= g_alpha_trans*exp(tau*exponent(x));
+    end
+
+% To calculate the the inverse Fourier transform analytically, we
+%approximate it by truncating and discretising the integration domain using
+%trapezoidal quadrature 
+wmax=20; %  cutoff point
+n=100; % number of qudrature points 
+delta_w=wmax/n;
+f=@f_alpha_hata;
+sum=real(exp(-1i*(1/2)*delta_w*z)*f(alpha,0.5*delta_w,tau));
+for j=1:n-1
+sum=sum+real(exp(-1i*(j+1/2)*delta_w*z)*f(alpha,(j+1/2)*delta_w,tau));
+end
+f_alpha_n_deltaw=(delta_w/pi)*sum; 
+f_n_deltaw=f_alpha_n_deltaw*exp(alpha*z);%approxiamtion of f
+price=exp(-r*tau)*f_n_deltaw; % discounting the expected payoff value = the option price 
+end
