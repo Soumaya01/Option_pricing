@@ -1,5 +1,6 @@
 
-
+```html
+   // 
 Value of Merton parameters value 
 function [lambda,N,r,S0,K,sigma,m,v]=Data_value_merton()
 %General parametrs 
@@ -13,8 +14,10 @@ lambda=0.089;% the intensity of the poisson process
 v=0.4505; %the standard deviation of the jumps 
 m=-0.8898; %The mean of the jumps
 end
+```
 
-Value of Kou parameters value 
+```css
+   // Value of Kou parameters value 
 
 function [lambda,r,S0,K,sigma,p,q,mu1,mu2]=Data_value_kou()
 %General parametrs 
@@ -29,3 +32,6 @@ q=0.4; %The probability of an downward jump of the stock price
 mu1=5;% the parameter of the exponential distribtion for positive jump
 mu2=3;%the parameter of the exponential distribtion for negative jump
 end
+
+```
+
