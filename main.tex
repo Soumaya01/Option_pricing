@@ -1,0 +1,470 @@
+\documentclass[12pt]{report}
+
+\usepackage[utf8]{inputenc}  % un package
+\usepackage[T1]{fontenc}      % un second package
+\usepackage[english]{babel}
+\selectlanguage{english}  % un troisième package
+\usepackage[pdftex]{graphicx}
+\usepackage{multicol} 
+\usepackage{amsmath,amssymb,latexsym} 
+\usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
+\usepackage{graphicx}
+\usepackage{titlesec}
+\setcounter{secnumdepth}{4}
+\titleformat{\paragraph}
+{\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
+\titlespacing*{\paragraph}
+{0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
+
+\setlength{\parindent}{0pt}
+\newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
+\DeclareMathOperator{\e}{e}
+\begin{document}
+
+
+% This part concern the cover page of the report 
+\begin{titlepage}
+\begin{center}
+\textsc{\Large Tunisia Podfsdaflytechnic School of Tunisia}\\[1.5cm]
+\textsc{\Large Graduation project}\\[0.5cm]
+% Title
+\HRule \\[0.4cm]
+{ \huge \bfseries Fourier Transform Methods for Option Pricing \\[0.4cm] }
+
+\HRule \\[1.5cm]
+
+% Author and supervisor
+\noindent
+\begin{minipage}[t]{0.4\textwidth}
+\begin{flushleft} \large
+\emph{Author:}\\
+Soumaya \textsc{Elkantassi}
+\end{flushleft}
+\end{minipage}%
+\begin{minipage}[t]{0.6\textwidth}
+\begin{flushright} \large
+\emph{Supervisor:} \\
+Prof.~Raul \textsc{Tempone}\\
+Fabian\textsc{~Crocce flores}\\
+Juho H$\ddot{a}$pp$\ddot{o}$
+l$\ddot{a}
+$
+\end{flushright}
+\end{minipage}
+\vfill
+% Bottom of the page
+{\large \today}
+\end{center}
+\end{titlepage}
+
+
+
+\part{Introduction}
+\chapter{Black-Scholes-Merton model and its limitations}
+\section{Black -Scholes-Merton model}
+The Black-Scholes-Merton (or Black and Scholes ) model for evaluating the premium of an option was introduced in 1973 by three economists – Fischer Black, Myron Scholes and Robert Merton. They developed a formula to calculate the theoretical price of European put and call options. This model has become the world's most well-known options pricing formula and has had a significant influence on the way options was traded and priced.\\
+
+
+Black-Scholes-Merton model assumes that the price, $S$, of an asset follows a geometric Brownian motion,
+% equation non centrée
+\begin{gather}
+dSt = \mu Stdt +\sigma StdWt
+\end{gather}
+
+where $\mu$ and $\sigma$ are known constants, 
+denoting respectively the expected return and the volatility of the asset and $Wt$ is a standard Brownian motion with drift.\\
+
+
+Before considering the Black-Scholes option price it is  important to understand the Brownian motion process that has been widely used to determine the return distributions
+of assets. The Brownian motion is a particular type of Markov stochastic process, where only the present value of a variable is the relevant for prediction the future.\\
+Consider a variable, $W_{t_{t \geqslant 0}}$,  following a Brownian motion, then it has the following two properties :\\
+
+$1)$ The change $\Delta W_t$ in a small period of time $\Delta t$ is : 
+\begin{gather}
+\Delta W_t= \sqrt{\Delta t}~ N(0,1)
+\end{gather}
+$2)$ The values of $\Delta W_t$ of any two different short intervals of time,$\Delta t$, are independent(Markov property).
+ 
+If we consider the change of $W_t$ in a relatively long period, it can be regarded as the sum of the changes of $\Delta W_t$ in small time intervals of length $\Delta t$:
+ \begin{gather}
+W(T)-W(0)= \sum\limits_{i=1}^n \sqrt{\Delta t}~ N_i(0,1)  ,  
+ \end{gather}
+where $N_i$ are normally distributed  $N(0,1)$ and  independent from each other.\\
+  It follows that $W(T)-W(0)$ is normally distributed $N(0,n\sqrt{\Delta t})$. Hence, the stock returns, $dS_t/S_t$, are assumed to be normally distributed. Normality assumption is one important hypothesis among others in the Black and Scholes model.\\
+
+The graph below shows the variation of a Brownian motion  process when T=1.
+\begin{figure}[h]
+\centering
+\includegraphics[scale=0.5]{brownian.png} 
+\caption{Brownian motion when $\Delta t=0.01$}
+\end{figure} 
+
+To derive the Black-Scholes formula, some assumptions on the assets and the market have been made  :
+\begin{itemize}
+\item Returns are log-normally distributed.
+\item The options are European and can only be exercised at expiration.
+\item The stock pays no dividend during the life of the option.
+\item The volatility is constant for any strike and maturity.
+\item The short-term interest rate (the risk-free rate r) is known and constant through time.
+\end{itemize} 
+
+
+It can be shown that under these assumptions the solution of the stochastic differential equation (1.1) is :
+\begin{gather}
+St= S_0 e^{\mu-\frac{\sigma^2}{2}+\sigma Wt}
+\end{gather}
+The Risk Neutral Valuation Theorem states that the price of an 
+European call $C(St, K,T)$ for any $ t \in [0, T]$, is the discounted expected value of $(S_T-K)^+$ under the risk-neutral probability measure Q .
+\begin{gather}
+C(St, K,T)= e^{-r \tau} E^Q[(S_t-K)^+|\mathfrak{Ft}] 
+\end{gather}
+Developing this conditional expectation will lead to the following price:
+\begin{gather}
+C(St,K,T)= S_0 N(d_1) - K e^{-r \tau} N(d_2)
+\end{gather}
+Where $ d_1= \frac{ln\frac{S_0}{K}+r+\frac{\sigma^2}{2}T}{2} $ and $d_2 = d_1-\sigma \sqrt{T} $ \\
+$ S_0$ is the current stock price, T is the time to maturity, $\sigma$ is the stock price volatility,$N(x)$ is the cumulative probability distribution function for the standard normal distribution. The price of the European put option can
+be computed by the Put-Call parity.
+\begin{gather}
+P(St,K,T)= -S_0 N(-d_1) + K e^{-r \tau} N(-d_2)
+\end{gather}
+\section{Advantages of the Black-Scholes-Merton Model}
+\begin{itemize}
+\item The expected return $\mu$ does not appear in the Black-Scholes equation. This means the pricing formula is independent of the individual’s preference. 
+\item The Black-Scholes equation applies to any derivative asset. What distinguishes the different assets are the boundary conditions.
+\item The formula (1.4) and (1.5) cancan be easily modified when the interest rate is stochastic or a function of t, when the stock gives dividend or when the
+option is American.
+\item  In the Black-Scholes model, the market operates continuously with the share price following a continuous Ito’s process. This suggests that continuous trading promotes price efficiency and helps investors constantly fine-tune their hedge positions. 
+\end{itemize}
+
+These properties together with its simplicity makes the Black-Scholes pricing formula very popular among practitioners for pricing and hedging options.
+\section{ Limitations of the Black Scholes Merton Model }
+\begin{itemize}
+\item \textbf{Non constant volatility}:
+Although the Black-Scholes formula is powerful to price stock options, it is widely believed and experimentally verified that stocks do not have a constant spot volatility, rather this parameter varies with time, e.g. Hull and White(1987), Danilo and Spokoinyi (2004),Goldentyer, Klebaner and Liptser (2005).This may systematically misprice the options and cause the biases of the Black-Scholes model.
+
+
+\item \textbf{Non complete market}:
+The Black-Scholes-Merton  model assumes that the market is complete,i.e.  that any contingent claim can be perfectly hedged, but if we consider the real situation , the stock price can increase or decrease
+lightly like it can fall relatively quickly.So,it is not possible to be hedged against all of these states
+simultaneously.The impossibility of perfect hedging means that the market is incomplete, Hence, it makes much more sense to use incomplete market models where the risk of hedging can be quantified rather than sticking to complete market models where the risk of hedging is by definition zero,exponential-Levy models  are examples of incomplete models. 
+
+\item \textbf{Non Log-normal Distributed returns}: If the stock price follows a geometric Brownian motion with drift  as in equation $(1.1)$, the stock price is log-normally distributed, or, the logarithmic return is normally
+distributed.Generally,when dealing with an asset price,this is a poor approximation because, returns often have an excess kurtosis and a non zero skewness values.
+
+\item \textbf{Non continuous process}:
+In traditional Brownian diffusion model, price movements are allowed with  small magnitude in short period of time. But in real markets, prices may be have big jumps ,a sudden dramatic decline in short time periods.A good model must be allow for discontinuities and jumps in price process.
+
+\end{itemize}
+
+\chapter{Lévy processes and financial modeling}
+
+As seen before,it is always be more reliable to model prices with a stochastic process involving jumps in order to describe the market fluctuations.
+Lévy processes, are in fact a valuable tool in financial modeling, because they  provide us with an appropriate
+framework that describes adequately real time series.\\
+
+
+This section define Lévy processes , discuss some of their fundamental properties and introduce some examples like Compound poison processes in order to study the use of Lévy models in two categories of financial modeling with jums :Jump diffusion and Infinite activity Lévy processes.
+
+\section{ Lévy processes }
+
+A Lévy process is a continuous time stochastic process defined on filtered probability spaces$(\Omega,\mathfrak{I},\mathfrak{I}_{t>0},P)$ ,it has the following properties:\\
+i)$t \rightarrow X _t$ has cadlag paths, i.e. right-continuous with left limits.\\
+ii) $X_0=0$.\\
+iii) $X$ has an independent increments, i.e.$ X_t- X_s$ independent from \{ $X_u,{ u \leqslant s}.$\}\\
+iv) X has stationnary increments $X_t-X_s$ has the same distribution as $ X_{t-s}.$\\
+v) X is stochastically continuous,lim $\lim\limits_{k \rightarrow +\infty}$ $P(|X_{t+k}-X_t|  \geqslant \epsilon)=   0 $   $   \forall       \epsilon > 0.$
+
+The fourth property does not imply that the sample paths of $ X_t$ are continuous , it can be regarded as a way to exclude jumps at known time. It means that, at a given time $t$, the probabiliy of seeing a jump is zero, discontinuities occur just at random times.\\
+
+\section{ Properties of  Lévy processes :}
+$\bullet$ Let's $(X_t)_{t \geqslant 0}$ be a Lévy pocess on $\mathbb{R}^d$. The every Lévy process can be represented in the following form :
+\begin{gather}
+X_t= \mu t+ \sigma W_t + \int_0^t \int_{\mathbb{R}/\{0\}} (x-h(x))\nu(x) dx ds 
+\end{gather}
+where $ W_t $ is continuous geometric Brownian motion that can be characterized by two parameters: the drift $\mu$ and the volatility $\sigma$, $\nu(x)$ is a measure on $\mathbb{R}$ called the Lévy measure and  $\int_0^t\int_{\mathbb{R}/\{0\}}(x-h(x))\nu(x) dx ds$ represents the jump part in the process $X_t$. h(x) in an arbitrary truncation function introduced to ensures that the integral part in the Lévy process is integrable.\\
+
+
+
+$\bullet$ To count the number of jumps, a Lévy measure is defined via the above formulation :
+
+\begin{gather}
+\nu(A)=E[\#\{t \in [0 1]: \Delta X_t \neq 0 , \Delta X_t \in A]
+\end{gather}
+$\nu(A)$ represents the expected number, per unit time, of jumps whose size belongs to $A$.\\
+$\bullet$ The distribution of a Lévy process is characterized by its characteristic function, the latter is defined such that :\\
+\begin{gather}
+\Phi_t(z)=\Phi_{X_t}(z)=E[ e^{izX_t}]
+\end{gather}
+$\bullet$ There exists a continuous function $\psi $  :$\mathbb{R}^d  \rightarrow \mathbb{R} $, called the characteristic exponent of $X_t$ ,such that:\\
+\begin{gather}
+E[ e^{izX_t}]= e^ {t \psi (z)}
+\end{gather}
+\textbf{ Lévy-Khintchine representation} :\\
+
+$\bullet$ If  $X = (X_t)_{t\geq 0}$  is a Lévy process, then its characteristic function  $\nu_{X_t}(z)$  is given by
+
+\begin{equation}
+\Phi_t(z)=\mathbb{E}\Big[e^{iz X_t} \Big] =e^ {t \psi (z)}
+\end{equation}
+\begin{equation}
+\psi (z)= \mu iz - \frac{1}{2}\sigma^2  z^2 + 
+\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz h(x)\big)\,\nu(dx) 
+\end{equation}
+
+This Lévy–Khintchine representation is fully determined by the Lévy–Khintchine triplet $(\sigma^2,\nu, \mu)$ where $\mu \in $ $\mathbb{R}$ is called the drift term, $\sigma$ the Gaussian or diffusion
+coefficient and $\nu$ is the Lévy measure. This triplet is unique for every Lévy process $(X_t)_{t\geq 0}$.\\
+$\bullet$ The Lévy measure has no mass at the origin and satisfies the following integrability condition :
+\begin{multicols}{2}\noindent
+\begin{equation}
+ \nu( \{0 \}) = 0
+\end{equation}
+\begin{equation}
+\int_{\mathbb{R}\backslash\{0\}} \big( min \{x^2,1\} ,\nu(dx) < \infty  \Big)
+\end{equation}
+\end{multicols}
+
+$\bullet$ According to the Lévy Khintchine representation, the characteristic exponent of every Lévy process can be written as the sum of the characteristic exponent of a Brownian motion with drift and the characteristic exponent of a jump component.
+$$\psi_B (z)= \mu iz - \frac{1}{2}\sigma^2  z^2 $$
+$$\psi_{jump}(z)=\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz h(x)\big)\,\nu(dx)$$
+
+
+\textbf{Finite/Infinite activity and variation }\\
+
+Considering,$X_t$, a Lévy process with a characteristic triplet $(\sigma^2,\nu, \mu)$ .As we have seen before, the Lévy measure represents the expected number of
+jumps of a certain magnitude in a time interval of length 1. Thus, we are able to disguish the class of the Lévy process by reading the lévy measure:
+\begin{enumerate}
+
+\item If $\nu$ is a finite
+measure,  $\nu(\mathbb{R})= \int_{\mathbb{R}} \nu(dx) < \infty$, then $X_t$ has a finite number of jumps on every finite interval, it is called \emph{finite activity Lévy process}.In this case we dot not need a truncation function $h(x)=0 $.
+
+\item If $\nu$ is an infinite
+measure, $\nu(\mathbb{R})=\infty $, an infinite number of jumps has occurred, $X_t$ is then called $\emph{infinite activity Lévy process}$. In this case, conditions $(2.7)$ and $(2.8)$ are no more sufficient to ensure the convergence of the integral part in the Lévy process, some conditions will be imposed on the measure $\nu$ under which we keep the same decomposition of $X_t$ as in $(2.1)$. 
+
+\item if $\sigma = 0$ and $\int_{\mid x\mid
+\leqslant1} x\nu(dx) < \infty $, then the path of $X_t$ a has finite variation.
+\item if $\sigma \neq 0$ or $\int_{\mid
+x\mid
+\leqslant
+1} x\nu(dx) = \infty $, then the
+path of $X_t$ has an infinite variation.
+\end{enumerate}
+\chapter{ Financial Modeling with Lévy Processes }
+
+After discussing general properties of Lévy processes, we can now give some tractable examples of Lévy processes that can be used in basic financial models and emphasize the different relations between them\\
+All the models that will be discussed belong to a family of Lévy processes called “exponential Lévy processes”, under which the dynamic of the underlying stock prices is given by: 
+\begin{equation}
+S_t= S_0e^{X_t}
+\end{equation}
+where $X_t$ is a Lévy process under the risk-neutral measure  $\mathbb{Q}$ with
+characteristic triplet $(\sigma^2,\nu, \mu)$. The log returns log($S_{t}/S_0$) of such a model
+follows the same distribution of the Lévy process $X_t$.
+\section{Examples of Lévy process }
+\subsection{Poisson process}
+The Poisson process counts the number of arrivals in particular time interval.\\
+To describe it more clearly, we consider a continuous time arrival process: $ W(u)=\delta(u)$. It is simply an impulse function every time an event occurs:
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=1]{poisson.jpg} 
+\caption{An arrival process in the interval time [0 u]}
+\end{figure}
+\\
+The Poisson process $X_t$ will be the integral of this continuous time arrival process between 0 and t :\\
+$X_t=\displaystyle \int_{0}^{t} W(u) \, \mathrm{d}u=\displaystyle \int_{0}^{t} \delta(u) \, \mathrm{d}u$ , which represents the total number of arrivals up to  time t.\\
+\\
+\\
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{poisson.jpg} 
+\caption{Path of Poisson process with intensity $\lambda = 8$}
+\end{figure}
+
+As we can see, $X_t$ is continuous time discrete valued process with independent jumps of size one. $X_t$ can be characterized by :\\
+
+i) The waiting time between two successive jumps, it is a random variable called the interarrival time. \\
+ii) The interarrival time in the Poisson process follows an exponential distribution that has a very important characteristic called "memorylessness" 
+\begin{gather}
+ \forall t > s > 0, P(T > t + s|T > t) = P(T > s)
+\end{gather}
+
+iii) Every Poisson is characterized by a rate parameter $\lambda$, also known as the intensity of the process such that the number of arrivals in time interval $[t, t + \epsilon]$ follows a Poisson distribution with associated parameter $\lambda \tau$. This relation is given as
+\begin{gather}
+ P [N(t+ \epsilon) - N(t) = k] = \frac{e^{-\lambda \epsilon} (\lambda \epsilon)^k}{k!}  \qquad k= 0,1,\ldots,
+\end{gather} 
+ 
+\subsection{Compound poisson process}
+Let $X_t$ be a Compound Poisson process with intensity $\lambda$ and jump size distribution F, then $X_t$ will be defined as the sum of N(t) jumps arriving randomly according to a Poisson process and having random size specified with the probability distribution F.
+\begin{gather}
+X(t) = \sum_{i=1}^{N(t)} Y_i
+\end{gather}
+where,  $\{\,N(t) : t \geq 0\,\}$ is a Poisson process with rate $\lambda$, and $ \{\,Y_i : i \geq 1\,\}$ are independent and identically distributed random variables, with distribution function F.\\
+In other words, we could say that a Compound Poisson process is a Poisson process except that the jumps have a random size.
+
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{compoisson.jpg} 
+\caption{Compound Poisson process with intensity $\lambda=8$}
+\end{figure}
+
+\section{Lévy processes in Finance}
+
+Two categories of Lévy processes are used to describe the evolution of market prices. 
+The first category is called "Jump-diffusion models": these models have rare jumps and random evolution between the jump times. Such a model can be modeled by a Brownian motion with drift plus a jump part, which is a compound Poisson process .\\
+
+Contrary to Jump-diffusion models, the second category of Lévy processes consists of models with infinite number of jumps in every time interval, called "Infinite activity models".Some of these models could be modeled without Brownian component. Hence, the jump part is the deterministic of the price dynamic, this subcategory is called "infinite activity pure jump models".
+\subsection{Jump diffusion models}
+As their name would suggest, these models contain  a diffusion part represented by a Gaussian process (Brownian motion) accentuated by a finite number of jumps(Compound poisson process) with size distribution F.      \\
+
+
+A Lévy process of jump-diffusion type has the following form: 
+\begin{gather}
+X_t = \mu t+\sigma W_t+\sum_{i=1}^{N(t)} Y_i
+\end{gather}
+
+where $\mu \in \mathbb{R}, \sigma \in \mathbb{R_+}$, $W_t$ is a standard Brownian motion, $N =(N_t)_{t \geqslant 0}$ is a Poisson process with parameter $\lambda$ (i.e. $E[N_t] = \lambda t$) and $Y = (Y_t)_{t\geqslant 1}$ is an i.i.d. sequence of random variables with probability distribution F. All sources of
+randomness $(W_t,N_t,Y_t)$ are mutually independent.
+
+Two famous models of Lévy processes of jump diffusion type are used in modelling the log-price dynamic : The Merton jump-diffusion model and the Kou model.\\
+
+\large\textbf{Merton model}\\
+
+
+Merton was the first to use a discontinuous price process to model asset returns. (Merton 1976) assumed that the total change in the stock price is posited to be the composition of two types of changes:(1)The ‘normal’ vibrations in price, for example, due to a temporary imbalance between supply and demand, changes in capitalization rates, changes in the economic outlook, or other new information that causes
+marginal changes in the stock’s value. In essence, the impact of such information is to produce a marginal change in the price
+(almost certainly). This component is modeled by a standard geometric Brownian
+motion with a constant variance per unit time and it has a continuous sample
+path. (2) The ‘abnormal’ vibrations in price are due to the arrival of important new information about the stock that has more than a marginal effect on price. By its very nature, important information arrives only
+at discrete points in time. This component is modeled by a ‘jump’ process reflecting the non-marginal impact of the information.\\
+
+
+According to the Merton model, the decomposition of the process in given by :
+\begin{gather}
+X_t = \mu t+\sigma W_t+\sum_{i=1}^{N(t)} Y_i
+\end{gather}
+where the jump size are assumed to have a Gaussian distribution F :
+\begin{gather}
+F(x) = \frac{1}{\sqrt{2\pi\sigma^2} } e^{ -\frac{(x-\alpha)^2}{2\sigma^2} }
+\end{gather}
+Thus, $Y_i  \sim N(\alpha,\sigma^2)$ and the Lévy density :
+\begin{gather}
+ \nu(x)=\lambda F(x)=\lambda\frac{1}{\sqrt{2\pi\sigma^2} } e^{ -\frac{(x-\alpha)^2}{2\sigma^2} }
+\end{gather}
+This allows to obtain the probability density of $X_t$ as an expansion series: 
+\begin{gather}
+p_t(x)=e{-\lambda t} \sum_{k=1}^{\infty} \frac{(\lambda t)^k  e^{ -\frac{(x-\mu t-\alpha k)^2}{2\sigma^2+k \delta^2}}}{k!  \sqrt{2\pi(\sigma^2+k \delta^2)}}
+\end{gather}
+
+Taking the parameter values of $S\&P500$ Market from (Andersen and Andreseasen 2001):
+
+$ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year $
+
+we will obtain the following Merton processes. \\
+
+
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{merton.png} 
+\caption{Simulated log-price sample paths with Merton model  $\lambda=8$}
+\end{figure}
+In this graph, the log-price sample path is simulated 5 times in order to see to what extent the source of randomness can change and affect the log-price variation. 
+\\
+
+
+\large\textbf{Kou model}\\
+
+Since the first discontinuous price process proposed by Merton, many researches have been conducted in order to generalize the Black-Scholes model and to incorporate more empirical features(skewness, excess kurtosis and stochastic volatility). This variety of alternative proposed models was presented in Hull (2000)and just like the Black Scholes model they are usually designed to European call and put options.
+Hence, it is impossible to derive an analytical solution using these models for other option type such that: American options, lookback options, and barrier options using .\\
+
+It was in 2002 that S. G. Kou proposed a jump-diffusion model for option pricing leading to an analytical solution for many option-pricing problems.
+
+Kou demonstrated that double exponential jump size distribution performs well with different option classes  in term of accuracy and ease of implementation.
+
+The Double Exponential Jump Diffusion Model is given by: 
+\begin{gather}
+X_t = \mu t+\sigma W_t+\sum_{i=1}^{N^*(t)} Y^*_i
+\end{gather}
+Where $W_t$ is a standard Brownian motion, $N^* =(N^*_t)_{t \geqslant 0}$ is a Poisson process with parameter $\lambda^*$ (i.e. $E[N_t] = \lambda^* t$) and the log jump sizes $\{Y^*_1 , Y^*_2 , ... \}$ are
+independent identically distributed (i.i.d.) random variables such that $Y_i$ has a new double exponential distribution 
+\begin{gather}
+F(x)= p.\eta_1 \exp \left( -\eta_1 x \right) \mathbf{1}_{\{x\geqslant 0\}}+ q .\eta_2 \exp \left( -\eta_2 x \right) \mathbf{1}_{\{x < 0\}}
+\end{gather}
+$\lambda > 0,~ \eta_1 > 1, \eta_2 > 0$~,  
+$(p,q) \geqslant 0,~ p+q=1$ are the probabilities of the upward and downward jumps of the stock price. So we can
+express this also in this way:\\
+
+         \[Y_i = \begin{cases} 
+  \zeta^+ ~ with~ a~ probability ~ p \\
+         \zeta^-  ~with ~ a ~ probability ~ q
+         \end{cases}
+          \]
+$\zeta^+$ and $\zeta^+$, are exponentially distributed random variables with an expectation value of $\frac{1}{\eta_1}$ and $\frac{1}{\eta_2}$.\\
+
+The lévy measure of the Kou model will be defined as below:
+
+\begin{gather}
+ \nu(x)=\lambda F(x)=\lambda \big[ p.\eta_1 \exp \left( -\eta_1 x \right) \mathbf{1}_{\{x\geqslant 0\}}+ q .\eta_2 \exp \left( -\eta_2 x \right) \mathbf{1}_{\{x < 0\}}\big]
+\end{gather}
+
+Taking the values of Double Exponential Jump Diffusion Model  from (Kou 2002):
+
+$ \eta_1= 10,~\eta_2= 5,~\lambda=1,~\sigma= 16\%,~r=5\%,~ p=0.4,~ q=0.6 ~ and ~T=1 year $ will lead to the following log-price process.
+
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{kou.png} 
+\caption{Simulated log-price sample paths with Kou model }
+\end{figure}
+
+
+The values of the parameters was taken from these references in order to be able to benchmark the forward results with the exact option price calculated in these papers .
+
+\subsection{Infinite activity pure jump models}
+
+If $\nu$ is an infinite measure, then we are talking about infinite activity Lévy processes. Two conditions should be verified by $\nu$ :\\
+- A finite number of large jumps $(|x|>1)$:
+$$\int_{|x|>1}|x|\nu( dx)< \infty $$
+- Small jumps $(|x|< 1)$ should have finite quadratic variation 
+
+$$\int_{|x|<1}x^2\nu( dx)< \infty $$
+In fact,by introducing the truncation function, $h(x)= x\mathbb{I}_{|x|< 1}$ as one of the possible forms, in the Lévy process we checked up these two conditions.
+\\
+
+\large\textbf{Variance Gamma model}\\
+
+Inside the classes of Lévy processes that allow to build a model for the dynamics of stock prices and have infinite activity, an attention was paid to the Variance Gamma model. This model was proposed by Madan and Seneta(1990) and Carr and Chang(1998) and unlike the finite activity models, it can capture the frequent and small jumps as well as infrequent and large ones.\\
+
+The idea of the variance gamma model is to change the time scale of the process by subordinating the Brownian motion to a gamma process. Initially, the variance of the Brownian motion is one, the variance of the changed Brownian motion is gamma distributed, thus, the model is called the \textit{ Variance Gamma  model}. \\   
+
+Consider a traditional Brownian motion:
+
+\[B(t)=B(t,\mu,\sigma)=\mu t +\sigma W(t)\] 
+
+Then, the Variance Gamma model is constructed as below: 
+\begin{gather}
+ VG(t; \mu,\sigma,\alpha,\beta)=B(\gamma(t,\alpha,\beta);\mu,\sigma) 
+\end{gather}
+
+
+The Lévy measure of the VG model is given by:
+
+ \[\nu_{VG}(y)= \begin{cases} 
+  1_{\{y > 0\}} \frac{K e^{y \eta_+}}{y}~ if ~y >0 \\
+     1_{\{y < 0\}} \frac{K e^{y \eta_-}}{y}~ if y >0 
+         \end{cases}
+          \]
+
+Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1   $, will give us the following log-price simulated paths.
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{VG.png} 
+\caption{Simulated log-price sample paths with Variance Gamma model }
+\end{figure}
+
+
+\end{document}
