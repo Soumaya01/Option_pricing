@@ -7,12 +7,16 @@
 \newtheorem{assumption}[theorem]{Assumption}
 
 
-\theoremstyle{definition}
-\newtheorem{definition}[theorem]{Definition}
-\newtheorem{example}[theorem]{Example}
-\newtheorem{notation}[theorem]{Notation}
-\newtheorem{remark}[theorem]{Remark}
-\newtheorem{condition}{Condition}
+%%% TODO: these do not compile without warning!!!!
+
+%\theoremstyle{definition}
+%\newtheorem{definition}[theorem]{Definition}
+%\newtheorem{example}[theorem]{Example}
+%\newtheorem{notation}[theorem]{Notation}
+%\newtheorem{remark}[theorem]{Remark}
+%\newtheorem{condition}{Condition}
+%\DeclareMathOperator{\e}{e}
+
 
 \newcommand{\F}{\operatorname{\mathcal{F}}}
 \newcommand{\iF}{\operatorname{\mathcal{F}^{-1}}}
@@ -189,3 +193,9 @@
 
 \newcommand{\linf}[1]{L^\infty_{#1}}
 \newcommand{\norminf}[2]{\left\|#1\right\|_{\linf{#2}}}
+
+
+%%% for critique
+
+\newcommand{\jcor}[2]{\st{#1}{\textcolor{red}{#2}}}
+\newcommand{\jcom}[1]{\jcor{}{#1}}

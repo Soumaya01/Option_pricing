@@ -21,12 +21,8 @@
 \setlength{\parindent}{0pt}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
 
-\newcommand{\jcor}[2]{\st{#1}{\textcolor{red}{#2}}}
-\newcommand{\jcom}[1]{\jcor{}{#1}}
+\input{macros.tex}
 
-\include{macros.tex}
-
-\DeclareMathOperator{\e}{e}
 \begin{document}
 
 
@@ -306,8 +302,6 @@ The Poisson process $X_t$ will be the integral of this continuous time arrival p
 $X_t=\displaystyle \int_{0}^{t} W(u) \, \mathrm{d}u=\displaystyle \int_{0}^{t} \delta(u) \, \mathrm{d}u$ , which represents the total number of arrivals up to  time t.\\
 \jcom{Isn't $\int_{0}^{t} \delta(u) \, \mathrm{d}u=1$ ???}
 
-\\
-\\
 \begin{figure}[h]
 
 \centering
@@ -520,6 +514,24 @@ Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1 
 
 \appendix
 
+\section*{Foo}
+
+\begin{align*}
+f \parent{\tau,x} \equiv & \expp{g \parent{X_T}|X_{T-\tau} = x}
+\\
+= &\int_\R g\parent{y}  p_\tau \parent{y-x}  \d y
+\\
+\hat \fa \parent{\tau,\omega}= &  \int_\R \int_\R \expfs{- \damp x + i \omega x} g \parent{y}  p \parent{y-x} \d y \d \omega
+\\
+= & \int_\R \int_\R \expfs{ i \omega x} g \parent{y} \expfs{-\damp y} \expfs{-\damp \parent{y
+-x}}  p \parent{y-x} \d y \d \omega
+\\
+= &\hat \ga \parent{\omega} \charFun{\tau}{\omega + i \damp}
+\\
+= & \hat \ga \parent{\omega} \expfs{\tau \charExp{-i \parent{\omega+i \damp}} }
+\\
+= & \hat \ga \parent{\omega} \expfs{\tau \charExp{\damp - i \omega} }.
+\end{align*}
 
 
 \end{document}
