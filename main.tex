@@ -4,7 +4,7 @@
 \usepackage[T1]{fontenc}      % un second package
 \usepackage[english]{babel}
 \selectlanguage{english}  % un troisième package
-\usepackage[pdftex]{graphicx}
+\usepackage[pdftex]{icx}
 \usepackage{multicol} 
 \usepackage{color}
 \usepackage{amsmath,amssymb,latexsym} 
@@ -514,7 +514,7 @@ Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1 
 
 \appendix
 
-\section*{Foo}
+
 
 \begin{align*}
 f \parent{\tau,x} \equiv & \expp{g \parent{X_T}|X_{T-\tau} = x}
@@ -532,6 +532,21 @@ f \parent{\tau,x} \equiv & \expp{g \parent{X_T}|X_{T-\tau} = x}
 \\
 = & \hat \ga \parent{\omega} \expfs{\tau \charExp{\damp - i \omega} }.
 \end{align*}
+\section*{Numerical error }
+
+Assume we have a Merton Jump-Diffusion with parameters , ,  and  and r is the risk-free interest
+rate,  the time to maturity, S the spot price and K the strike price. If we setoption price given by the Merton Jump-Diffusion is given by
+\begin{figure}[h]
+
+\centering
+\includegraphics[scale=0.7]{Iteration_Max.jpg} 
+\caption{Compound Poisson process with intensity $\lambda=8$}
+\end{figure}
+
+
+
+
+
 
 
 \end{document}
