@@ -648,6 +648,7 @@ quadrature . Consider the following approximation:
 f_{\alpha,\Delta \omega, n}=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-n}^n e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}(\omega,\tau)
 \\
 =& \frac{\Delta \omega}{\pi} \sum \limits_{i=0}^{n-1} Re[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)]
+\label{fret}
 \end{align}
 
 Thus the option price is: 
@@ -683,7 +684,8 @@ If we consider how much complication is involved in this DFT To get each value o
 
 In total, we have $O(N^2)$ computations for direct DFT. The FFT reduces the complexity from order  $O(N^2)$ to order $O(N log_2N)$.\\
  Although it appears to  have the same computation time, will figure out that FFT makes  a big difference when N is very large.
- \\
+\begin{center}
+
 
  \begin{tabular}{||c c c ||} 
  \hline
@@ -697,12 +699,14 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
  \hline
  
 \end{tabular}
-\\
+\title{ DFT vs FFT computation time }
 
+\end{center}
 
- As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see taht it provides an efficient way of computing the previous bound eq \eqref{FFT} for several values of x at the same time.
+ As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see taht it provides an efficient way of computing the previous bound eq \eqref{FFT} for several values of x at the same time.\\
 
- 
- \jcom{I don't have a bibliography at all here...}
+ We can clearly see that the sum in \eqref{fret} is not a direct application of the
+FFT algorithm. Thus, we cannot use the FFT algorithm on that summation,
+we need to modificate it. In general, the strikes near the spot price are of
 
 \end{document}
