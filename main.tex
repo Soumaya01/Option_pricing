@@ -672,7 +672,34 @@ If we consider how much complication is involved in this DFT we will find :
 
 - N complex multiplication.
 
-\jcom{I don't have a bibliography at all here...}
 
+
+If we consider how much complication is involved in this DFT To get each value of k , we will find :
+
+- N complex multiplication.\\
+- N-1 complex additions. 
+
+
+In total, we have $O(N^2)$ computations for direct DFT. The FFT reduces the complexity from order  $O(N^2)$ to order $O(N log_2N)$.\\
+ Although it appears to  have the same computation time, will figure out that FFT makes  a big difference when N is very large.
+ \\
+
+ \begin{tabular}{||c c c ||} 
+ \hline
+N & $N^2$ & N $log_2 N$ \\ [0.5ex] 
+ \hline\hline
+ 100 & $10^6$ & $10^4$ \\ 
+ \hline
+ $10^6$ & $10^{12}$ & $20.10^6$ \\
+ \hline
+ $10^9$ & $10^{18}$ & $20.10^9$  \\
+ \hline
+ 
+\end{tabular}
+
+
+ As we see when N is large One might reduce the amount of time that a program takes to perform some task at  .
+ 
+ \jcom{I don't have a bibliography at all here...}
 
 \end{document}
