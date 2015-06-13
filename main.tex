@@ -676,7 +676,7 @@ If we consider how much complication is involved in this DFT we will find :
 - N-1 complex additions. \\
 - We need to repeat that for k=0,...,N-1\\
 
-In total, we have $O(N^2)$ \jcom{What are you trying to say here? You have $N$ complex multiplications and $N-1$ complex additions to evaluate the option price. Then this brings you complexity of $O(N)+O(N)=O(N)$ operations to evaluate the quadrature rule for a single asset value point.} computations for direct DFT. The FFT reduces the complexity from order  $O(N^2)$ to order $O(N log_2N)$.\\
+In total, we need $O(N(N+N-1)) \approx O(N^2)$ operations \jcom{What are you trying to say here? You have $N$ complex multiplications and $N-1$ complex additions to evaluate the option price. Then this brings you complexity of $O(N)+O(N)=O(N)$ operations to evaluate the quadrature rule for a single asset value point.} computations for direct DFT. The FFT reduces the complexity from order  $O(N^2)$ to order $O(N log_2N)$.\\
  Although it appears to  have the same computation time, will figure out that FFT makes  a big difference when N is very large.
 \begin {table}[h!]
 \begin{center}
