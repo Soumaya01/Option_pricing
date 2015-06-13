@@ -2,9 +2,8 @@
 
 \usepackage[utf8]{inputenc}  % un package
 \usepackage[T1]{fontenc}      % un second package
-\usepackage[english]{babel}
-\selectlanguage{english}  % un troisième package
-\usepackage[pdftex]{icx}
+\usepackage[english,french]{babel}
+
 \usepackage{multicol} 
 \usepackage{color}
 \usepackage{amsmath,amssymb,latexsym} 
@@ -510,18 +509,106 @@ Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1 
 \end{figure}
 \jcom{What are the parameters for this model? How was the simulation carried out and why is there only very few jumps?}
 
-\jcom{I don't have a bibliography at all here...}
 
-\appendix
+\chapter{Fourier Transform Methods For Option pricing }
+
+Various methods can be used to price an option when the underlying
+asset price process is modeled by a Lévy process. One can use the famous partial differential equations PDE and solve it numerically with the finite differences methods which  can be difficult due to the presence of jumps.~Another methods is to use Monte Carlo simulation in order to simulate different paths of the risk neutral process and take the discounted value of the average to obtain the option price.~In spite of its efficiency, Monte Carlo simulation is known to be computationally expensive.\\
+
+There are two reasons why one would choose Fourier transform approach for option pricing:~ 
+while the first reason is the unknown probability density of some Lévy processes, the second reason looks more important, since the use of Levy-Khinchine formula allows us not only to recover the analytical expression of the characteristic function but also to work easily in the Fourier space.\\
+
+This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and  reduce to overall complexity of the algorithm. 
+\newpage
+\section{Option price}
+Consider an asset whose price at time t is modeled by the stochastic process $S = (St)$
+defined by $St = S_0 e^{X_t}$ , where $X = (X_t)$  is assumed to be a Lévy process whose
+jump measure is $\nu$.\\
+Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of a European option with payoff G and maturity time T is given by
 
 
+\begin{gather}
+\pi(\tau,x)= e^{-r\tau} \expp{G \parent{X_T}|X_{T-\tau} = x}
+\end{gather}
+where r is the short rate that we assume to be constant and $\tau$ : 0 <$\tau$ < T is the time to
+maturity.
+
+
+Consider $g$ as the reward function in log prices (ie, defined by $g(x) = G(S0ex)$). Now, take f to be defined as
+\begin{center}
+$f \parent{\tau,x} \equiv \expp{g \parent{X_T}|X_{T-\tau} = x}$
+\end{center}
+
+We can observe that f and $ \pi$ are related by :
+\begin{gather}
+\pi(\tau,S_0 e^x)= e^{-r\tau}f \parent{\tau,x}
+\end{gather}
+The value of the option $\pi$ is related to the risk-neutral density $p_T$ by:
+
+
+\begin{align}
+\begin{split}
+\pi\parent{\tau,x} \equiv & e^{-r\tau}\expp{g \parent{X_T}|X_{T-\tau} = x}
+\\
+= &e^{-r\tau}\int_\R g\parent{y}  p_\tau \parent{y-x}  \d y
+\\
+=& e^{-r\tau}\int_\R (S_0 e^y-K)^+ p_\tau \parent{y-x}  \d y, ~~k=log (\frac{K}{S_0})\\
+=& e^{-r\tau} \int_k^\infty (S_0 e^y-K) p_\tau \parent{y-x} \d y
+\label{moneq}
+\end{split}
+\end{align}
+
+
+(See appendix 4.1 for details of the derivation of the discounted expected conditional terminal payoff) 
+
+\section{Fourier Transform approach}
+
+There are different conventions for the Fourier transform. In this section we consider the operator
+$\mathbb{F}$ such that
+
+\begin{center}
+
+$\mathbb{F}[f](w)= \int_\R e^{iwx}f(x) dx $
+\end{center}
+To recover the original function f, we define the inverse Fourier transform as
+
+\begin{center}
+$\mathbb{F}^{-1}[\hat{f}] (x) =\frac{1}{2\pi}\int_\R e^{-iwx}f(w) dw $
+\end{center}
+
+
+The principle of the Fourier Transform method is simple: instead of applying the direct discounted expectation, it is easier to compute the integral of its Fourier transform and after that we could recover the option price due to this characteristic:
+\begin{center}
+$\mathbb{F}^{-1}[\hat{f}] (x)=f(x)$
+
+\end{center} 
+
+
+From the previous derivation of the option price function eq ~\eqref{moneq}, we could remark that it is not square integrable. To obtain a square integrable function, we would consider a damped version of f defined by $f_{\alpha}(\tau,x) = e^{-\alpha x}f(\tau, x)$.We will discuss later  the choice of $\alpha$.
+
+Now, having an integrable function $f_\alpha$ we can apply the operator $\mathbb{F}$, we will obtain :
+\begin{gather}
+\hat{f}_{\alpha}(w,\tau)=\int_\R e^{iwx} f_{\alpha}(x,\tau) dx 
+\end{gather}
+
+
+\begin{equation}
+f_{\alpha}(x,\tau)=\frac{1}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
+\end{equation}
+
+Thus,\\
+\begin{align}
+f(x,\tau)= & e^{\alpha x} f_{\alpha}(x,\tau)\\
+= & \frac{e^{\alpha x}}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
+\label{souma}
+\end{align}
+
+We just have to derive an analytic form for $f_\alpha(w,\tau)$ to put in the equation \eqref{souma} and get back the price of the option.
 
 \begin{align*}
-f \parent{\tau,x} \equiv & \expp{g \parent{X_T}|X_{T-\tau} = x}
+\hat{f}_{\alpha}(w,\tau)= &\int_\R e^{iwx} f_{\alpha}(x,\tau) dx
 \\
-= &\int_\R g\parent{y}  p_\tau \parent{y-x}  \d y
-\\
-\hat \fa \parent{\tau,\omega}= &  \int_\R \int_\R \expfs{- \damp x + i \omega x} g \parent{y}  p \parent{y-x} \d y \d \omega
+= &  \int_\R \int_\R \expfs{- \damp x + i \omega x} g \parent{y}  p \parent{y-x} \d y \d \omega
 \\
 = & \int_\R \int_\R \expfs{ i \omega x} g \parent{y} \expfs{-\damp y} \expfs{-\damp \parent{y
 -x}}  p \parent{y-x} \d y \d \omega
@@ -532,19 +619,51 @@ f \parent{\tau,x} \equiv & \expp{g \parent{X_T}|X_{T-\tau} = x}
 \\
 = & \hat \ga \parent{\omega} \expfs{\tau \charExp{\damp - i \omega} }.
 \end{align*}
-\section*{Numerical error }
 
-Assume we have a Merton Jump-Diffusion with parameters , ,  and  and r is the risk-free interest
-rate,  the time to maturity, S the spot price and K the strike price. If we setoption price given by the Merton Jump-Diffusion is given by
-\begin{figure}[h]
+To obtain the value function we employ the inverse Fourier transformation and
+obtain
 
-\centering
-\includegraphics[scale=0.7]{Iteration_Max.jpg} 
-\caption{Compound Poisson process with intensity $\lambda=8$}
-\end{figure}
+\begin{equation}
+f_{\alpha}(x,\tau)=\frac{1}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
+\end{equation}
+
+or 
+\begin{equation}
+f_{\alpha}(x,\tau)=\frac{1}{\pi}\int_{0}^{\infty} Re[e^{-iwx}\hat{f}_{\alpha}(w,\tau)] ]dw
+\end{equation}
 
 
+As it is not possible to compute the inverse Fourier transform analytically, we
+approximate it by truncating and discretising the integration domain using trapezoidal
+quadrature . Consider the following approximation:
 
+\begin{align}
+f_{\alpha,\Delta \omega, n}=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-n}^n e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}(\omega,\tau)
+\\
+=& \frac{\Delta \omega}{\pi} \sum \limits_{i=0}^{n-1} Re[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)]
+\end{align}
+
+Thus the option price is: 
+\begin{center}
+
+$f_{\Delta \omega, n}(x,\tau)= e^{\alpha x}f_{\alpha,\Delta \omega, n}(x,\tau)$
+\end{center}
+the discretization formula  error and the complexity 
+
+
+\section{Fast Fourier Transform Algorithm}
+The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey (1965).
+
+The DFT is known to approximate a continuous Fourier transform (CFT) to its discrete counterpart:
+
+\begin{equation}
+\int_{0}^{\infty} e^{-iwx}f(x) dx ~\approx ~ \sum \limits_{k=0}^{N-1} e^{-i \frac{2\pi}{N}kj} f(x_k)~~~ k=0,...,N-1
+\end{equation}
+
+
+If we consider how much complication is involved in this DFT we will find :
+
+- N complex multiplication.
 
 
 
