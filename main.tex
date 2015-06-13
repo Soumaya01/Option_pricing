@@ -336,10 +336,12 @@ In other words, we could say that a Compound Poisson process is a Poisson proces
 
 \centering
 \includegraphics[scale=0.7]{compoisson.jpg} 
-\caption{Compound Poisson process with intensity $\lambda=8$}
+\caption{Compound Poisson process with intensity $\lambda=8$
+\jcom{How likely is it to have approximately ten times as many jumps as the mean, such as in the picture? Please elaborate on the scheme of simulation you use to produce these plots?}}
 \end{figure}
 \jcom{What is the distribution of these jumps? Also: how likely is it according to \ref{foo} to have this many jumps? Avoid
-pixel rasterisations, when possible.}
+pixel rasterisations, when possible. Also, avoid pixel rasterisations like this, there are multiple schemes like tikz and pgfplots that you 
+can use to avoid the pixelation of an image.}
 
 \section{Lévy processes in Finance}
 
@@ -513,17 +515,19 @@ Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1 
 \chapter{Fourier Transform Methods For Option pricing }
 
 Various methods can be used to price an option when the underlying
-asset price process is modeled by a Lévy process. One can use the famous partial differential equations PDE and solve it numerically with the finite differences methods which  can be difficult due to the presence of jumps.~Another methods is to use Monte Carlo simulation in order to simulate different paths of the risk neutral process and take the discounted value of the average to obtain the option price.~In spite of its efficiency, Monte Carlo simulation is known to be computationally expensive.\\
+asset price process is modeled by a Lévy process. One can use the famous partial differential equations PDE \jcom{Which ones and under which circumstances is a PDE method sufficient???} and solve it numerically with the finite differences methods which  can be difficult due to the presence of jumps.~Another \jcor{methods}{method} is to use Monte Carlo simulation in order to simulate different paths of the risk neutral process and take the discounted value of the average \jcom{of what} to obtain the option price.~In spite of its efficiency, Monte Carlo simulation is known to be computationally expensive. \jcom{What is meant by this?}\\
 
 There are two reasons why one would choose Fourier transform approach for option pricing:~ 
-while the first reason is the unknown probability density of some Lévy processes, the second reason looks more important, since the use of Levy-Khinchine formula allows us not only to recover the analytical expression of the characteristic function but also to work easily in the Fourier space.\\
+while the first reason is the unknown probability density of some Lévy processes, the second reason looks more important, since the use of Levy-Khinchine formula allows us not only to recover the analytical expression of the characteristic function but also to work easily in the Fourier space. \jcom{Please elaborate this? What else is achieved than an explicit expression of the characteristic function?}\\
 
-This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and  reduce to overall complexity of the algorithm. 
+This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and  \jcor{reduce}{reducing} to overall complexity of the algorithm. 
 \newpage
 \section{Option price}
 Consider an asset whose price at time t is modeled by the stochastic process $S = (St)$
+\jcom{please use subscripts in cases like these!!!}
 defined by $St = S_0 e^{X_t}$ , where $X = (X_t)$  is assumed to be a Lévy process whose
 jump measure is $\nu$.\\
+\jcom{Please define what is the risk neutral dynamic. The models thus far make no mention of this!}
 Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of a European option with payoff G and maturity time T is given by
 
 
@@ -533,7 +537,7 @@ Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of 
 where r is the short rate that we assume to be constant and $\tau$ : 0 <$\tau$ < T is the time to
 maturity.
 
-
+\jcom{subscripts!}
 Consider $g$ as the reward function in log prices (ie, defined by $g(x) = G(S0ex)$). Now, take f to be defined as
 \begin{center}
 $f \parent{\tau,x} \equiv \expp{g \parent{X_T}|X_{T-\tau} = x}$
@@ -546,6 +550,7 @@ We can observe that f and $ \pi$ are related by :
 The value of the option $\pi$ is related to the risk-neutral density $p_T$ by:
 
 
+\jcom{Please elaborate on the homogeneity in log-price-space.}
 \begin{align}
 \begin{split}
 \pi\parent{\tau,x} \equiv & e^{-r\tau}\expp{g \parent{X_T}|X_{T-\tau} = x}
@@ -558,7 +563,7 @@ The value of the option $\pi$ is related to the risk-neutral density $p_T$ by:
 \end{split}
 \end{align}
 
-
+\jcom{You might want to refer to chapters without explicit numbering to avoid confusion in further edits.}
 (See appendix 4.1 for details of the derivation of the discounted expected conditional terminal payoff) 
 
 \section{Fourier Transform approach}
@@ -568,6 +573,7 @@ $\mathbb{F}$ such that
 
 \begin{center}
 
+\jcom{This operator notation is confusing because occasionally the notation you are using is used for describing an abstract field in algebra. I would advise using calligraphic or fractura typeface.}
 $\mathbb{F}[f](w)= \int_\R e^{iwx}f(x) dx $
 \end{center}
 To recover the original function f, we define the inverse Fourier transform as
@@ -628,6 +634,7 @@ f_{\alpha}(x,\tau)=\frac{1}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
 \end{equation}
 
 or 
+\jcom{Use italics only for variables, not (projection) operators.}
 \begin{equation}
 f_{\alpha}(x,\tau)=\frac{1}{\pi}\int_{0}^{\infty} Re[e^{-iwx}\hat{f}_{\alpha}(w,\tau)] ]dw
 \end{equation}
@@ -665,7 +672,7 @@ If we consider how much complication is involved in this DFT we will find :
 
 - N complex multiplication.
 
-
+\jcom{I don't have a bibliography at all here...}
 
 
 \end{document}
