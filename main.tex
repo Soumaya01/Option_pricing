@@ -658,6 +658,7 @@ The DFT is known to approximate a continuous Fourier transform (CFT) to its disc
 
 \begin{equation}
 \int_{0}^{\infty} e^{-iwx}f(x) dx ~\approx ~ \sum \limits_{k=0}^{N-1} e^{-i \frac{2\pi}{N}kj} f(x_k)~~~ k=0,...,N-1
+\label{FFT}
 \end{equation}
 
 
@@ -685,7 +686,7 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
 \end{tabular}
 \\
 
- As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see taht it provides an efficient way of computing the previous bound for several values of x at the same time.
+ As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see taht it provides an efficient way of computing the previous bound \lab for several values of x at the same time.
  
 
 \end{document}
