@@ -690,12 +690,7 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
  \hline
  $10^9$ & $10^{18}$ & $20.10^9$  \\
  \hline
-
- 
 \end{tabular}
-\jcom{Always include captions to tables and figures and refer to them in the text.}
-\title{ DFT vs FFT computation time }
-
 \end{center}
 \caption {DFT Vs FFT computation time }
 \end{table}
@@ -703,12 +698,37 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
 
  As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see that it provides an efficient way of computing the previous bound eq \eqref{FFT} for several values of x at the same time.\\
 
- We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way that to obtain a vector and a matrix as inputs 
- 
- 
- \jcom{I see no bibliography here...}
- 
- 
- 
- 
+ We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way to enter a vector and a matrix as inputs in order to obtain a sequence of option prices for different spot values of the asset. 
+
+We consider the following frequency and log-price domains :
+\begin{center}
+$\omega_k=\omega_{min}+k\Delta _omega$ for ~~~ k=0,...,~N-1\\
+$x_j=x_{min}+j\Delta x$ ~~~ j=0,...,~N-1
+\end{center}
+
+
+Here $\Delta x$ and $\Delta \omega$ are the grid spacing or the discretization steps,    $\omega_{k_{0\leq k <N }}$ and $x_{j_{0\leq j <N }}$ are equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the integration domains.\\
+
+Using these grids, we can rewrite the integral that appears in the formula \eqref{fret} as follows:
+
+\begin{align}
+f_{\alpha,\Delta \omega, n}(x_j)=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-N}^N e^{-i(k+\frac{1}{2} ) \Delta \omega x_j }\hat{f}_{\alpha}(\omega,\tau)
+\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i \omega_k x_j }\hat{f}_{\alpha}(\omega_k,\tau)
+\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i (\omega_{min}+k\Delta \omega )  (x_{min}+j\Delta x) }\hat{f}_{\alpha}(\omega_k,\tau)
+\\=&\frac{\Delta \omega}{2\pi}
+\label{fret}e^{-i \omega_{min} (x_{min}+j\Delta x) } \sum \limits_{k=0}^{N-1} e^{-i\Delta \omega \Delta x j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
+\end{align}
+One more condition must be necessarily verified before performing the FFT:
+\begin{center}
+$\Delta \omega \Delta x = \frac{2 \pi}{N}$
+\end{center} 
+Thus, \\
+\begin{equation}
+f_{\alpha,\Delta \omega, n}(x_j)=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
+\end{equation}
+By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau)$ and $(\omega_n^{j k}= e^{-i \frac{2\pi}{N}j k })_{0 \le j<N , 0 \le k<N}$ we can apply the FFT approach and the option price .
+\begin{equation}
+\\=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} h_k
+\end{equation}
+
 \end{document}
