@@ -648,13 +648,13 @@ In fact, the trapezoidal rule is a technique for approximating an integral by in
 
 The trapezoidal rule can be written in the following form :\\
   
-Let's $I$ be a definite integral:
+\jcor{Let's}{Let} $I$ be a definite integral:
 \begin{center}
 $I=\int_{a}^{b} f(x) dx$
 \end{center}  
 I is approximated by 
 \begin{center}
-$I ~\approx ~ \sum \limits_{k=1}^{N} \omega_k f(x_k)$~~~where $\omega_k$ is the weights of $f(x_k)$ 
+$I ~\approx ~ \sum \limits_{k=1}^{N} \omega_k f(x_k)$~~~where $\omega_k$ \jcor{is}{are} the weights of $f(x_k)$ \jcom{This gives the impression that the weights depend on $f$. Furthermore, why use $\omega_k$??}
 \end{center}
 If we choose $x_k$ as equidistant points $x_k= \big ( a+k \frac{b-a}{N}\big ) _{0 \le k \le N}$ having the same weight $h=\frac{b-a}{N}$\\
 Then ,\\
@@ -662,7 +662,8 @@ Then ,\\
 I ~\approx ~ h \sum \limits_{k=1}^{N} f(x_k)
 \label{approx}
 \end{equation}
-For our case, to avoid having 0 among the abscissas or the node points, it is more convenient to use the midpoint rule :
+\jcom{So $x_0$ is not considered?}
+For our case, to avoid having 0 among the abscissas \jcom{So how does $0$ relate to $a$ and $b$?} or the node points, it is more convenient to use the midpoint rule :
  $ x_k= \big ( a+(k+\frac{1}{2}) \frac{b-a}{N}\big ) _{0 \le k \le N}$.\\
 
 Applying ( \ref{approx} )the the following approximation :
@@ -672,6 +673,7 @@ f_{\alpha,\Delta \omega, n}=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-n}^n e^
 =& \frac{\Delta \omega}{\pi} \sum \limits_{i=0}^{n-1} Re[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)]
 \label{fret}
 \end{align}
+\jcom{Use italics only for variables, operators in roman, calligraphic or fractura}
 
 Thus the option price is: 
 \begin{center}
@@ -680,7 +682,8 @@ $f_{\Delta \omega, n}(x,\tau)= e^{\alpha x}f_{\alpha,\Delta \omega, n}(x,\tau)$
 \end{center}
 
 
-The truncation error of the trapezoidal rule is of order ~~$ O(h^3 N)=O(h^2 (b-a))$ ,it is inversely proportional to N. Thus, we could expect to improve the accuracy by increasing the number of quadrature points.
+The truncation error of the trapezoidal rule is of order
+\jcom{What do you mean by "truncation error of the trapezoidal rule" and what is assumed of $f$ in this statement? Can you show this or cite a source?} ~~$ O(h^3 N)=O(h^2 (b-a))$ ,it is inversely proportional to N. Thus, we could expect to improve the accuracy by increasing the number of quadrature points.
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
@@ -699,7 +702,7 @@ If we consider how much complication is involved in this DFT we will find :
 - N-1 complex additions. \\
 - We need to repeat that for k=0,...,N-1\\
 
-In total, we need ~$O(N(N+N-1)) \approx O(N^2)$ operations to evaluate the quadrature rule for N asset value points. The FFT reduces significantly the complexity from order $O(N^2)$ to order $O(N log_2N)$.\\
+In total, we need ~$O(N(N+N-1)) \approx O(N^2)$ \jcom{ why $\approx$ } operations to evaluate the quadrature rule for N asset value points. The FFT reduces significantly the complexity from order $O(N^2)$ to order $O(N log_2N)$.\\
  Although it appears to  have the same computation time, will figure out that FFT makes  a big difference when N is very large.
 \begin {table}[h!]
 \begin{center}
@@ -721,16 +724,18 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
 
  As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see that it provides an efficient way of computing the previous bound eq \eqref{FFT} for several values of x at the same time.\\
 
- We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way to enter a vector and a matrix as inputs in order to obtain a sequence of option prices for different spot values of the asset. 
+ We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way to enter a vector and a matrix \jcom{Why not define the matrix and the vector that you use as inputs?} as inputs in order to obtain a sequence of option prices for different spot values of the asset. 
 
 We consider the following frequency and log-price domains :
 \begin{center}
 $\omega_k=\omega_{min}+k\Delta _omega$ for ~~~ k=0,...,~N-1\\
 $x_j=x_{min}+j\Delta x$ ~~~ j=0,...,~N-1
 \end{center}
+\jcom{typos?}
 
-
-Here $\Delta x$ and $\Delta \omega$ are the grid spacing or the discretization steps,    $\omega_{k_{0\leq k <N }}$ and $x_{j_{0\leq j <N }}$ are equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the integration domains.\\
+Here $\Delta x$ and $\Delta \omega$ are the grid spacing or the discretization steps,    $\omega_{k_{0\leq k <N }}$ and $x_{j_{0\leq j <N }}$ are 
+\jcom{Is this subscript as you meant it?}
+equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the integration domains.\\
 
 Using these grids, we can rewrite the integral that appears in the formula \eqref{fret} as follows:
 
@@ -741,7 +746,7 @@ f_{\alpha,\Delta \omega, n}(x_j)=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-N}
 \\=&\frac{\Delta \omega}{2\pi}
 \label{fret}e^{-i \omega_{min} (x_{min}+j\Delta x) } \sum \limits_{k=0}^{N-1} e^{-i\Delta \omega \Delta x j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
 \end{align}
-One more condition must be necessarily verified before performing the FFT:
+One more condition must be necessarily verified before performing the FFT \jcom{This is probably worth explanation too}:
 \begin{center}
 $\Delta \omega \Delta x = \frac{2 \pi}{N}$
 \end{center} 
@@ -749,7 +754,7 @@ Thus, \\
 \begin{equation}
 f_{\alpha,\Delta \omega, n}(x_j)=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
 \end{equation}
-By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau)$ and $(\omega_n^{j k}= e^{-i \frac{2\pi}{N}j k })_{0 \le j<N , 0 \le k<N}$ we can apply the FFT approach and the option price .
+By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau)$ and $(\omega_n^{j k}= e^{-i \frac{2\pi}{N}j k })_{0 \le j<N , 0 \le k<N}$ we can apply the FFT approach and the option price \jcom{????}.
 \begin{equation}
 \\=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} h_k
 \end{equation}
