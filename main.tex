@@ -634,16 +634,38 @@ f_{\alpha}(x,\tau)=\frac{1}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
 \end{equation}
 
 or 
-\jcom{Use italics only for variables, not (projection) operators.}
+
 \begin{equation}
-f_{\alpha}(x,\tau)=\frac{1}{\pi}\int_{0}^{\infty} Re[e^{-iwx}\hat{f}_{\alpha}(w,\tau)] ]dw
+f_{\alpha}(x,\tau)=\frac{1}{\pi}\int_{0}^{\infty} Re[e^{-i \omega x}\hat{f}_{\alpha}(\omega,\tau)] ]dw
 \end{equation}
 
 
 As it is not possible to compute the inverse Fourier transform analytically, we
 approximate it by truncating and discretising the integration domain using trapezoidal
-quadrature . Consider the following approximation:
+quadrature . 
 
+In fact, the trapezoidal rule is a technique for approximating an integral by interpolating between N  points using a straight line that relates each two successive points. 
+
+The trapezoidal rule can be written in the following form :\\
+  
+Let's $I$ be a definite integral:
+\begin{center}
+$I=\int_{a}^{b} f(x) dx$
+\end{center}  
+I is approximated by 
+\begin{center}
+$I ~\approx ~ \sum \limits_{k=1}^{N} \omega_k f(x_k)$~~~where $\omega_k$ is the weights of $f(x_k)$ 
+\end{center}
+If we choose $x_k$ as equidistant points $x_k= \big ( a+k \frac{b-a}{N}\big ) _{0 \le k \le N}$ having the same weight $h=\frac{b-a}{N}$\\
+Then ,\\
+\begin{equation}
+I ~\approx ~ h \sum \limits_{k=1}^{N} f(x_k)
+\label{approx}
+\end{equation}
+For our case, to avoid having 0 among the abscissas or the node points, it is more convenient to use the midpoint rule :
+ $ x_k= \big ( a+(k+\frac{1}{2}) \frac{b-a}{N}\big ) _{0 \le k \le N}$.\\
+
+Applying ( \ref{approx} )the the following approximation :
 \begin{align}
 f_{\alpha,\Delta \omega, n}=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-n}^n e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}(\omega,\tau)
 \\
@@ -656,8 +678,9 @@ Thus the option price is:
 
 $f_{\Delta \omega, n}(x,\tau)= e^{\alpha x}f_{\alpha,\Delta \omega, n}(x,\tau)$
 \end{center}
-the discretization formula  error and the complexity 
 
+
+The truncation error of the trapezoidal rule is of order ~~$ O(h^3 N)=O(h^2 (b-a))$ ,it is inversely proportional to N. Thus, we could expect to improve the accuracy by increasing the number of quadrature points.
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
