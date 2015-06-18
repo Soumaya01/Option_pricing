@@ -28,7 +28,7 @@
 % This part concern the cover page of the report 
 \begin{titlepage}
 \begin{center}
-\textsc{\Large Tunisia Podfsdaflytechnic School of Tunisia}\\[1.5cm]
+\textsc{\Large Tunisia Polytechnic School of Tunisia}\\[1.5cm]
 \textsc{\Large Graduation project}\\[0.5cm]
 % Title
 \HRule \\[0.4cm]
@@ -758,13 +758,45 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 \begin{equation}
 \\=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} h_k
 \end{equation}
-\section{Exact option price}
+\section{Closed-Form option valuation}
+Merton (1975) assumed in his jump diffusion model that jumps are
+Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. Identically, Kou obtained a semi-closed form formula explained below.
+\subsection{Closed-Form Solution for the Merton Model}
+\begin{align*}
+\pi(S,\tau)=& e^{-r\tau} \sum \limits_{k=0}^{\infty} P(k~jumps~occurs)~\mathbb{E}(max(S-K),0|k~jumps)\\
+=& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} ~ \mathbb{E}_0(max(S-K),0|k~jumps)\\
+=& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} BS(S,\tau,K,\sigma_k,r_k)
+\end{align*}
 
-\subsection{Merton Model}
+Where,
+\begin{center}
+$\sigma_k^2=\sigma^2+\frac{k}{\tau} \delta^2$\\
+$r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
+\end{center} 
+$\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
+\subsection{Closed-Form Solution for the Kou Model}
+
+As we know, jumps in the Kou model are double exponentially distributed. Thus, to compute a closed form solution of an option price we need to know the sum of double exponentially random variable.
+This sum is deduced from the Hh function that is defined for every n $\geqslant$ 0 
+\begin{center}
+ \flushleft
+\begin{align}
+Hh_n(x)=\int_{x}^{\infty}Hh_{n-1}(y)dy=\frac{1}{n!}\int_{x}^{\infty}(t-x)^n e^{\frac{t^2}{2}}dt\\
+Hh_{-1}(x)=e^{\frac{x^2}{2}}= \sqrt{2\pi \phi(x)} \\
+Hh_{0}(x)=\sqrt{\pi \phi(-x)} 
+\end{align}
+Hh is also given by this recursive formula :
+\begin{equation}
+nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for n \geqslant 0
+\end{equation}
 
 
-\subsection{Kou Model}
 
-\subsection{Variance }
+\end{center}
+
+
+
+
+\subsection{Closed-Form Solution for the Variance Gamma model }
 
 \end{document}
