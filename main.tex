@@ -490,7 +490,7 @@ Consider a traditional Brownian motion:
 
 Then, the Variance Gamma model is constructed as below: 
 \begin{gather}
- VG(t; \mu,\sigma,\alpha,\beta)=B(\gamma(t,\alpha,\beta);\mu,\sigma) 
+ (t; \mu,\sigma,\alpha,\beta)=B(\gamma(t,\alpha,\beta);\mu,\sigma) 
 \end{gather}
 
 
@@ -799,15 +799,31 @@ nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for~ n \geqslant 0
 
 For n $\geqslant$ -1, we define the following function
 \begin{equation}
-I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \big(\frac{\beta}{\alpha}\big)^{n-1}Hh_i(\beta c _ \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{}}{}
+I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \big(\frac{\beta}{\alpha}\big)^{n-1}Hh_i(\beta c - \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{\beta}+\frac{\alpha^2}{2\beta^2}} \Phi(\theta-\beta c +\gamma+ \frac{\alpha}{\delta})
 \end{equation}
+with,
+
+ \[\theta= \begin{cases} 
+  1~ if \beta >0 ~and ~\alpha ~\neq  0\\
+    -1~ if \beta < 0 ~and ~\alpha ~\leqslant 0\\
+         \end{cases}
+          \]
+The option price will be defined as ,
+\begin{multine*}
+\Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T)=\frac{e^{(\sigma \mu_1)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  P_{n,k}(\sigma \sqrt(T)\mu_1)^k I_{k-1}(a-\alpha T,-\mu_1 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_1 T )\\
++& &\frac{e^{(\sigma \mu_2)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  D_{n,k}(\sigma \sqrt(T)\mu_2)^k I_{k-1}(a-\alpha T,-\mu_2 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_2 T )\\
++& &\pi_0 \psi(-\frac{a- \alpha}{\sigma \sqrt{T}} )
+\end{multline*}
 
 
 
 
+Here 
 
+\begin{gather}
 
-
+P_{n,i}=sum\limits_{j=1}^\n-1 p^j q^{n-j}
+\end{gather}
 \subsection{Closed-Form Solution for the Variance Gamma model }
 
 \end{document}
