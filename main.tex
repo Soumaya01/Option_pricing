@@ -776,23 +776,34 @@ $r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
 $\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
 \subsection{Closed-Form Solution for the Kou Model}
 
-As we know, jumps in the Kou model are double exponentially distributed. Thus, to compute a closed form solution of an option price we need to know the sum of double exponentially random variable.
+
+As we know, jumps in the Kou model are double exponential distributed. Thus, to compute a closed form solution of an option price we need to know the sum of double exponentially random variable.
 This sum is deduced from the Hh function that is defined for every n $\geqslant$ 0 
-\begin{center}
- \flushleft
-\begin{align}
+
+\begin{equation}
 Hh_n(x)=\int_{x}^{\infty}Hh_{n-1}(y)dy=\frac{1}{n!}\int_{x}^{\infty}(t-x)^n e^{\frac{t^2}{2}}dt\\
-Hh_{-1}(x)=e^{\frac{x^2}{2}}= \sqrt{2\pi \phi(x)} \\
-Hh_{0}(x)=\sqrt{\pi \phi(-x)} 
-\end{align}
+\end{equation}
+
+\begin{multicols}{2}\noindent
+\begin{equation}
+Hh_{-1}(x)=e^{\frac{x^2}{2}}\\
+\end{equation}
+\begin{equation}
+Hh_{0}(x)=\sqrt{\pi }\phi(-x) 
+\end{equation}
+\end{multicols}
 Hh is also given by this recursive formula :
 \begin{equation}
-nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for n \geqslant 0
+nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for~ n \geqslant 0
+\end{equation}
+
+For n $\geqslant$ -1, we define the following function
+\begin{equation}
+I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \big(\frac{\beta}{\alpha}\big)^{n-1}Hh_i(\beta c _ \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{}}{}
 \end{equation}
 
 
 
-\end{center}
 
 
 
