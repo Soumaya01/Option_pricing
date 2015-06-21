@@ -6,6 +6,7 @@
 \usepackage{tabularx,ragged2e,booktabs,caption}
 \usepackage{multicol} 
 \usepackage{color}
+\usepackage{amsthm}
 \usepackage{amsmath,amssymb,latexsym} 
 \usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
 \usepackage{graphicx}
@@ -809,21 +810,44 @@ with,
          \end{cases}
           \]
 The option price will be defined as ,
-\begin{multine*}
-\Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T)=\frac{e^{(\sigma \mu_1)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  P_{n,k}(\sigma \sqrt(T)\mu_1)^k I_{k-1}(a-\alpha T,-\mu_1 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_1 T )\\
-+& &\frac{e^{(\sigma \mu_2)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  D_{n,k}(\sigma \sqrt(T)\mu_2)^k I_{k-1}(a-\alpha T,-\mu_2 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_2 T )\\
-+& &\pi_0 \psi(-\frac{a- \alpha}{\sigma \sqrt{T}} )
-\end{multline*}
 
-
-
+\begin{align}
+\Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
+\frac{e^{(\sigma \mu_1)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  P_{n,k}(\sigma \sqrt{T})\mu_1)^k I_{k-1}(a-\alpha T,-\mu_1 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_1 T ) \nonumber \\
++\frac{e^{(\sigma \mu_2)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  D_{n,k}(\sigma \sqrt{T})\mu_2)^k I_{k-1}(a-\alpha T,-\mu_2 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_2 T ) \nonumber \\
++ \pi_0 \psi(-\frac{a- \alpha}{\sigma \sqrt{T}})    
+\end{align}
 
 Here 
+\begin{gather*}
+P_{n,i}=\sum_{j=1}^{n-1} p^j q^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_1}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_2}{\mu1+\mu_2}\big )^{n-j} \\
+D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_2}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_1}{\mu1+\mu_2}\big )^{n-j}
+\end{gather*}
 
-\begin{gather}
-
-P_{n,i}=sum\limits_{j=1}^\n-1 p^j q^{n-j}
-\end{gather}
+where 
+~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$
 \subsection{Closed-Form Solution for the Variance Gamma model }
+To define the option price using the Variance Gamma model we need to integrate a conditional Black-Scholes formula over the terminal payoff with respect to a gamma density,~the demonstration of the numerical integration is presented in (The Variance Gamma Process and Option Pricing by Carr, Madan and Chang, 1998)\\
+
+We consider a Lévy process defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$ $B(t,\theta,\sigma)$and a gamma process with unit mean rate $\gamma(t,1,\mu)$
+
+In order to deduce the option price,~we may first need to define the following function:
+
+\begin{gather} 
+\psi(a,b,\gamma)=\int_{0}^{\infty} N\big(\frac{a}{\sqrt{u}}+ b \sqrt{u} \big) \frac{u^{\gamma-1} e^{-u}}{\Gamma(\gamma)}du
+\end{gather}
+The European price will be 
+\begin{align}
+\pi(S(0),t)=S(0)\psi(d \sqrt{\frac{1-c_1}{\nu}},(\alpha+s)\sqrt{\frac{\nu}{1-c_1}},\gamma) \nonumber \\
+-Ke^{-rt}\psi(d \sqrt{\frac{1-c_2}{\nu}},(\alpha+s)\sqrt{\frac{\nu}{1-c_2}},\gamma) 
+\end{align}
+Where 
+\begin{gather*}
+s=\frac{\sigma}{\sqrt{1+\big(\frac{\theta}{\sigma}\big)^2 \frac{\nu}{2}}}\\
+\zeta=-\frac{\theta }{\sigma^2},~~\alpha=\zeta s \\
+c_1=\frac{\nu(\alpha+s)^2}{2}\\
+c_2=\frac{\nu \alpha^2}{2}
+d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-c_1}{1-c2}\big)\big]\\
+\end{gather*}
 
 \end{document}
