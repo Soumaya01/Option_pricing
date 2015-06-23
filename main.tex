@@ -851,19 +851,21 @@ d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-
 \end{gather*}
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
-The Fourier transform methods 
+The Fourier transform method is known to be very efficient with a variety of models especially Levy processes in spite of having no closed form expressions for their respective probability density functions.\\
 
+We have seen that option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff.Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
 
+Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
 
+In this chapter we will introduce a method allowing us to obtain an option price under the following conditions: we have an analytical form expression of the payoff and the characteristic functions but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions.Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
 
+\begin{center}
+ 
+$g(x)$ ~$\rightarrow$  ~  $ \hat g (\omega) $\\
+${p_T}(x)$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
+\end{center}
 
-
-
-
-
-
-
-
+The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic functions and using Parseval equality we can work in the Fourier space or the real space , they  will exactly gives the same result.()
 
 
 
