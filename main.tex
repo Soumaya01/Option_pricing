@@ -851,40 +851,54 @@ d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-
 \end{gather*}
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
-The Fourier transform method is known to be very efficient with a variety of models especially Levy processes in spite of having no closed form expressions for their respective probability density functions.\\
 
-We have seen that option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff.Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
+We have seen that an European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
 
 Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
 
-In this chapter we will introduce a method allowing us to obtain an option price under the following conditions: we have an analytical form expression of the payoff and the characteristic functions but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions.Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
+In this chapter we will introduce a method allowing us to obtain an option price under the following condition: we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
+
+The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
+
+
+
+
+
+
+\section{Theoretical Framework and Method Used}
+\begin{gather}
+\pi(\tau,x)= e^{-r\tau} \expp{G \parent{X_T}|X_{T-\tau} = x}
+\label{ff}
+\end{gather}
+
+We will prove that without knowing the expression of $\hat g (\omega)$ and $p_T(x)$ we still have a good approximation for the option price in eq \eqref{ff}.
 
 \begin{center}
  
-$g(x)$ ~$\rightarrow$  ~  $ \hat g (\omega) $\\
-${p_T}(x)$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
+~~~$g(x)$ ~~~~$\rightarrow$  ~  $ \mathbf{\hat g (\omega) ? }$\\
+$\mathbf{{p_T}(x) ?}$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
 \end{center}
-
-The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic functions and using Parseval equality we can work in the Fourier space or the real space , they  will exactly gives the same result.()
-
-
-
-
+\section{ Parseval equality in the discrete space } 
+\begin{center}
+$\sum \limits_{n=0}^{N-1} x(n)y^*(n)= \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)$
+\end{center} 
 
 
+we wil start the proof by using the FFT approach to extract a vector the distribution function from the characteristic function :
 
-
-
-
-
-
-
-
-
-
-
-
-
+\begin{align*}
+p_T(x)=&\frac{1}{2 \pi}\int_{\mathbb{R}}e^{-i \omega x } \varphi(\omega) d\omega\\
+\simeq &\frac{1}{2 \pi}\sum_{k=0}^{N-1}e^{-i \omega_k x } \varphi(\omega_k) \\
+\end{align*}
+Thus 
+\begin{align*}
+p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \\
+=&\frac{1}{2 \pi} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
+\end{align*}
+The same approach is followed to obtain ${\hat g (\omega_k) } from g(x_j)$:
+\begin{align*}
+\hat g (\omega_k)=& e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
+\end{align*}
 
 
 
