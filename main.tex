@@ -741,23 +741,24 @@ equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the int
 Using these grids, we can rewrite the integral that appears in the formula \eqref{fret} as follows:
 
 \begin{align}
-f_{\alpha,\Delta \omega, n}(x_j)=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-N}^N e^{-i(k+\frac{1}{2} ) \Delta \omega x_j }\hat{f}_{\alpha}(\omega,\tau)
-\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i \omega_k x_j }\hat{f}_{\alpha}(\omega_k,\tau)
-\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i (\omega_{min}+k\Delta \omega )  (x_{min}+j\Delta x) }\hat{f}_{\alpha}(\omega_k,\tau)
+f_{\alpha,\Delta \omega, n}(x_j)=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-N}^N e^{-i(k+\frac{1}{2} ) \Delta \omega x_j }\hat{f}_{\alpha}(\omega,\tau) \nonumber
+\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i \omega_k x_j }\hat{f}_{\alpha}(\omega_k,\tau) \nonumber
+\\=& \frac{\Delta \omega}{2\pi} \sum \limits_{k=0}^{N-1} e^{-i (\omega_{min}+k\Delta \omega )  (x_{min}+j\Delta x) }\hat{f}_{\alpha}(\omega_k,\tau) \nonumber
 \\=&\frac{\Delta \omega}{2\pi}
-\label{fret}e^{-i \omega_{min} (x_{min}+j\Delta x) } \sum \limits_{k=0}^{N-1} e^{-i\Delta \omega \Delta x j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
+\label{fret}e^{-i \omega_{min} (x_{min}+j\Delta x) } \sum \limits_{k=0}^{N-1} e^{-i\Delta \omega \Delta x j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau) \nonumber
 \end{align}
 One more condition must be necessarily verified before performing the FFT \jcom{This is probably worth explanation too}:
 \begin{center}
 $\Delta \omega \Delta x = \frac{2 \pi}{N}$
 \end{center} 
 Thus, \\
-\begin{equation}
-f_{\alpha,\Delta \omega, n}(x_j)=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau)\\
-\end{equation}
-By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau)$ and $(\omega_n^{j k}= e^{-i \frac{2\pi}{N}j k })_{0 \le j<N , 0 \le k<N}$ we can apply the FFT approach and the option price \jcom{????}.
+\begin{equation*}
+f_{\alpha,\Delta \omega, n}(x_j)=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau) 
+\end{equation*}
+By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau)$ and $(\omega_n^{j k}= e^{-i \frac{2\pi}{N}j k })_{0 \le j<N , 0 \le k<N}$ we can apply the FFT approach.
 \begin{equation}
 \\=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} h_k
+\label{4.14}
 \end{equation}
 \section{Closed-Form option valuation}
 Merton (1975) assumed in his jump diffusion model that jumps are
@@ -860,12 +861,7 @@ In this chapter we will introduce a method allowing us to obtain an option price
 
 The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
 
-
-
-
-
-
-\section{Theoretical Framework and Method Used}
+\section{First Framework: truncated payoff function}
 \begin{gather}
 \pi(\tau,x)= e^{-r\tau} \expp{G \parent{X_T}|X_{T-\tau} = x}
 \label{ff}
@@ -878,30 +874,40 @@ We will prove that without knowing the expression of $\hat g (\omega)$ and $p_T(
 ~~~$g(x)$ ~~~~$\rightarrow$  ~  $ \mathbf{\hat g (\omega) ? }$\\
 $\mathbf{{p_T}(x) ?}$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
 \end{center}
-\section{ Parseval equality in the discrete space } 
+\textbf{Parseval equality in the discrete space :} 
 \begin{center}
+\label{sum}
 $\sum \limits_{n=0}^{N-1} x(n)y^*(n)= \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)$
 \end{center} 
-
-
-we wil start the proof by using the FFT approach to extract a vector the distribution function from the characteristic function :
-
+we wil start the proof by using the FFT approach to extract a vector of the distribution function from the characteristic function.
+As we know the distribution function is the inverse fourier transform of the characteristic function :
 \begin{align*}
 p_T(x)=&\frac{1}{2 \pi}\int_{\mathbb{R}}e^{-i \omega x } \varphi(\omega) d\omega\\
 \simeq &\frac{1}{2 \pi}\sum_{k=0}^{N-1}e^{-i \omega_k x } \varphi(\omega_k) \\
 \end{align*}
-Thus 
+Thus by applying the same steps as in eq \eqref{4.14} we will get :
 \begin{align*}
 p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \\
 =&\frac{1}{2 \pi} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
 \end{align*}
-The same approach is followed to obtain ${\hat g (\omega_k) } from g(x_j)$:
+The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
 \begin{align*}
 \hat g (\omega_k)=& e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
 \end{align*}
 
+Substituting each element of the Parseval equality with its corresponding expression, we will find the following equality :
+\begin{equation}
+\label{sum}
+\sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(x_j) p_t(x_j)\\
+=\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
+\end{equation}
+\begin{equation}
+\frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\end{equation}
+The left part of the equality represents an approximation of the integral in real space and the  right part is the integral in the Fourier space. Hence, this equality proves that working in the first space or the other give exactly the same price.\\
 
-
+ Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
+\section{Second framework: integration by parts }
 
 
 
