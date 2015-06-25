@@ -764,6 +764,7 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 Merton (1975) assumed in his jump diffusion model that jumps are
 Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. Identically, Kou obtained a semi-closed form formula explained below.
 \subsection{Closed-Form Solution for the Merton Model}
+\jcom{check this for typos}
 \begin{align*}
 \pi(S,\tau)=& e^{-r\tau} \sum \limits_{k=0}^{\infty} P(k~jumps~occurs)~\mathbb{E}(max(S-K),0|k~jumps)\\
 =& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} ~ \mathbb{E}_0(max(S-K),0|k~jumps)\\
@@ -777,7 +778,7 @@ $r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
 \end{center} 
 $\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
 \subsection{Closed-Form Solution for the Kou Model}
-
+\jcom{I would try to avoid using $\epsilon$, $o$ and $O$ as variables}
 
 As we know, jumps in the Kou model are double exponential distributed. Thus, to compute a closed form solution of an option price we need to know the sum of double exponentially random variable.
 This sum is deduced from the Hh function that is defined for every n $\geqslant$ 0 
@@ -824,6 +825,7 @@ Here
 P_{n,i}=\sum_{j=1}^{n-1} p^j q^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_1}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_2}{\mu1+\mu_2}\big )^{n-j} \\
 D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_2}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_1}{\mu1+\mu_2}\big )^{n-j}
 \end{gather*}
+\jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?}
 
 where 
 ~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$
@@ -850,15 +852,21 @@ c_1=\frac{\nu(\alpha+s)^2}{2}\\
 c_2=\frac{\nu \alpha^2}{2}
 d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-c_1}{1-c2}\big)\big]\\
 \end{gather*}
+
+\jcom{Do you have some numerics that you can present that show that the se two prices
+coincide with the FFT results?}
+
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
 
 We have seen that an European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
 
 Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
+\jcom{Please elaborate}
 
 In this chapter we will introduce a method allowing us to obtain an option price under the following condition: we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
 
+\jcom{Why would you apply FFT to both????}
 The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
 
 \section{First Framework: truncated payoff function}
@@ -894,17 +902,23 @@ The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
 \begin{align*}
 \hat g (\omega_k)=& e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
 \end{align*}
+\jcom{Use italics only for the variables, not for operators, if possible}
 
 Substituting each element of the Parseval equality with its corresponding expression, we will find the following equality :
 \begin{equation}
 \label{sum}
+\label{rm1}
 \sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(x_j) p_t(x_j)\\
 =\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
 \end{equation}
 \begin{equation}
+\label{rm2}
 \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
 \end{equation}
 The left part of the equality represents an approximation of the integral in real space and the  right part is the integral in the Fourier space. Hence, this equality proves that working in the first space or the other give exactly the same price.\\
+\jcom{I understand that you claim to have proven the quality of the right hand sides of equations \eqref{rm1} and \eqref{rm2}.
+However, I don't see how this is proven. Furthermore, the furthest right hand side of \eqref{rm1} does not depend on the payoff function,
+whereas \eqref{rm2} does. I do not see how these two statements are equal unless they are both zero.}
 
  Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
 \section{Second framework: integration by parts }
