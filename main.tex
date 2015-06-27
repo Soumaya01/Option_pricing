@@ -13,6 +13,9 @@
 \usepackage{titlesec}
 \usepackage{soul}
 \setcounter{secnumdepth}{4}
+\usepackage{array,multirow,makecell}
+\usepackage{adjustbox}
+\usepackage{caption} 
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
@@ -224,7 +227,7 @@ $\bullet$ There exists a continuous function $\psi $  :$\mathbb{R}^d  \rightarro
 \begin{gather}
 E[ e^{izX_t}]= e^ {t \psi (z)}
 \end{gather}
-\jcom{}{Under which regularity assumptions does this hold true?}
+\jcom{}{Under which regularity assumptions does this hold true?}\\
 \textbf{ Lévy-Khintchine representation} :\\
 
 $\bullet$ If  $X = (X_t)_{t\geq 0}$  is a Lévy process, then its characteristic function  $\nu_{X_t}(z)$ \jcom{}{This is now the third
@@ -523,6 +526,57 @@ while the first reason is the unknown probability density of some Lévy processe
 
 This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and  \jcor{reduce}{reducing} to overall complexity of the algorithm. 
 \newpage
+\section{Constructing risk neutral characteristic  function }
+
+In order to use the Fourier approach for option pricing,  we will  evidently need an analytical expression of the characteristic function of the Lévy process for every model presented above.\\
+
+Let's $X_t$ be a Lévy process under the risk neutral measure $\mathbb{Q}$(under which the discounted stock price is a martingale).~ $\mathbb{Q}$ can be obtained with  Girsanov theorem for Lévy processes (Jacod and Shiryaev,2003) or Esscher Transform approach ( Esscher, 1932).\\ 
+We have mentioned in chapter(1) that the characteristic function of a $X_t$ takes the form of $e^{t \psi(z)}$
+where  $\psi(z)$ is the characteristic exponent defined under $\mathbb{Q}$ by the Lévy Khintchine representation : 
+\begin{equation}
+\psi (z)= \mu iz - \frac{1}{2}\sigma^2  z^2 + 
+\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz 1_{|x| \leq  1  } \big)\,\nu(dx) 
+\end{equation}
+We have also mentioned that we can divide $\psi (z)$ into two parts :
+\begin{center}
+$\psi(z)= \vartheta(z)+\phi(z)$
+\end{center}
+where $ \vartheta(z)$ is the drift part and $\phi(z)$ is the diffusion part 
+\begin{center}
+$ \vartheta(z)=t \mu iz$\\
+$ \phi(z)= - \frac{1}{2}\sigma^2  z^2 + 
+\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz 1_{|x| \leq  1  } \big)\,\nu(dx)$
+\end{center}
+It can be demonstrated that under the risk neutral martingale $\mathbb{Q}$
+\begin{center}
+ $\vartheta^{RN}(z)=i(r-\phi(-i))z=i\mu^{RN} z$ 
+\end{center}
+where $\mu^{RN}$ is the corrected drift under $\mathbb{Q}~$~(risk neutral drift)and r is the risk free interest rate 
+
+Thus we could conclude that under the risk neutral measure $\mathbb{Q}~$ the characteristic function can be redefined as :
+\begin{equation}
+\psi (z)= i(r-\phi(-i))z - \frac{1}{2}\sigma^2  z^2 + 
+\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz 1_{|x| \leq  1  } \big)\,\nu(dx) 
+\end{equation}
+
+In the following table we define the risk-neutral characteristic functions for our three Lévy processes.
+\begin {table}[h!]
+\begin{center}
+\renewcommand{\arraystretch}{2}
+\begin{tabular}{|l|l|l|}
+ \hline
+   Lévy model  & risk-neutral drift & Risk neutral characteristic function   \\
+ \hline
+Merton model  & $r-\frac{\sigma^2}{2}-\lambda (e^{\alpha+\frac{\delta^2}{2}}-1)$ & $\psi (z)= i\mu^{RN}z - \frac{1}{2}\sigma^2  z^2 + \lambda (e^{i \alpha z - \frac{1}{2} \delta ^2 \sigma^2}-1)$  \\
+ \hline
+ Kou model  & $r-\frac{\sigma^2}{2}-\lambda \big(\frac{p \eta_+}{\eta_+ -1}-\frac{q \eta_-}{\eta_- + 1}-1\big)$ & $\psi (z)= i\mu^{RN}z - \frac{1}{2}\sigma^2  z^2 + i z \lambda \big(\frac{p}{\eta_+- i z}- \frac{q}{\eta_- + i z}\big) $   \\
+\hline
+Variance Gamma & no drift & $\frac{-t}{\nu}~$log($1-\theta \nu z +\frac{\sigma^2 z^2 \nu}{2}$)  \\
+\hline
+\end{tabular}
+\end{center}
+\caption{Merton model , kou model and Gamma Variance model} 
+\end{table}
 \section{Option price}
 Consider an asset whose price at time t is modeled by the stochastic process $S = (St)$
 \jcom{please use subscripts in cases like these!!!}
@@ -531,9 +585,9 @@ jump measure is $\nu$.\\
 \jcom{Please define what is the risk neutral dynamic. The models thus far make no mention of this!}
 Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of a European option with payoff G and maturity time T is given by
 
-
 \begin{gather}
 \pi(\tau,x)= e^{-r\tau} \expp{G \parent{X_T}|X_{T-\tau} = x}
+\label{price}
 \end{gather}
 where r is the short rate that we assume to be constant and $\tau$ : 0 <$\tau$ < T is the time to
 maturity.
@@ -855,6 +909,7 @@ d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-
 
 \jcom{Do you have some numerics that you can present that show that the se two prices
 coincide with the FFT results?}
+\textcolor{blue}{i did the code for the KOU model and i am trying to finish the Variance Gamma model} 
 
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
@@ -862,68 +917,114 @@ coincide with the FFT results?}
 We have seen that an European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
 
 Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
-\jcom{Please elaborate}
+\jcom{Please elaborate} \textcolor{blue}{what do you mean ??}\\
 
 In this chapter we will introduce a method allowing us to obtain an option price under the following condition: we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
 
-\jcom{Why would you apply FFT to both????}
+\jcom{Why would you apply FFT to both????}\textcolor{blue}{because we have the flexibility to work either in the real space (so we need the FFT to be applied on the characteristic function) orin the fourier space (so we need the FFT to be applied on the payoff) } 
 The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
 
 \section{First Framework: truncated payoff function}
-\begin{gather}
-\pi(\tau,x)= e^{-r\tau} \expp{G \parent{X_T}|X_{T-\tau} = x}
-\label{ff}
-\end{gather}
 
-We will prove that without knowing the expression of $\hat g (\omega)$ and $p_T(x)$ we still have a good approximation for the option price in eq \eqref{ff}.
+As explained before, we will prove that without knowing the expression of $\hat g (\omega)$ and $p_T(x)$ we still have a good approximation for the option price in eq \eqref{price}.
 
 \begin{center}
  
 ~~~$g(x)$ ~~~~$\rightarrow$  ~  $ \mathbf{\hat g (\omega) ? }$\\
 $\mathbf{{p_T}(x) ?}$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
 \end{center}
-\textbf{Parseval equality in the discrete space :} 
+
+We know that the option price is given by 
+\begin{align*}
+\pi(\tau,x)= & e^{-r\tau} \expp{g(x)|X_{T-\tau} = x}\\
+\label{ff}
+=& e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy \\
+\simeq  & e^{-r\tau} \sum_{i=-N}^{N}g(y_i)p_{\tau} (y_i-x)
+\end{align*}
+\textbf{Parseval's Theorem } : \\
+The Parseval equality in the discrete space states that: 
 \begin{center}
 \label{sum}
 $\sum \limits_{n=0}^{N-1} x(n)y^*(n)= \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)$
 \end{center} 
-we wil start the proof by using the FFT approach to extract a vector of the distribution function from the characteristic function.
+where $\{X(k), Y(k)\}_{-N \leq k \leq N} = \mathcal{F} \{ x(n),y(n)\}_{-N \leq n \leq N} $ represents the discrete  Fourier transform respectively of x(n) and y(n).\\
+
+Using the Parseval equality we can say that :
+\begin{align}
+\sum_{i=-N}^{N}g(y_i)p_{\tau}(y_i-x)=\frac{1}{N}\sum_{k=-N}^{N}\hat {g}(\omega_k)\varphi^*(\omega_i-x)
+\end{align}
+this equality is a required prior for the proof, now we should use the FFT approach to extract a vector of the distribution function from the characteristic function.
 As we know the distribution function is the inverse fourier transform of the characteristic function :
 \begin{align*}
 p_T(x)=&\frac{1}{2 \pi}\int_{\mathbb{R}}e^{-i \omega x } \varphi(\omega) d\omega\\
 \simeq &\frac{1}{2 \pi}\sum_{k=0}^{N-1}e^{-i \omega_k x } \varphi(\omega_k) \\
 \end{align*}
-Thus by applying the same steps as in eq \eqref{4.14} we will get :
+To recover a distribution vector measured at N points we should  apply the same steps as in eq \eqref{4.14}, we will get :
 \begin{align*}
 p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \\
-=&\frac{1}{2 \pi} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
+=&\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
 \end{align*}
 The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
 \begin{align*}
-\hat g (\omega_k)=& e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
+\hat g (\omega_k)=& e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
 \end{align*}
-\jcom{Use italics only for the variables, not for operators, if possible}
 
 Substituting each element of the Parseval equality with its corresponding expression, we will find the following equality :
 \begin{equation}
 \label{sum}
-\label{rm1}
-\sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(x_j) p_t(x_j)\\
-=\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
+\sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(y_j) p_{\tau}(y_j-x)\\
+=\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} g(y_j)e^{- iw_{min} (y_j-x)} \text{FFT} \big ( e^{-i \Delta\omega (y_{min}-x) } \varphi(\omega_k) \big)
 \end{equation}
 \begin{equation}
 \label{rm2}
-\frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
 \end{equation}
 The left part of the equality represents an approximation of the integral in real space and the  right part is the integral in the Fourier space. Hence, this equality proves that working in the first space or the other give exactly the same price.\\
-\jcom{I understand that you claim to have proven the quality of the right hand sides of equations \eqref{rm1} and \eqref{rm2}.
-However, I don't see how this is proven. Furthermore, the furthest right hand side of \eqref{rm1} does not depend on the payoff function,
+\jcom{I understand that you claim to have proven the quality of the right hand sides of equations \eqref{sum} and \eqref{rm2}.
+However, I don't see how this is proven. Furthermore, the furthest right hand side of \eqref{pr} does not depend on the payoff function,
 whereas \eqref{rm2} does. I do not see how these two statements are equal unless they are both zero.}
-
+\textcolor{blue}{ i have detailed the previous steps, i hope this is more clear , i will put the plots when i finish writing  } \\
  Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
-\section{Second framework: integration by parts }
+\section{Second framework: integration by par parts }
+
+The methods that were previously developed have shown to have good overall average approximation of the option price. However, another method looks to be interesting especially when the fourier transform of the payoff for some option's type is difficult to be  analatycillly defined.\\
+With the integration by parts approach, instead of caculating the fourier transform, we just need to  determine the integral of the payoff.~Very often, this integral brings more regularity to the approximation (barrier option , European option) and it has a good rate of convergence.\\
+
+\textbf{ integration by parts Theorem }
+\begin{equation*}
+\int f(x) g'(x) dx =  [f(x) g(x)] - \int g(x) f'(x)  dx 
+\end{equation*}
+
+For our case the option price is always given by :
+\begin{gather*}
+\pi(x, \tau)=e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy 
+\end{gather*}
+for a fixed value of x, we set $p_{\tau}(y-x)=F(y) $\\
+Thus, 
+\begin{gather*}
+\int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy =\int_{\mathbb{R}}g(y)F(y)dy=[F(y) G(y)]_{\mathbb{R}} - \int_{\mathbb{R}} G(y) f(y)  dy
+\end{gather*}
+
+Where G(y) is the antiderivative of g(y), and f(y) is the derivative of F(y)
+
+As mentioned before the characteristic function is always easier to handle. Thus we could use the derivation of the probability density samples from the characteristic function samples :
+
+\begin{gather}
+p_T(x_j)=\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
+\end{gather}
 
 
+as we need samples of the derivative of the probability density we can use an important property of the Fourier transform illustrated by :
+\begin{gather*}
+f'(x)= i \omega \cdot \hat{f}(\omega)
+\end{gather*}
+Thus, 
+\begin{gather}
+p'_T(x_j)= i \omega_j \cdot   \frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
+\end{gather}
+
+The payoff and the antiderivative of payoff are represented below:
 
 
+ 
 \end{document}
