@@ -840,26 +840,32 @@ $r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
 $\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
 \subsection{Closed-Form Solution for the Kou Model}
 \jcom{I would try to avoid using $\epsilon$, $o$ and $O$ as variables}
-\textcolor{blue}{i am not seeing any variable with these name} 
+\textcolor{blue}{i am not seeing any variable with these names} 
 
 As we know, in order to get the price of an option, we need to find the expected value of the discounted
 terminal payoff. For double exponential distributed random variables( Kou and Wang, 2002) explained in details the derivation of the probability density under a new martingale measure $\mathbb{\hat{P}}$ obtained with Esscher tranform and an extended version of Girsanov theorem for diffusion model with jumps.
 
-Kou and wang suggested the following approach in order to compute a closed form solution of an option price.~First of all we need to know the sum of double exponentially random variable.
-This sum is deduced from the Hh function that is defined for every n $\geqslant$ 0 
+(Kou, 2002) suggested the following approach in order to compute a closed form solution of an option price.\\
+ ~First of all, the price of a European call option is given by (Theorem 2, kou 2002)
+\begin{align*}
+\pi=S(0) \Upsilon(r+\frac{\sigma^2}{2}-\lambda  \zeta,\sigma,\tilde{\lambda},\tilde{p},\tilde{\eta_1},\tilde{\eta_2},log(\frac{K}{S(0)}),T)\\
+-K e^{-r T}r \Upsilon(r-\frac{\sigma^2}{2}-\lambda \zeta,\sigma,p,\eta_1,\eta_2,log(\frac{K}{S(0)}),T)
+\end{align*}
+where
+$\tilde{p}=\frac{p}{1+\zeta} \cdot \frac{\eta_1}{\eta_1-1}$ ~~ ,
+$\tilde{\eta_1}=\eta_1-1$~~ ,
+$\tilde{\eta_2}=\eta_2+1$~~ ,
+$\tilde{\lambda}= \lambda (1+\zeta)$~~ ,
+$\zeta=\frac{p \eta_+}{\eta_+ -1}-\frac{q \eta_-}{\eta_- + 1}-1$\\
 
-\begin{equation}
+
+ $\Upsilon$ can be expressed as a sum of Hh function that is defined for every n $\geqslant$ 0 
+
+\begin{gather}
 Hh_n(x)=\int_{x}^{\infty}Hh_{n-1}(y)dy=\frac{1}{n!}\int_{x}^{\infty}(t-x)^n e^{\frac{t^2}{2}}dt\\
-\end{equation}
-
-\begin{multicols}{2}\noindent
-\begin{equation}
 Hh_{-1}(x)=e^{\frac{x^2}{2}}\\
-\end{equation}
-\begin{equation}
 Hh_{0}(x)=\sqrt{\pi }\phi(-x) 
-\end{equation}
-\end{multicols}
+\end{gather}
 Hh is also given by this recursive formula :
 \begin{equation}
 nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for~ n \geqslant 0
@@ -880,7 +886,7 @@ with,
 The option price will be defined as \jcom{Is this the definition? What option price, where is the strike and how is the $T$ connected to $t$ and $\tau$?},
 
 \begin{gather}
-\Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
+\Upsilon(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
 \frac{e^{(\sigma \mu_1)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  P_{n,k}(\sigma \sqrt{T})\mu_1)^k I_{k-1}(a-\alpha T,-\mu_1 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_1 T ) \nonumber \\
 +\frac{e^{(\sigma \mu_2)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  D_{n,k}(\sigma \sqrt{T})\mu_2)^k I_{k-1}(a-\alpha T,-\mu_2 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_2 T ) \nonumber \\
 + \pi_0 \psi(-\frac{a- \alpha}{\sigma \sqrt{T}})    
@@ -891,6 +897,11 @@ Here
 P_{n,i}=\sum_{j=1}^{n-1} p^j q^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_1}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_2}{\mu1+\mu_2}\big )^{n-j} \\
 D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_2}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_1}{\mu1+\mu_2}\big )^{n-j}
 \end{gather*}
+
+
+
+
+
 \jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
 48(8), 2002. i didn't understand all the steps } 
 \jcom{As far as I can tell, your $\pi_n$ is the weighting factor in case you want to expand in the number of jumps. Do I get this right?
