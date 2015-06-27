@@ -839,8 +839,12 @@ $r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
 $\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
 \subsection{Closed-Form Solution for the Kou Model}
 \jcom{I would try to avoid using $\epsilon$, $o$ and $O$ as variables}
+\textcolor{blue}{i am not seeing any variable with these name} 
 
-As we know, jumps in the Kou model are double exponential distributed. Thus, to compute a closed form solution of an option price we need to know the sum of double exponentially random variable.
+As we know, in order to get the price of an option, we need to find the expected value of the discounted
+terminal payoff. For double exponential distributed random variables( Kou and Wang, 2002) explained in details the derivation of the probability density under a new martingale measure $\mathbb{\hat{P}}$ obtained with Esscher tranform and an extended version of Girsanov theorem for diffusion model with jumps.
+
+Kou and wang suggested the following approach in order to compute a closed form solution of an option price.~First of all we need to know the sum of double exponentially random variable.
 This sum is deduced from the Hh function that is defined for every n $\geqslant$ 0 
 
 \begin{equation}
@@ -873,19 +877,20 @@ with,
           \]
 The option price will be defined as ,
 
-\begin{align}
+\begin{gather}
 \Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
 \frac{e^{(\sigma \mu_1)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  P_{n,k}(\sigma \sqrt{T})\mu_1)^k I_{k-1}(a-\alpha T,-\mu_1 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_1 T ) \nonumber \\
 +\frac{e^{(\sigma \mu_2)^2\frac{T}{2}}}{\sigma \sqrt{2 \pi T}} \sum\limits_{n=1}^\infty  \pi_n\sum\limits_{k=1}^\infty  D_{n,k}(\sigma \sqrt{T})\mu_2)^k I_{k-1}(a-\alpha T,-\mu_2 ,-\frac{1}{\sigma \sqrt{T}},-\sigma \mu_2 T ) \nonumber \\
 + \pi_0 \psi(-\frac{a- \alpha}{\sigma \sqrt{T}})    
-\end{align}
+\end{gather}
 
 Here 
 \begin{gather*}
 P_{n,i}=\sum_{j=1}^{n-1} p^j q^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_1}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_2}{\mu1+\mu_2}\big )^{n-j} \\
 D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_2}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_1}{\mu1+\mu_2}\big )^{n-j}
 \end{gather*}
-\jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?}
+\jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
+48(8), 2002. i didn't understand all the steps } 
 
 where 
 ~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$
