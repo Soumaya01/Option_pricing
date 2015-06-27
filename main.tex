@@ -825,11 +825,12 @@ Merton (1975) assumed in his jump diffusion model that jumps are
 Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. Identically, Kou obtained a semi-closed form formula explained below.
 \subsection{Closed-Form Solution for the Merton Model}
 \jcom{check this for typos}
-\begin{align*}
+\begin{align}
+\label{remark_n}
 \pi(S,\tau)=& e^{-r\tau} \sum \limits_{k=0}^{\infty} P(k~jumps~occurs)~\mathbb{E}(max(S-K),0|k~jumps)\\
 =& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} ~ \mathbb{E}_0(max(S-K),0|k~jumps)\\
 =& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} BS(S,\tau,K,\sigma_k,r_k)
-\end{align*}
+\end{align}
 
 Where,
 \begin{center}
@@ -868,6 +869,7 @@ For n $\geqslant$ -1, we define the following function
 \begin{equation}
 I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \big(\frac{\beta}{\alpha}\big)^{n-1}Hh_i(\beta c - \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{\beta}+\frac{\alpha^2}{2\beta^2}} \Phi(\theta-\beta c +\gamma+ \frac{\alpha}{\delta})
 \end{equation}
+\jcom{$\Phi$ ??}
 with,
 
  \[\theta= \begin{cases} 
@@ -875,7 +877,7 @@ with,
     -1~ if \beta < 0 ~and ~\alpha ~\leqslant 0\\
          \end{cases}
           \]
-The option price will be defined as ,
+The option price will be defined as \jcom{Is this the definition? What option price, where is the strike and how is the $T$ connected to $t$ and $\tau$?},
 
 \begin{gather}
 \Psi(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
@@ -891,6 +893,9 @@ D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matr
 \end{gather*}
 \jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
 48(8), 2002. i didn't understand all the steps } 
+\jcom{As far as I can tell, your $\pi_n$ is the weighting factor in case you want to expand in the number of jumps. Do I get this right?
+If I do, why change notation from \eqref{remark_n} ? Furthermore, as I can tell, you are expressing the option price as a linear combination of $D$ and $P$, which coincide in distribution to the sum of a conditioned jump process. However, unlike in eq. (20) in the reference you mention (please cite this, I recommend constructing a proper bibliography file as early as possible), the option price takes no mention to the form of the payoff type. I don't say that everything needs to be derived from the first principles, given proper citation you may use Kou's results
+and others, but as of now it is very unclear to me, how this explanation links to eq. \eqref{remark_n} and the rest of the manuscript. At the very least, I would recommend introducing most of the quantities to the reader, for me it seems that in this section alone you introduce dozens of new variables and some of them you have already introduced using different symbols elsewhere in the text. }
 
 where 
 ~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$
