@@ -253,7 +253,9 @@ $\bullet$ The Lévy measure has no mass at the origin and satisfies the followin
 \end{equation}
 \end{multicols}
 
-$\bullet$ According to the Lévy Khintchine representation, the characteristic exponent of every Lévy process can be written as the sum of the characteristic exponent of a Brownian motion with drift and the characteristic exponent of a jump component.
+$\bullet$ According to the Lévy Khintchine representation
+\jcom{cite!}
+, the characteristic exponent of every Lévy process can be written as the sum of the characteristic exponent of a Brownian motion with drift and the characteristic exponent of a jump component.
 $$\psi_B (z)= \mu iz - \frac{1}{2}\sigma^2  z^2 $$
 $$\psi_{jump}(z)=\int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz h(x)\big)\,\nu(dx)$$
 \jcom{}{Use mathrm for the english subscripts in formulas}
@@ -316,6 +318,7 @@ As we can see, $X_t$ is continuous time discrete valued process with independent
 
 i) The waiting time between two successive jumps, it is a random variable called the interarrival time. \\
 ii) The interarrival time in the Poisson process follows an exponential distribution that has a very important characteristic called "memorylessness" 
+\jcom{Do not use italics for operators. Define a macro for probability if it helps.}
 \begin{gather}
  \forall t > s > 0, P(T > t + s|T > t) = P(T > s)
 \end{gather}
@@ -350,9 +353,12 @@ can use to avoid the pixelation of an image.}
 \section{Lévy processes in Finance}
 
 Two categories of Lévy processes are used to describe the evolution of market prices. 
-The first category is called "Jump-diffusion models": these models have rare jumps and random evolution between the jump times. Such a model can be modeled by a Brownian motion with drift plus a jump part, which is a compound Poisson process .\\
+The first category is called "Jump-diffusion models": these models have rare jumps and random evolution between the jump times. 
+\jcom{Why is infinite jump activity diffusive model not possible?}
+Such a model can be modeled by a Brownian motion with drift plus a jump part, which is a compound Poisson process .\\
 
-Contrary to Jump-diffusion models, the second category of Lévy processes consists of models with infinite number of jumps in every time interval, called "Infinite activity models".Some of these models could be modeled without Brownian component. Hence, the jump part is the deterministic of the price dynamic, this subcategory is called "infinite activity pure jump models". \jcom{What does it mean that the jump part is the deterministic of something?}
+Contrary to Jump-diffusion models, the second category of Lévy processes consists of models with infinite number of jumps in every time interval,
+\jcom{almost surely} called "Infinite activity models".Some of these models could be modeled without Brownian component. Hence, the jump part is the deterministic of the price dynamic, this subcategory is called "infinite activity pure jump models". \jcom{What does it mean that the jump part is the deterministic of something?}
 \subsection{Jump diffusion models}
 As their name would suggest, these models contain  a diffusion part represented by a Gaussian process (Brownian motion) accentuated by a finite number of jumps(Compound poisson process) with size distribution F.      \\
 
@@ -371,7 +377,7 @@ Two famous models of Lévy processes of jump diffusion type are used in modellin
 \large\textbf{Merton model}\\
 
 
-Merton was the first to use a discontinuous price process to model asset returns. (Merton 1976) assumed that the total change in the stock price is posited to be the composition of two types of changes:(1)The ‘normal’ vibrations in price, for example, due to a temporary imbalance between supply and demand, changes in capitalization rates, changes in the economic outlook, or other new information that causes
+Merton was the first to use a discontinuous price process to model asset returns. (Merton 1976) assumed that the total change in the stock price is posited to be the composition of two types of changes:\jcom{itemize?}(1)The ‘normal’ vibrations in price, for example, due to a temporary imbalance between supply and demand, changes in capitalization rates, changes in the economic outlook, or other new information that causes
 marginal changes in the stock’s value. In essence, the impact of such information is to produce a marginal change in the price
 (almost certainly). This component is modeled by a standard geometric Brownian
 motion with a constant variance per unit time and it has a continuous sample
@@ -434,7 +440,7 @@ The Double Exponential Jump Diffusion Model is given by:
 \begin{gather}
 X_t = \mu t+\sigma W_t+\sum_{i=1}^{N^*(t)} Y^*_i
 \end{gather}
-Where $W_t$ is a standard Brownian motion, $N^* =(N^*_t)_{t \geqslant 0}$ is a Poisson process with parameter $\lambda^*$ (i.e. $E[N_t] = \lambda^* t$) and the log jump sizes $\{Y^*_1 , Y^*_2 , ... \}$ are
+Where $W_t$ is \jcor{a}{} standard Brownian motion, $N^* =(N^*_t)_{t \geqslant 0}$ is a Poisson process with parameter $\lambda^*$ (i.e. $E[N_t] = \lambda^* t$) and the log jump sizes $\{Y^*_1 , Y^*_2 , ... \}$ are
 independent identically distributed (i.i.d.) random variables such that $Y_i$ has a new double exponential distribution 
 \begin{gather}
 F(x)= p.\eta_1 \exp \left( -\eta_1 x \right) \mathbf{1}_{\{x\geqslant 0\}}+ q .\eta_2 \exp \left( -\eta_2 x \right) \mathbf{1}_{\{x < 0\}}
@@ -895,6 +901,7 @@ In order to deduce the option price,~we may first need to define the following f
 \end{gather}
 The European price will be 
 \begin{align}
+\label{rmeukou}
 \pi(S(0),t)=S(0)\psi(d \sqrt{\frac{1-c_1}{\nu}},(\alpha+s)\sqrt{\frac{\nu}{1-c_1}},\gamma) \nonumber \\
 -Ke^{-rt}\psi(d \sqrt{\frac{1-c_2}{\nu}},(\alpha+s)\sqrt{\frac{\nu}{1-c_2}},\gamma) 
 \end{align}
@@ -910,6 +917,10 @@ d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-
 \jcom{Do you have some numerics that you can present that show that the se two prices
 coincide with the FFT results?}
 \textcolor{blue}{i did the code for the KOU model and i am trying to finish the Variance Gamma model} 
+\jcom{Good. Please include the code and all the documentation therein, as well as a plot
+that demonstrates that your FFT results are the same as the price obtained using \eqref{rmeukou}.
+This way you will demonstrate that you have two independent implementations of the code, and they
+both work.}
 
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
@@ -917,11 +928,19 @@ coincide with the FFT results?}
 We have seen that an European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
 
 Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
-\jcom{Please elaborate} \textcolor{blue}{what do you mean ??}\\
+\jcom{Please elaborate} \textcolor{blue}{what do you mean ??}
+\jcom{The method you describe below gives a numerical approximation to $\hat f$. You don't specify
+if one needs an analytic or only numerical representation of both the payoff and the characteristic function,
+but based on the text, one is led to believe that unless one has both in analytic terms, using fourier transform
+inversion of $\hat f$ is impossible, which is not true.}\\
 
 In this chapter we will introduce a method allowing us to obtain an option price under the following condition: we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
 
 \jcom{Why would you apply FFT to both????}\textcolor{blue}{because we have the flexibility to work either in the real space (so we need the FFT to be applied on the characteristic function) orin the fourier space (so we need the FFT to be applied on the payoff) } 
+\jcom{Yes, you have the flexibility of computing the inner product of the density and the payoff both in fourier space or in real space.
+If you do it in real space, you are required to do FFT on a characteristic function. If you do it in fourier space, you are required
+to do FFT on the payoff. I do not see, why you would need to do it on both. The remaining  inner product after the transformation is
+done using trapezoid quadrature anyways and involves no FFT. Am I missing something here?}
 The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
 
 \section{First Framework: truncated payoff function}
@@ -934,7 +953,7 @@ As explained before, we will prove that without knowing the expression of $\hat 
 $\mathbf{{p_T}(x) ?}$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
 \end{center}
 
-We know that the option price is given by 
+We know that the option price is given by \jcom{Why repeat \eqref{moneq}}
 \begin{align*}
 \pi(\tau,x)= & e^{-r\tau} \expp{g(x)|X_{T-\tau} = x}\\
 \label{ff}
@@ -942,12 +961,13 @@ We know that the option price is given by
 \simeq  & e^{-r\tau} \sum_{i=-N}^{N}g(y_i)p_{\tau} (y_i-x)
 \end{align*}
 \textbf{Parseval's Theorem } : \\
-The Parseval equality in the discrete space states that: 
+The Parseval equality \jcom{cite!} in the discrete space states that: 
 \begin{center}
 \label{sum}
 $\sum \limits_{n=0}^{N-1} x(n)y^*(n)= \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)$
 \end{center} 
-where $\{X(k), Y(k)\}_{-N \leq k \leq N} = \mathcal{F} \{ x(n),y(n)\}_{-N \leq n \leq N} $ represents the discrete  Fourier transform respectively of x(n) and y(n).\\
+where $\{X(k), Y(k)\}_{-N \leq k \leq N} = \mathcal{F} \{ x(n),y(n)\}_{-N \leq n \leq N} $ represents the discrete  Fourier transform respectively of x(n) and y(n).
+\jcom{}\\
 
 Using the Parseval equality we can say that :
 \begin{align}
@@ -960,10 +980,14 @@ p_T(x)=&\frac{1}{2 \pi}\int_{\mathbb{R}}e^{-i \omega x } \varphi(\omega) d\omega
 \simeq &\frac{1}{2 \pi}\sum_{k=0}^{N-1}e^{-i \omega_k x } \varphi(\omega_k) \\
 \end{align*}
 To recover a distribution vector measured at N points we should  apply the same steps as in eq \eqref{4.14}, we will get :
-\begin{align*}
+\begin{align}
 p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \\
+\nonumber
 =&\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
-\end{align*}
+\label{denstrans}
+\end{align}
+\jcom{this lacks weights. Furthermore the same inner product arguments have been repeated quite a few times here. I recommend writing
+them only once and referring to them later on. The same goes for the definitions of the fourier transform and the FFT algorithm.}
 The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
 \begin{align*}
 \hat g (\omega_k)=& e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
@@ -984,10 +1008,52 @@ The left part of the equality represents an approximation of the integral in rea
 However, I don't see how this is proven. Furthermore, the furthest right hand side of \eqref{pr} does not depend on the payoff function,
 whereas \eqref{rm2} does. I do not see how these two statements are equal unless they are both zero.}
 \textcolor{blue}{ i have detailed the previous steps, i hope this is more clear , i will put the plots when i finish writing  } \\
+
+\jcom{
+If I got this right, the previous version of \eqref{sum} was.
+\begin{equation}
+\sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(x_j) p_t(x_j)\\
+=\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
+\end{equation}
+whereas \eqref{rm2} was
+\begin{equation}
+\frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\end{equation}.
+I see that the end result has changed and as far as the right hand sides are concerned, the change has been the following:
+\begin{align}
+&\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
+\\
+\nonumber
+\mapsto&
+\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} g(y_j)e^{- iw_{min} (y_j-x)} \text{FFT} \big ( e^{-i \Delta\omega (y_{min}-x) } \varphi(\omega_k) \big)
+\\
+&\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\nonumber
+\\
+\mapsto& 
+\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\end{align}
+However, in the text part you claim, that the result is not dependent on which transform one makes. Thus, in the previous
+version I would have liked to see a proof for
+\begin{align}
+\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
+=
+\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\end{align},
+or as the current version of your manuscript stands,
+\begin{align}
+\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} g(y_j)e^{- iw_{min} (y_j-x)} \text{FFT} \big ( e^{-i \Delta\omega (y_{min}-x) } \varphi(\omega_k) \big)
+\nonumber \\
+=
+\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
+\end{align}
+Isn't that what you are saying when you state "Hence, this equality proves that working in the first space or the other give exactly the same price."  or am I missing something here?
+}
+
  Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
 \section{Second framework: integration by par parts }
 
-The methods that were previously developed have shown to have good overall average approximation of the option price. However, another method looks to be interesting especially when the fourier transform of the payoff for some option's type is difficult to be  analatycillly defined.\\
+The methods that were previously developed have shown to have good overall average approximation of the option price. However, another method looks to be interesting especially when the fourier transform of the payoff for some option's type is difficult to be \jcor{analatycillly}{analytically} defined.\\
 With the integration by parts approach, instead of caculating the fourier transform, we just need to  determine the integral of the payoff.~Very often, this integral brings more regularity to the approximation (barrier option , European option) and it has a good rate of convergence.\\
 
 \textbf{ integration by parts Theorem }
@@ -996,6 +1062,7 @@ With the integration by parts approach, instead of caculating the fourier transf
 \end{equation*}
 
 For our case the option price is always given by :
+\jcom{See earlier comments on redundance}
 \begin{gather*}
 \pi(x, \tau)=e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy 
 \end{gather*}
@@ -1007,8 +1074,8 @@ Thus,
 
 Where G(y) is the antiderivative of g(y), and f(y) is the derivative of F(y)
 
-As mentioned before the characteristic function is always easier to handle. Thus we could use the derivation of the probability density samples from the characteristic function samples :
-
+As mentioned before the characteristic function is always easier to handle. \jcom{Please be more specific on what you mean by ease of handling} Thus we could use the derivation of the probability density samples from the characteristic function samples :
+\jcom{What does the equation below add to \eqref{denstrans} ??}
 \begin{gather}
 p_T(x_j)=\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
 \end{gather}
