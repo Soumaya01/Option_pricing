@@ -821,36 +821,48 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 \label{4.14}
 \end{equation}
 \section{Closed-Form option valuation}
+
+\subsection{Closed-Form Solution for the Merton Model}
 Merton (1975) assumed in his jump diffusion model that jumps are
 Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. Identically, Kou obtained a semi-closed form formula explained below.
-\subsection{Closed-Form Solution for the Merton Model}
-\jcom{check this for typos}
 \begin{align}
 \label{remark_n}
-\pi(S,\tau)=& e^{-r\tau} \sum \limits_{k=0}^{\infty} P(k~jumps~occurs)~\mathbb{E}(max(S-K),0|k~jumps)\\
-=& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} ~ \mathbb{E}_0(max(S-K),0|k~jumps)\\
-=& e^{-r\tau} \sum \limits_{k=0}^{\infty} \frac{e^{-\epsilon \lambda \tau}(\epsilon \lambda \tau)^k}{k!} BS(S,\tau,K,\sigma_k,r_k)
+\pi(S,\tau)=& e^{-r\tau} \sum \limits_{n=0}^{\infty} P(n~jumps~occurs)~\mathbb{E}(max(S-K,0)|k~jumps)\\
+=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} ~ \mathbb{E}_0(max(S-K),0|n~jumps)\\
+=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} BS(S,\tau,K,\sigma_k,r_k)
 \end{align}
 
 Where,
 \begin{center}
+$k=E^Y$\\
 $\sigma_k^2=\sigma^2+\frac{k}{\tau} \delta^2$\\
-$r_k=r-\lambda(\epsilon-1)+k \frac{log(\epsilon)}{\tau}$\\
+$r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
 \end{center} 
-$\epsilon$ is the mean of the jump size, for the Merton model $\epsilon = e^{\mu+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\mu,\delta^2$) )
+$E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\alpha+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\alpha,\delta^2$) )
+
+With the same parameters [$r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year] $ used in Andersen and Andreseasen (2001).
+
+
+
+
+
+
+
+
+
+
 \subsection{Closed-Form Solution for the Kou Model}
-\jcom{I would try to avoid using $\epsilon$, $o$ and $O$ as variables}
-\textcolor{blue}{i am not seeing any variable with these names} 
 
 As we know, in order to get the price of an option, we need to find the expected value of the discounted
 terminal payoff. For double exponential distributed random variables( Kou and Wang, 2002) explained in details the derivation of the probability density under a new martingale measure $\mathbb{\hat{P}}$ obtained with Esscher tranform and an extended version of Girsanov theorem for diffusion model with jumps.
 
-(Kou, 2002) suggested the following approach in order to compute a closed form solution of an option price.\\
+(Kou, 2002) suggested the following approach in order to compute a closed form solution of an option price when the log-price of the underlying asset follows a kou model with parameters \{$\mu,\sigma,\lambda,p,q,\eta_1,\eta_2$\} (the same parameters used in the definition of the Kou model in the previous chapter).\\ 
  ~First of all, the price of a European call option is given by (Theorem 2, kou 2002)
-\begin{align*}
-\pi=S(0) \Upsilon(r+\frac{\sigma^2}{2}-\lambda  \zeta,\sigma,\tilde{\lambda},\tilde{p},\tilde{\eta_1},\tilde{\eta_2},log(\frac{K}{S(0)}),T)\\
+\begin{align}
+\pi=S(0) \Upsilon(r+\frac{\sigma^2}{2}-\lambda  \zeta,\sigma,\tilde{\lambda},\tilde{p},\tilde{\eta_1},\tilde{\eta_2},log(\frac{K}{S(0)}),T) \nonumber \\
 -K e^{-r T}r \Upsilon(r-\frac{\sigma^2}{2}-\lambda \zeta,\sigma,p,\eta_1,\eta_2,log(\frac{K}{S(0)}),T)
-\end{align*}
+\label{kou_model}
+\end{align}
 where
 $\tilde{p}=\frac{p}{1+\zeta} \cdot \frac{\eta_1}{\eta_1-1}$ ~~ ,
 $\tilde{\eta_1}=\eta_1-1$~~ ,
@@ -871,19 +883,17 @@ Hh is also given by this recursive formula :
 nHh_n(x)=Hh_{n-2}(x)-xHh_{n-1}(x), ~~~ for~ n \geqslant 0
 \end{equation}
 
-For n $\geqslant$ -1, we define the following function
+For n $\geqslant$ -1, we need to define the following function :
 \begin{equation}
-I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \big(\frac{\beta}{\alpha}\big)^{n-1}Hh_i(\beta c - \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{\beta}+\frac{\alpha^2}{2\beta^2}} \Phi(\theta-\beta c +\gamma+ \frac{\alpha}{\delta})
+I_n(c,\alpha,\beta,\gamma)=- \frac{e^{-\alpha c}}{\alpha} \sum_{i=0}^{n}\big(\frac{\beta}{\alpha}\big)^{n-i}Hh_{i}(\beta c - \gamma)+\big(\frac{\beta}{\alpha}\big)^{n+1} \frac{\sqrt{2\pi}}{\beta}e^{\frac{\alpha \delta}{\beta}+\frac{\alpha^2}{2\beta^2}} \Phi(\theta-\beta c +\gamma+ \frac{\alpha}{\delta})
 \end{equation}
-\jcom{$\Phi$ ??}
-with,
-
+where $\Phi$ is the normal cumulative distribution function and $theta$ is defined as bellow :
  \[\theta= \begin{cases} 
   1~ if \beta >0 ~and ~\alpha ~\neq  0\\
     -1~ if \beta < 0 ~and ~\alpha ~\leqslant 0\\
          \end{cases}
           \]
-The option price will be defined as \jcom{Is this the definition? What option price, where is the strike and how is the $T$ connected to $t$ and $\tau$?},
+We briefly described few steps in order to obtain the expression of $\Upsilon$. Below we provide its the general form.  
 
 \begin{gather}
 \Upsilon(\alpha,\sigma,\lambda,p,\mu_1,\mu_2,a,T) = \nonumber \\
@@ -897,19 +907,20 @@ Here
 P_{n,i}=\sum_{j=1}^{n-1} p^j q^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_1}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_2}{\mu1+\mu_2}\big )^{n-j} \\
 D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matrix} \right) \big (\frac{\mu_2}{\mu1+\mu_2}\big )^{j-i}\big (\frac{\mu_1}{\mu1+\mu_2}\big )^{n-j}
 \end{gather*}
-
-
-
-
-
+here 
+~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$\\
+To obtain the exact option price we just have the replace the expression of $\Upsilon$ in equation \eqref{kou_model}.\\
+For $\eta_1=10$, $\eta_2=5$  , $\lambda=1$, $p=0.4$, $\sigma=0.16$, $r=5\%$, $S(0)=100$, $k=98$ and $T=0.5$
+Although an infinite series appears in the formula of $\Upsilon$, the following graphs proves that within  10 to 15 iterations the price converges to the same reference value indicated  in (kou 2002) which is   
+9.14732  
+\textcolor{blue}{still have a problem with the graph}
 \jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
 48(8), 2002. i didn't understand all the steps } 
 \jcom{As far as I can tell, your $\pi_n$ is the weighting factor in case you want to expand in the number of jumps. Do I get this right?
 If I do, why change notation from \eqref{remark_n} ? Furthermore, as I can tell, you are expressing the option price as a linear combination of $D$ and $P$, which coincide in distribution to the sum of a conditioned jump process. However, unlike in eq. (20) in the reference you mention (please cite this, I recommend constructing a proper bibliography file as early as possible), the option price takes no mention to the form of the payoff type. I don't say that everything needs to be derived from the first principles, given proper citation you may use Kou's results
 and others, but as of now it is very unclear to me, how this explanation links to eq. \eqref{remark_n} and the rest of the manuscript. At the very least, I would recommend introducing most of the quantities to the reader, for me it seems that in this section alone you introduce dozens of new variables and some of them you have already introduced using different symbols elsewhere in the text. }
 
-where 
-~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$
+w
 \subsection{Closed-Form Solution for the Variance Gamma model }
 To define the option price using the Variance Gamma model we need to integrate a conditional Black-Scholes formula over the terminal payoff with respect to a gamma density,~the demonstration of the numerical integration is presented in (The Variance Gamma Process and Option Pricing by Carr, Madan and Chang, 1998)\\
 
