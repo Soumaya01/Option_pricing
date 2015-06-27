@@ -11,6 +11,7 @@
 \usepackage[top=2cm, bottom=3cm, left=2cm, right=2cm]{geometry}
 \usepackage{graphicx}
 \usepackage{titlesec}
+\usepackage{float} 
 \usepackage{soul}
 \setcounter{secnumdepth}{4}
 \usepackage{array,multirow,makecell}
@@ -840,15 +841,14 @@ $r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
 \end{center} 
 $E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\alpha+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\alpha,\delta^2$) )
 
-With the same parameters [$r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year] $ used in Andersen and Andreseasen (2001).
+With the following parameters used in Andersen and Andreseasen (2001) we will get this figure: \\ 
+$r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year $ 
 
-
-
-
-
-
-
-
+\begin{figure}[H]
+\centering
+\includegraphics{maxiteration.png} 
+\caption{ European option price with the Merton extension series}
+\end{figure}
 
 
 \subsection{Closed-Form Solution for the Kou Model}
