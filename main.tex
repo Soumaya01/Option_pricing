@@ -549,13 +549,13 @@ $ \phi(z)= - \frac{1}{2}\sigma^2  z^2 +
 \end{center}
 It can be demonstrated that under the risk neutral martingale $\mathbb{Q}$
 \begin{center}
- $\vartheta^{RN}(z)=i(r-\phi(-i))z=i\mu^{RN} z$ 
+ $\vartheta^{RN}(z)=i(r-\phi(-i))z=r-\frac{\sigma^2}{2}-\lambda \zeta=i\mu^{RN} z$ 
 \end{center}
-where $\mu^{RN}$ is the corrected drift under $\mathbb{Q}~$~(risk neutral drift)and r is the risk free interest rate 
+where $\zeta=\mathbb{E}(e^Y)-1$ and $\mu^{RN}$ is the corrected drift under $\mathbb{Q}~$~(risk neutral drift)and r is the risk free interest rate 
 
 Thus we could conclude that under the risk neutral measure $\mathbb{Q}~$ the characteristic function can be redefined as :
 \begin{equation}
-\psi (z)= i(r-\phi(-i))z - \frac{1}{2}\sigma^2  z^2 + 
+\psi (z)= i\mu^{RN} z - \frac{1}{2}\sigma^2  z^2 + 
 \int_{\mathbb{R}\backslash\{0\}} \big( e^{izx}-1 -iz 1_{|x| \leq  1  } \big)\,\nu(dx) 
 \end{equation}
 
