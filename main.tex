@@ -505,12 +505,12 @@ Then, the Variance Gamma model is constructed as below:
 \end{gather}
 
 
-The Lévy measure of the VG model is given by:
+There exist many representations of the VG Lévy measure , here is one of them :
 
  \[\nu_{VG}(y)= \begin{cases} 
-  \frac{K e^{y \eta_+}}{y}~ if ~y >0 \\
+  \frac{K_+ e^{y \eta_+}}{y}~ if ~y >0 \\
     
-    \frac{K e^{y \eta_-}}{y}~ if y \leq 0 
+    \frac{K_- e^{y \eta_-}}{y}~ if y \leq 0 
          \end{cases}
           \]
 \jcom{Why need the indicators if you define the bits with if-clauses. Use mathrm here.}
@@ -917,14 +917,15 @@ D_{n,i}=\sum_{j=1}^{n-1} d^j p^{n-j} \left( \begin{matrix} n-i-j\\ j-i \end{matr
 \end{gather*}
 here 
 ~1~$\leqslant$ i $\leqslant$ n-1 , ~~$P_{n,n}=p^n$, ~~$ D_{n,n}=d^n$~~ ,~~$\pi_n=\frac{e^{-\lambda T}  \lambda ^n}{n!}$\\
+
 To obtain the exact option price we just have the replace the expression of $\Upsilon$ in equation \eqref{kou_model}.\\
-For $\eta_1=10$, $\eta_2=5$  , $\lambda=1$, $p=0.4$, $\sigma=0.16$, $r=5\%$, $S(0)=100$, $k=98$ and $T=0.5$
-Although an infinite series appears in the formula of $\Upsilon$, the following graphs proves that within  10 to 15 iterations the price converges to the same reference value indicated  in (kou 2002) which is   
-9.14732 . 
+
+
+Although an infinite series appears in the formula of $\Upsilon$, the following graphs proves that within  10 to 15 iterations the price converges to the same reference value indicated  in (kou 2002) which is   9.14732.The parameters are ; $\eta_1=10$, $\eta_2=5$  , $\lambda=1$, $p=0.4$, $\sigma=0.16$, $r=5\%$, $S(0)=100$, $k=98$ and $T=0.5$
 \begin{figure}[H]
 \centering
-\includegraphics{maxiteration.png} 
-\caption{ European option price with the Merton extension series}
+\includegraphics{maxiteration_kou.png} 
+\caption [scale=0.8]{European option price computed with the Kou model}
 \end{figure}
 \jcom{why is this figure included twice? See comments on the duplicate.}
 
@@ -940,6 +941,13 @@ To define the option price using the Variance Gamma model we need to integrate a
 
 We consider a Lévy process $B(t,\theta,\sigma)$ defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$, and a gamma process with unit mean rate $\gamma(t,1,\mu)$
 \jcom{So how is this gamma process related to $B(t,\theta,\sigma)$ ?}
+
+The price is always defined under the risk neutral expectation ;
+
+\begin{gather*}
+\pi()
+\end{gather*}
+
 
 In order to deduce the option price,~we may first need to define the following function:
 
