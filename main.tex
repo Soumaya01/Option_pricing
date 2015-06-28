@@ -939,8 +939,13 @@ and others, but as of now it is very unclear to me, how this explanation links t
 \subsection{Closed-Form Solution for the Variance Gamma model }
 To define the option price using the Variance Gamma model we need to integrate a conditional Black-Scholes formula over the terminal payoff with respect to a gamma density,~the demonstration of the numerical integration is presented in (The Variance Gamma Process and Option Pricing by Carr, Madan and Chang, 1998)\\
 
-We consider a Lévy process $B(t,\theta,\sigma)$ defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$, and a gamma process with unit mean rate $\gamma(t,1,\mu)$
-\jcom{So how is this gamma process related to $B(t,\theta,\sigma)$ ?}
+We consider a Brownian motion  $b(t,\theta,\sigma)$ with drift $\theta$ and volatility $\sigma$ :
+\begin{center}
+$b(t,\theta,\sigma)= \theta t+ \sigma W_t$
+\end{center}
+and a gamma process with unit mean rate and $\mu$ variance rate $\gamma(t,1,\mu).$
+
+Now we define a Lévy process $B(t,\theta,\sigma)$ defined in terms of of $b(t,\theta,\sigma)$ and $$\gamma(t,1,\mu)$$ 
 
 The price is always defined under the risk neutral expectation ;
 
