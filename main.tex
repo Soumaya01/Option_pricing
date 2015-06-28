@@ -17,25 +17,15 @@
 \usepackage{array,multirow,makecell}
 \usepackage{adjustbox}
 \usepackage{caption} 
-\usepackage{pgfplots}
-\pgfplotsset{compat=1.5}
-
-
-
-
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
 {0pt}{3.25ex plus 1ex minus .2ex}{1.5ex plus .2ex}
-
 \setlength{\parindent}{0pt}
 \newcommand{\HRule}{\rule{\linewidth}{0.5mm}}
-
 \input{macros.tex}
 
 \begin{document}
-
-
 % This part concern the cover page of the report 
 \begin{titlepage}
 \begin{center}
@@ -855,17 +845,7 @@ $r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \
 \includegraphics{maxiteration.png} 
 \caption{ European option price with the Merton extension series}
 \end{figure}
-\begin{tikzpicture}
-\begin{axis}[
-]
-\addplot[
-red,
-domain=-3e-3:3e-3,
-samples=201,
-]
-{exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
-\end{axis}
-\end{tikzpicture}
+
 
 
 \jcom{This is not very helpful, as for most of the width of the plot, there are no changes that can be seen
