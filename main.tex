@@ -850,7 +850,15 @@ $r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \
 \includegraphics{maxiteration.png} 
 \caption{ European option price with the Merton extension series}
 \end{figure}
-
+\jcom{This is not very helpful, as for most of the width of the plot, there are no changes that can be seen
+with a human eye. Also, I would advice against using pixel rasterisations for graphical reasons.
+My recommendation is to use pgfplots, which has the benefit that you can change the titles without generating a new plot.
+For specifics, you may have a look at our manuscript source.
+Furthermore, this figure has not been referred to in the text, and there is no mention of what
+these numbers of iterations mean. If you are referring to equation \eqref{kou_model} ?, if so, you do not elaborate
+how this procedure can be turned into an iterative one, and in case you mean truncation of a series, you do
+not mention if you are truncating the series with respect to $k$ or $n$. Also, see my earlier remarks from commit
+{\tt{291c0c369d1c0225f90a89dc05c6bca084266077}} about consistency of notation.}
 
 \subsection{Closed-Form Solution for the Kou Model}
 
@@ -870,7 +878,6 @@ $\tilde{\eta_1}=\eta_1-1$~~ ,
 $\tilde{\eta_2}=\eta_2+1$~~ ,
 $\tilde{\lambda}= \lambda (1+\zeta)$~~ ,
 $\zeta=\frac{p \eta_+}{\eta_+ -1}-\frac{q \eta_-}{\eta_- + 1}-1$\\
-
 
  $\Upsilon$ can be expressed as a sum of Hh function that is defined for every n $\geqslant$ 0 
 
@@ -919,6 +926,7 @@ Although an infinite series appears in the formula of $\Upsilon$, the following 
 \includegraphics{maxiteration.png} 
 \caption{ European option price with the Merton extension series}
 \end{figure}
+\jcom{why is this figure included twice? See comments on the duplicate.}
 
 \textcolor{blue}{I defined the option price , the parameters and i tried to be as clear as possible }
 \jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
@@ -927,11 +935,11 @@ Although an infinite series appears in the formula of $\Upsilon$, the following 
 If I do, why change notation from \eqref{remark_n} ? Furthermore, as I can tell, you are expressing the option price as a linear combination of $D$ and $P$, which coincide in distribution to the sum of a conditioned jump process. However, unlike in eq. (20) in the reference you mention (please cite this, I recommend constructing a proper bibliography file as early as possible), the option price takes no mention to the form of the payoff type. I don't say that everything needs to be derived from the first principles, given proper citation you may use Kou's results
 and others, but as of now it is very unclear to me, how this explanation links to eq. \eqref{remark_n} and the rest of the manuscript. At the very least, I would recommend introducing most of the quantities to the reader, for me it seems that in this section alone you introduce dozens of new variables and some of them you have already introduced using different symbols elsewhere in the text. }
 
-w
 \subsection{Closed-Form Solution for the Variance Gamma model }
 To define the option price using the Variance Gamma model we need to integrate a conditional Black-Scholes formula over the terminal payoff with respect to a gamma density,~the demonstration of the numerical integration is presented in (The Variance Gamma Process and Option Pricing by Carr, Madan and Chang, 1998)\\
 
 We consider a Lévy process $B(t,\theta,\sigma)$ defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$, and a gamma process with unit mean rate $\gamma(t,1,\mu)$
+\jcom{So how is this gamma process related to $B(t,\theta,\sigma)$ ?}
 
 In order to deduce the option price,~we may first need to define the following function:
 
