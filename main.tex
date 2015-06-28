@@ -300,7 +300,7 @@ To describe it more clearly, we consider a continuous time arrival process: $ W(
 \begin{figure}[h]
 
 \centering
-\includegraphics[scale=1]{poisson.jpg} 
+\includegraphics[scale=0.7]{poisson.jpg} 
 \caption{An arrival process in the interval time [0 u]}
 \end{figure}
 \\
@@ -508,8 +508,9 @@ Then, the Variance Gamma model is constructed as below:
 The Lévy measure of the VG model is given by:
 
  \[\nu_{VG}(y)= \begin{cases} 
-  1_{\{y > 0\}} \frac{K e^{y \eta_+}}{y}~ if ~y >0 \\
-     1_{\{y < 0\}} \frac{K e^{y \eta_-}}{y}~ if y >0 
+  \frac{K e^{y \eta_+}}{y}~ if ~y >0 \\
+    
+    \frac{K e^{y \eta_-}}{y}~ if y \leq 0 
          \end{cases}
           \]
 \jcom{Why need the indicators if you define the bits with if-clauses. Use mathrm here.}
@@ -578,7 +579,7 @@ Merton model  & $r-\frac{\sigma^2}{2}-\lambda (e^{\alpha+\frac{\delta^2}{2}}-1)$
  \hline
  Kou model  & $r-\frac{\sigma^2}{2}-\lambda \big(\frac{p \eta_+}{\eta_+ -1}-\frac{q \eta_-}{\eta_- + 1}-1\big)$ & $\psi (z)= i\mu^{RN}z - \frac{1}{2}\sigma^2  z^2 + i z \lambda \big(\frac{p}{\eta_+- i z}- \frac{q}{\eta_- + i z}\big) $   \\
 \hline
-Variance Gamma & no drift & $\frac{-t}{\nu}~$log($1-\theta \nu z +\frac{\sigma^2 z^2 \nu}{2}$)  \\
+Variance Gamma & drift of the Brownian motion & $\frac{-t}{\nu}~$log($1-\theta \nu z +\frac{\sigma^2 z^2 \nu}{2}$)  \\
 \hline
 \end{tabular}
 \end{center}
@@ -912,8 +913,14 @@ here
 To obtain the exact option price we just have the replace the expression of $\Upsilon$ in equation \eqref{kou_model}.\\
 For $\eta_1=10$, $\eta_2=5$  , $\lambda=1$, $p=0.4$, $\sigma=0.16$, $r=5\%$, $S(0)=100$, $k=98$ and $T=0.5$
 Although an infinite series appears in the formula of $\Upsilon$, the following graphs proves that within  10 to 15 iterations the price converges to the same reference value indicated  in (kou 2002) which is   
-9.14732  
-\textcolor{blue}{still have a problem with the graph}
+9.14732 . 
+\begin{figure}[H]
+\centering
+\includegraphics{maxiteration.png} 
+\caption{ European option price with the Merton extension series}
+\end{figure}
+
+\textcolor{blue}{I defined the option price , the parameters and i tried to be as clear as possible }
 \jcom{Can you give a derivation or justification for this? How is this related to the conditioning with respect to jump sizes that you speak about earlier?} \textcolor{blue}{the full demonstration is in S. G. Kou. A Jump-Diffusion Model for Option Pricing. Manage. Sci.,
 48(8), 2002. i didn't understand all the steps } 
 \jcom{As far as I can tell, your $\pi_n$ is the weighting factor in case you want to expand in the number of jumps. Do I get this right?
@@ -924,14 +931,14 @@ w
 \subsection{Closed-Form Solution for the Variance Gamma model }
 To define the option price using the Variance Gamma model we need to integrate a conditional Black-Scholes formula over the terminal payoff with respect to a gamma density,~the demonstration of the numerical integration is presented in (The Variance Gamma Process and Option Pricing by Carr, Madan and Chang, 1998)\\
 
-We consider a Lévy process defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$ $B(t,\theta,\sigma)$and a gamma process with unit mean rate $\gamma(t,1,\mu)$
+We consider a Lévy process $B(t,\theta,\sigma)$ defined in terms of a Brownian motion with drift $\theta$ and volatility $\sigma$, and a gamma process with unit mean rate $\gamma(t,1,\mu)$
 
 In order to deduce the option price,~we may first need to define the following function:
 
 \begin{gather} 
 \psi(a,b,\gamma)=\int_{0}^{\infty} N\big(\frac{a}{\sqrt{u}}+ b \sqrt{u} \big) \frac{u^{\gamma-1} e^{-u}}{\Gamma(\gamma)}du
 \end{gather}
-The European price will be 
+The European price under the risk neutral measure $\mathbb{Q}$ ~is given by 
 \begin{align}
 \label{rmeukou}
 \pi(S(0),t)=S(0)\psi(d \sqrt{\frac{1-c_1}{\nu}},(\alpha+s)\sqrt{\frac{\nu}{1-c_1}},\gamma) \nonumber \\
@@ -941,18 +948,11 @@ Where
 \begin{gather*}
 s=\frac{\sigma}{\sqrt{1+\big(\frac{\theta}{\sigma}\big)^2 \frac{\nu}{2}}}\\
 \zeta=-\frac{\theta }{\sigma^2},~~\alpha=\zeta s \\
-c_1=\frac{\nu(\alpha+s)^2}{2}\\
-c_2=\frac{\nu \alpha^2}{2}
+c_1=\frac{\nu(\alpha+s)^2}{2}, c_2=\frac{\nu \alpha^2}{2}\\
 d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-c_1}{1-c2}\big)\big]\\
 \end{gather*}
 
-\jcom{Do you have some numerics that you can present that show that the se two prices
-coincide with the FFT results?}
-\textcolor{blue}{i did the code for the KOU model and i am trying to finish the Variance Gamma model} 
-\jcom{Good. Please include the code and all the documentation therein, as well as a plot
-that demonstrates that your FFT results are the same as the price obtained using \eqref{rmeukou}.
-This way you will demonstrate that you have two independent implementations of the code, and they
-both work.}
+
 
 \section{Results of the DFT and the FFT}
 \chapter{Extension of the FFT method }
