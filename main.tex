@@ -17,6 +17,12 @@
 \usepackage{array,multirow,makecell}
 \usepackage{adjustbox}
 \usepackage{caption} 
+\usepackage{pgfplots}
+\pgfplotsset{compat=1.5}
+
+
+
+
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
@@ -513,7 +519,6 @@ There exist many representations of the VG Lévy measure , here is one of them :
     \frac{K_- e^{y \eta_-}}{y}~ if y \leq 0 
          \end{cases}
           \]
-\jcom{Why need the indicators if you define the bits with if-clauses. Use mathrm here.}
 Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1   $, will give us the following log-price simulated paths.
 \begin{figure}[h]
 
@@ -850,6 +855,19 @@ $r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \
 \includegraphics{maxiteration.png} 
 \caption{ European option price with the Merton extension series}
 \end{figure}
+\begin{tikzpicture}
+\begin{axis}[
+]
+\addplot[
+red,
+domain=-3e-3:3e-3,
+samples=201,
+]
+{exp(-x^2 / (2e-3^2)) / (1e-3 * sqrt(2*pi))};
+\end{axis}
+\end{tikzpicture}
+
+
 \jcom{This is not very helpful, as for most of the width of the plot, there are no changes that can be seen
 with a human eye. Also, I would advice against using pixel rasterisations for graphical reasons.
 My recommendation is to use pgfplots, which has the benefit that you can change the titles without generating a new plot.
@@ -976,25 +994,22 @@ d=\frac{1}{s}\big[ ln\big(\frac{S(0)}{K}\big)+rt+\frac{t}{\nu} ln \big( \frac{1-
 
 
 \section{Results of the DFT and the FFT}
+\section{conclusion }
+We have seen that a European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of computing an integral that involves the inner product of the terminal payoff and the density function we compute the integral of the inner product of the  Fourier transforms of these two components. This is convenient because in some cases the Levy process is known by its characteristic function.
+
+[the characteristic function  of the Levy process is easier to be handled than the density function itself.]\\
 \chapter{Extension of the FFT method }
 
-We have seen that an European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of applying an integral that involves the inner product of the terminal payoff and the density function of the Levy process, it will be easier to compute the integral of their Fourier transform as the characteristic function  of the Levy process is easier to be handled than the density function itself.\\
+As we have seen so far, if we have the Fourier transform of the payoff and the characteristic function, we are almost always able to apply the Fourier transform approach in order to reconstruct $f$ from $\hat f$ .\\
 
-Actually, working in Fourier space  requires having both the Fourier transform of the payoff and the characteristic function, the absence of one of them means that we are not able to use  the Fourier transform approach and to reconstruct f from $\hat f$ . \\
-\jcom{Please elaborate} \textcolor{blue}{what do you mean ??}
-\jcom{The method you describe below gives a numerical approximation to $\hat f$. You don't specify
-if one needs an analytic or only numerical representation of both the payoff and the characteristic function,
-but based on the text, one is led to believe that unless one has both in analytic terms, using fourier transform
-inversion of $\hat f$ is impossible, which is not true.}\\
 
-In this chapter we will introduce a method allowing us to obtain an option price under the following condition: we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus we are not able to compute the expectation integral neither in the real space nor in the Fourier space .\\ 
+In this chapter we will introduce a method allowing us to obtain an option price even if we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus, we will have more flexibility to compute the expectation integral in the real space and the Fourier space .\\ 
 
-\jcom{Why would you apply FFT to both????}\textcolor{blue}{because we have the flexibility to work either in the real space (so we need the FFT to be applied on the characteristic function) orin the fourier space (so we need the FFT to be applied on the payoff) } 
-\jcom{Yes, you have the flexibility of computing the inner product of the density and the payoff both in fourier space or in real space.
-If you do it in real space, you are required to do FFT on a characteristic function. If you do it in fourier space, you are required
-to do FFT on the payoff. I do not see, why you would need to do it on both. The remaining  inner product after the transformation is
-done using trapezoid quadrature anyways and involves no FFT. Am I missing something here?}
-The aim of this chapter is to develop a mathematical formulation followed by a numerical convergence approximation to prove that using an FFT technique applied to the payoff and the characteristic function and using Parseval equality we will get exactly the same option price.  we will also figure out that working in the Fourier space is identical to the real space .
+The aim of this chapter is to develop a mathematical formulation based on Parseval equality  and followed by a numerical convergence approximation to prove that using an FFT technique applied on the payoff (in case we compute the inner product in the real space) or applied on the characteristic function (in case we compute the inner product in the Fourier space), we will get exactly the same option price.\\
+\textcolor{blue}{ I reformulated what i meant } \\
+
+\newpage
+
 
 \section{First Framework: truncated payoff function}
 
