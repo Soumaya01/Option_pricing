@@ -945,13 +945,11 @@ $b(t,\theta,\sigma)= \theta t+ \sigma W_t$
 \end{center}
 and a gamma process with unit mean rate and $\mu$ variance rate $\gamma(t,1,\mu).$
 
-Now we define a Lévy process $B(t,\theta,\sigma)$ defined in terms of of $b(t,\theta,\sigma)$ and $$\gamma(t,1,\mu)$$ 
+Now we define a Lévy process $B(t,\theta,\sigma)$ defined in terms of $b(t,\theta,\sigma)$  where the time follows a gamma process $\gamma(t,1,\mu):$
+\begin{center}
+$B(t,\theta,\sigma)=B(\gamma(t,1,\mu)\theta,\sigma)$
+\end{center}
 
-The price is always defined under the risk neutral expectation ;
-
-\begin{gather*}
-\pi()
-\end{gather*}
 
 
 In order to deduce the option price,~we may first need to define the following function:
