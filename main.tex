@@ -68,6 +68,7 @@ $
 \chapter{Black-Scholes-Merton model and its limitations}
 \section{Black -Scholes-Merton model}
 The Black-Scholes-Merton (or Black and Scholes ) model for evaluating the premium of an option was introduced in 1973 by three economists – Fischer Black, Myron Scholes and Robert Merton (Hull, 2009). They developed a formula to calculate the price of European put and call options. This model has become the world's most well-known options pricing formula and has had a significant influence on the way options was traded and priced.\\
+\jcom{I am still afraid that the beginning of the introduction is somewhat abrupt, as at this point, the whole concept of an option has not been introduced.}
 
 Black-Scholes-Merton model assumes that the price, $S_t$, of an asset follows a geometric Brownian motion,
 % equation non centrée
@@ -79,27 +80,28 @@ where $\mu$ and $\sigma$ are known constants,
 denoting respectively the expected return and the volatility of the asset and $W_t$ is a standard Brownian motion with drift (the Brownian motion will be further described later on in this chapter) .\\
 
 
-Before considering the Black-Scholes option price it is  important to understand the Brownian motion process that has been widely used to determine the return distributions of assets. The Brownian motion is a particular type of Markovian stochastic process, where only the present value of a variable is relevant for prediction the future.\\
+Before considering the Black-Scholes option price it is  important to understand the Brownian motion process that has been widely used to determine \jcom{What do you mean by determining return distributions of assets} the return distributions of assets. The Brownian motion is a particular type of Markovian stochastic process, where only the present value of a variable is relevant for prediction the future.\\
 
 Consider a variable, $W_{t_{t \geqslant 0}}$,  following a Brownian motion, then it has the following properties :\\
 $1)~ W_0=0 $\\
-$2)~W_t$ is almost surely  continuous in t.\\
+$2)~W_t$ is almost surely  continuous in t.\jcom{At this stage, it is not clear what almost surely means. In fact, there is no mention of a random variable at this point.}\\
 $3)~$ The change of $\Delta W_t$ in a  period of time $\Delta t$ is : 
 \begin{gather}
 \Delta W_t= \sqrt{\Delta t}~ N(0,1)
 \end{gather}
 where N is the standard normal distribution .\\
 $4)~$ The values of $\Delta W_t$ of any two disjoint different short intervals of time,$\Delta t$, are independent.\\ 
+\jcom{This notation is a bit unclear as it does not make a distinction between a random variable and a distribution that it follows.}
 
-It can be concluded from the the third property that $\Delta W_t$ itself has a normal distribution with mean zero and variance $\Delta t$.The fourth property implies that $W_t$ follows a continuous-time Markov process since we do not need to know  the process's full history, the present value suffices for predicting a future value.\\
+It can be concluded from the the third property that $\Delta W_t$ itself has a normal distribution with mean zero and variance $\Delta t$.The fourth property implies that $W_t$ follows a continuous-time Markov process since we do not need to know  the process's full history, the present value suffices for predicting \jcom{I would not use the word predict without defining what you mean by it} a future value.\\
 
-If we consider the change of $W_t$ in a relatively long period, it can be regarded as the sum of the changes of $\Delta W_t$ in N small time intervals of length $\Delta t$,~ $N=\frac{T}{\Delta t}$
+If we consider the change of $W_t$ in a relatively long period \jcom{Why long}, it can be regarded as the sum of the changes of $\Delta W_t$ in N small time intervals of length $\Delta t$,~ $N=\frac{T}{\Delta t}$\jcom{This is both a double reference to $N$ and a mix of $t$ and $T$!!!!}
  \begin{gather}
 W_{T_{T>0}} -W_0= \sum\limits_{i=1}^N \sqrt{\Delta t}~ N_i(0,1)
 \label{broawnian}  
  \end{gather}
 
-  It follows that $W(T)-W(0)$ is normally distributed $N(0,N\sqrt{\Delta t})$. Hence, the stock returns, $dS_t/S_t$, are assumed to be normally distributed. Normality assumption is one important hypothesis among others in the Black and Scholes model.\\
+  It follows that $W(T)-W(0)$ is normally distributed $N(0,N\sqrt{\Delta t})$. \jcom{Is this a typo?} Hence, the stock returns, $dS_t/S_t$, are assumed to be normally distributed. Normality assumption is one important hypothesis among others in the Black and Scholes model.\\
 
 The graphs below show a single realization of a Brownian motion (one path) when T=1.\\
 The number of equal subdivisions for the first graph is N= 100 ,$\Delta t=\frac{T}{N}=0.01$ and for the second graph $N=10^4$,$\Delta t=\frac{T}{N}=10^{-4}$.
@@ -114,35 +116,38 @@ The number of equal subdivisions for the first graph is N= 100 ,$\Delta t=\frac{
   \caption{Brownian motion with $N=10^4$}
 \endminipage\hfill
 \end{figure}
+\jcom{This account does not make a very clear distinction about particular elements in the probability space, corresponding
+trajectories, and wiener process mapping itself.}
 
-The simulation of a Brownian motion is totally described by equation  \eqref{broawnian}. We define time as a number of discrete interval of lenghth $\Delta t$ and in each time the general increment $\Delta W_t$ is given by multiplying  a standard normal random variable by $\Delta t$. We can remark that as N becomes larger, the length of each interval becomes arbitrary small and the process become more continuous. \\
+The simulation of a Brownian motion is totally described by equation  \eqref{broawnian}. \jcom{What do you mean when you say that a simulation is totally described?}We define time as a number of discrete interval of lenghth $\Delta t$ and in each time the general increment $\Delta W_t$ is given by multiplying  a standard normal random variable by $\Delta t$\jcom{Does this give the right variance?}. We can remark that as N becomes larger, the length of each interval becomes arbitrary small and the process become more continuous. \\
 
 
-To derive the Black-Scholes formula, some assumptions on the assets and the market have been made (these assumptions are detailed in Hull's book chapter: 12, 13, 14):
+To derive the Black-Scholes formula, some assumptions on the assets and the market have been made (these assumptions are detailed in Hull's book chapter: 12, 13, 14):\jcom{cite}
 \begin{itemize}
 \item Returns are log-normally distributed.
-\item The options are European and can only be exercised at the expiration date(the last date on which the holder of the option may exercise it according to its terms).
+\item The options are European and can only be exercised at the expiration date(the last date on which the holder of the option may exercise it according to its terms).\jcom{This is a bit circular logic to me, or at least a funny way of expressing this.}
 \item The stock pays no dividend during the life of the option.
 \item The volatility is constant for any strike and maturity.
 \item The short-term interest rate (the risk-free rate r) is known and constant through time.
 \end{itemize} 
 
 
-It can be shown that under these assumptions and under the risk neutral valuation theorem the solution of the stochastic differential equation (1.1) is :
+It can be shown that under these assumptions and under the risk neutral valuation theorem\jcom{cite! Also explain why you need a risk neutral valuation theorem to solve a stochastic differential equation} the solution of the stochastic differential equation (1.1) is :
 \begin{gather}
 S_t= S_0 e^{(\mu-\frac{\sigma^2}{2})t+\sigma W^{\mathbb{P}}_t}
 \end{gather}
-where $W_t^{\mathbb{P}}$ is a standard Brownian motion under the risk neutral measure $\mathbb{P}$ defined on the following probability space ($\Omega, \mathbb{P},\mathfrak{F}$),$\mathbb{P}$ is a probability distribution determined according to the hypothesis of absence of arbitrage and $\mathfrak{F}$ is a filtration that contains the information available at time t\\
+where $W_t^{\mathbb{P}}$ is a standard Brownian motion under the risk neutral measure $\mathbb{P}$ \jcom{What does it mean when you say that something is a standar Brownian motion under some measure? How is this different from the statement you amde about Brownian motion earlier?} defined on the following probability space ($\Omega, \mathbb{P},\mathfrak{F}$),$\mathbb{P}$ is a probability distribution determined according to the hypothesis of absence of arbitrage and $\mathfrak{F}$ is a filtration that contains the information available at time t\\
 For the Black and Scholes model, it holds that : 
 \begin{gather}
 X_t=log(\frac{S_t}{S_0})=(\mu-\frac{\sigma^2}{2})t+\sigma W^{\mathbb{P}}_t
 \end{gather}
 
-Let us denote the price of a European call for any $ t \in [0, T]$ by $C(St, K,T)$, then $C(St, K,T)$ is defined as the discounted expected value of $(S_T-K)^+$ under the risk-neutral probability measure $\mathbb{P}$,
+Let us denote the price of a European call for any $ t \in [0, T]$ by $C(St, K,T)$, then $C(St, K,T)$ is defined as the discounted expected value of $(S_T-K)^+$ under the risk-neutral probability measure $\mathbb{P}$,\jcom{Are you sure you want to define these measures this way? Is there a reference that uses such notation. Also check typos below}
 \begin{align}
 C(St, K,T)=& e^{-r \tau} E^P[(S_t-K)^+|\mathfrak{Ft}] \nonumber \\ 
 &=e^{-r \tau} E^P[(e^X_t-K)^+|\mathfrak{Ft}] 
 \end{align}
+\jcom{Use italics only for variables.}
 
 Developing this conditional expectation and using the Girsanov theorem (Wang,2014) to define an equivalent risk neutral measure $\mathbb{Q}$ will lead to the following price:
 \begin{gather}
@@ -160,6 +165,8 @@ P(St,K,T)= -S_0 N(-d_1) + K e^{-r \tau} N(-d_2)
 We can remark that the expected return $\mu$ does not appear in the Black-Scholes equation. This means the pricing formula is independent of the individual’s preference. 
 \textcolor{blue}{we use the Girsanov theorem in the calculation of the right side of the expectation in the price formula, 
 Where did the dependence on expected returns vanish? }
+\jcom{Please state the Girsanov and Risk neutral valuation  theorems and justify them. One way of doing so would be to show that
+their assumptions hold for the case in question.}
 
 \section{Advantages of the Black-Scholes-Merton Model}
 \begin{itemize}
@@ -181,6 +188,7 @@ Although the Black-Scholes formula is powerful to price stock options, it is wid
 The Black-Scholes-Merton  model assumes that the market is complete,i.e.  that any contingent claim can be perfectly hedged, but if we consider the real situation , the stock price can increase or decrease
 lightly like it can fall relatively quickly.So,it is not possible to be hedged against all of these states
 simultaneously. The impossibility of perfect hedging means that the market is incomplete Hence, it makes much more sense to use incomplete market models where the risk of hedging can be quantified rather than sticking to complete market models where the risk of hedging is by definition zero,more general Levy models  are examples of incomplete models. 
+\jcom{Please explain what you mean by incomplete models and what is the relation between discontinuous asset dynamics and incompleteness.}
 
 \item \textbf{Non Log-normal Distributed returns}: If the stock price follows a geometric Brownian motion with drift  as in equation $(1.1)$, the stock price is log-normally distributed, or, the logarithmic return is normally
 distributed.Generally,when dealing with an asset price,this is a poor approximation because, returns often have an excess kurtosis and a non zero skewness values.
