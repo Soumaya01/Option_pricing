@@ -427,7 +427,6 @@ Taking the parameter values of $S\&P500$ Market from (Andersen and Andreseasen 2
 \jcom{please include the proper reference}
 
 $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year $
-\jcom{Why $r$ here and not $\mu$}
 
 we will obtain the following Merton processes. \\
 
@@ -543,12 +542,11 @@ Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1 
 \chapter{Fourier Transform Methods For Option pricing }
 
 Various methods can be used to price an option when the underlying
-asset price process is modeled by a Lévy process. One can use the famous partial differential equations PDE \jcom{Which ones and under which circumstances is a PDE method sufficient???} and solve it numerically with the finite differences methods which  can be difficult due to the presence of jumps.~Another \jcor{methods}{method} is to use Monte Carlo simulation in order to simulate different paths of the risk neutral process and take the discounted value of the average \jcom{of what} to obtain the option price.~In spite of its efficiency, Monte Carlo simulation is known to be computationally expensive. \jcom{What is meant by this?}\\
+asset price process is modeled by a Lévy process. One can use the famous partial differential equations PDE  and solve it numerically with the finite differences methods which  can be difficult due to the presence of jumps (this approach can be used to solve derivative pricing problems that have, in general, the same level of complexity as those problems solved by tree approaches).~Another method is to use Monte Carlo simulation in order to simulate different paths of the risk neutral process and take the discounted value of the average to obtain the option price.~In spite of its efficiency, Monte Carlo simulation is known to be computationally intensive. \\
 
-There are two reasons why one would choose Fourier transform approach for option pricing:~ 
-while the first reason is the unknown probability density of some Lévy processes, the second reason looks more important, since the use of Levy-Khinchine formula allows us not only to recover the analytical expression of the characteristic function but also to work easily in the Fourier space. \jcom{Please elaborate this? What else is achieved than an explicit expression of the characteristic function?}\\
+There are two reasons why one would choose Fourier transform approach for option pricing: while the first reason is overcoming the problem of unknown  probability density of some Lévy processes, the second reason looks more important, since the use of Levy-Khinchine formula allows us not only to recover the analytical expression of the characteristic function but also to take advantages from excellent numerical properties of the Fourier Transform approach: greater rate of convergence,use of the FFT algorithm, flexibility of moving from the real space to the Fourier space and and vice versa (the properties will be further detailed) . \\
 
-This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and  \jcor{reduce}{reducing} to overall complexity of the algorithm. 
+This chapter will introduce Fourier transform approach and demonstrate its effective use for option pricing.~we will also explain the importance of Fast Fourier Transform algorithm FFT in calculating the anti-transform and reducing the overall complexity of the algorithm. We will detail all the numerical results for the Merton , the rest will be presented in the appendix part. 
 \newpage
 \section{Constructing risk neutral characteristic  function }
 
@@ -602,11 +600,10 @@ Variance Gamma & drift of the Brownian motion & $\frac{-t}{\nu}~$log($1-\theta \
 \caption{Merton model , kou model and Gamma Variance model} 
 \end{table}
 \section{Option price}
-Consider an asset whose price at time t is modeled by the stochastic process $S = (St)$
-\jcom{please use subscripts in cases like these!!!}
+Consider an asset whose price at time t is modeled under the risk neutral measure $\mathbb{P}$ by the stochastic process $S = (S_t)$
 defined by $St = S_0 e^{X_t}$ , where $X = (X_t)$  is assumed to be a Lévy process whose
 jump measure is $\nu$.\\
-\jcom{Please define what is the risk neutral dynamic. The models thus far make no mention of this!}
+
 Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of a European option with payoff G and maturity time T is given by
 
 \begin{gather}
@@ -616,8 +613,7 @@ Assuming the risk-neutral dynamic for $S_t$, the price at time $t = T-\tau$  of 
 where r is the short rate that we assume to be constant and $\tau$ : 0 <$\tau$ < T is the time to
 maturity.
 
-\jcom{subscripts!}
-Consider $g$ as the reward function in log prices (ie, defined by $g(x) = G(S0ex)$). Now, take f to be defined as
+Consider $g$ as the reward function in log prices (ie, defined by $g(x) = G(S_0e^x)$). Now, take f to be defined as
 \begin{center}
 $f \parent{\tau,x} \equiv \expp{g \parent{X_T}|X_{T-\tau} = x}$
 \end{center}
@@ -629,7 +625,6 @@ We can observe that f and $ \pi$ are related by :
 The value of the option $\pi$ is related to the risk-neutral density $p_T$ by:
 
 
-\jcom{Please elaborate on the homogeneity in log-price-space.}
 \begin{align}
 \begin{split}
 \pi\parent{\tau,x} \equiv & e^{-r\tau}\expp{g \parent{X_T}|X_{T-\tau} = x}
@@ -642,36 +637,34 @@ The value of the option $\pi$ is related to the risk-neutral density $p_T$ by:
 \end{split}
 \end{align}
 
-\jcom{You might want to refer to chapters without explicit numbering to avoid confusion in further edits.}
-(See appendix 4.1 for details of the derivation of the discounted expected conditional terminal payoff) 
-
+(See Appendix \eqref{moneq} for details of the derivation of the discounted expected conditional terminal payoff).\\ 
+It should be noted that the above price is homogeneous of order 1 with respect to the variable x . i.e.
+$\pi(\tau, \lambda x) = \lambda \pi(\tau,  x) $
+see (JOSHI) for the full demonstration. 
 \section{Fourier Transform approach}
 
 There are different conventions for the Fourier transform. In this section we consider the operator
-$\mathbb{F}$ such that
+$\cal{F}$ such that :
 
 \begin{center}
-
-\jcom{This operator notation is confusing because occasionally the notation you are using is used for describing an abstract field in algebra. I would advise using calligraphic or fractura typeface.}
-$\mathbb{F}[f](w)= \int_\R e^{iwx}f(x) dx $
+$\cal{F}$$[f](w)= \int_\R e^{iwx}f(x) dx $
 \end{center}
 To recover the original function f, we define the inverse Fourier transform as
 
 \begin{center}
-$\mathbb{F}^{-1}[\hat{f}] (x) =\frac{1}{2\pi}\int_\R e^{-iwx}f(w) dw $
+$\cal{F}$$^{-1}[\hat{f}] (x) =\frac{1}{2\pi}\int_\R e^{-iwx}f(w) dw $
 \end{center}
 
 
 The principle of the Fourier Transform method is simple: instead of applying the direct discounted expectation, it is easier to compute the integral of its Fourier transform and after that we could recover the option price due to this characteristic:
 \begin{center}
-$\mathbb{F}^{-1}[\hat{f}] (x)=f(x)$
-
+$\cal{F}$$^{-1}[\hat{f}] (x)=f(x)$
 \end{center} 
 
 
 From the previous derivation of the option price function eq ~\eqref{moneq}, we could remark that it is not square integrable. To obtain a square integrable function, we would consider a damped version of f defined by $f_{\alpha}(\tau,x) = e^{-\alpha x}f(\tau, x)$.We will discuss later  the choice of $\alpha$.
 
-Now, having an integrable function $f_\alpha$ we can apply the operator $\mathbb{F}$, we will obtain :
+Now, having an integrable function $f_\alpha$ we can apply the operator $\cal{F}$, we will obtain :
 \begin{gather}
 \hat{f}_{\alpha}(w,\tau)=\int_\R e^{iwx} f_{\alpha}(x,\tau) dx 
 \end{gather}
@@ -688,25 +681,27 @@ f(x,\tau)= & e^{\alpha x} f_{\alpha}(x,\tau)\\
 \label{souma}
 \end{align}
 
-We just have to derive an analytic form for $f_\alpha(w,\tau)$ to put in the equation \eqref{souma} and get back the price of the option.
+We just have to derive an analytic expression of $f_\alpha(w,\tau)$ to put in the equation \eqref{souma} and get back the price of the option.
 
-\begin{align*}
-\hat{f}_{\alpha}(w,\tau)= &\int_\R e^{iwx} f_{\alpha}(x,\tau) dx
+\begin{align}
+\hat{f}_{\alpha}(w,\tau)= &\int_\R e^{iwx} f_{\alpha}(x,\tau) dx \nonumber
 \\
-= &  \int_\R \int_\R \expfs{- \damp x + i \omega x} g \parent{y}  p \parent{y-x} \d y \d \omega
+= &  \int_\R \int_\R \expfs{- \damp x + i \omega x} g \parent{y}  p \parent{y-x} \d y \d \omega \nonumber
 \\
 = & \int_\R \int_\R \expfs{ i \omega x} g \parent{y} \expfs{-\damp y} \expfs{-\damp \parent{y
--x}}  p \parent{y-x} \d y \d \omega
+-x}}  p \parent{y-x} \d y \d \omega \nonumber
 \\
-= &\hat \ga \parent{\omega} \charFun{\tau}{\omega + i \damp}
+= &\hat \ga \parent{\omega} \charFun{\tau}{\omega + i \damp} \nonumber
 \\
-= & \hat \ga \parent{\omega} \expfs{\tau \charExp{-i \parent{\omega+i \damp}} }
+= & \hat \ga \parent{\omega} \expfs{\tau \charExp{-i \parent{\omega+i \damp}} } \nonumber
 \\
 = & \hat \ga \parent{\omega} \expfs{\tau \charExp{\damp - i \omega} }.
-\end{align*}
+\label{ghat}
+\end{align}
 
-To obtain the value function we employ the inverse Fourier transformation and
-obtain
+Where $\charExp \omega $ is the characteristic exponent and $ \hat \ga \parent{\omega}$ is the Fourier transform of the damped terminal payoff (see Appendix \eqref{ghat} for further details). \\
+
+Now we have an analytical expression of $\hat{f}_{\alpha}(w,\tau)$, to obtain the value function we have to employ the inverse Fourier transformation :
 
 \begin{equation}
 f_{\alpha}(x,\tau)=\frac{1}{2\pi}\int_\R e^{-iwx}\hat{f}_{\alpha}(w,\tau) dw
@@ -716,53 +711,127 @@ or
 
 \begin{equation}
 f_{\alpha}(x,\tau)=\frac{1}{\pi}\int_{0}^{\infty} Re[e^{-i \omega x}\hat{f}_{\alpha}(\omega,\tau)] ]dw
+\label{DF}
 \end{equation}
 
+\section{The discrete Fourier Transform method DFT}
 
-As it is not possible to compute the inverse Fourier transform analytically, we
-approximate it by truncating and discretising the integration domain using trapezoidal
-quadrature . 
+As it is not possible to compute the inverse Fourier transform analytically eq \eqref{DF}, we
+approximate it by truncating and discretising the integration domain using the trapezoidal quadrature rule.\\ 
 
 In fact, the trapezoidal rule is a technique for approximating an integral by interpolating between N  points using a straight line that relates each two successive points. 
 
 The trapezoidal rule can be written in the following form :\\
   
-\jcor{Let's}{Let} $I$ be a definite integral:
+Let $I$ be a definite integral:
 \begin{center}
 $I=\int_{a}^{b} f(x) dx$
 \end{center}  
 I is approximated by 
 \begin{center}
-$I ~\approx ~ \sum \limits_{k=1}^{N} \omega_k f(x_k)$~~~where $\omega_k$ \jcor{is}{are} the weights of $f(x_k)$ \jcom{This gives the impression that the weights depend on $f$. Furthermore, why use $\omega_k$??}
+$I ~\approx ~ \sum \limits_{k=0}^{N-1} h_k f(x_k)$
 \end{center}
-If we choose $x_k$ as equidistant points $x_k= \big ( a+k \frac{b-a}{N}\big ) _{0 \le k \le N}$ having the same weight $h=\frac{b-a}{N}$\\
-Then ,\\
-\begin{equation}
-I ~\approx ~ h \sum \limits_{k=1}^{N} f(x_k)
+
+where $\omega_k$ are the weights of $f(x_k).$ 
+
+
+Generally, we choose $x_k$ as equidistant points $x_k= \big ( a+k \frac{b-a}{N}\big ) _{0 \le k \le N-1}$ having the same weight $h=\frac{b-a}{N}$\\
+Then ,
+\begin{gather}
+I ~\approx ~ h \sum \limits_{k=0}^{N-1} f(x_k)
 \label{approx}
-\end{equation}
-\jcom{So $x_0$ is not considered?}
-For our case, to avoid having 0 among the abscissas \jcom{So how does $0$ relate to $a$ and $b$?} or the node points, it is more convenient to use the midpoint rule :
- $ x_k= \big ( a+(k+\frac{1}{2}) \frac{b-a}{N}\big ) _{0 \le k \le N}$.\\
+\end{gather}
 
-Applying (\ref{approx} ),the the following approximation :
+For our case,we will apply another version of the trapezoidal rule , the midordinate integration rule. Instead of evaluation $f$ at $x_k$ we will evaluate it at the midpoint defined by :
+ $ x_k= \big ( a+(k+\frac{1}{2}) \frac{b-a}{N}\big ) _{0 \le k \le N-1}$.\\
+ 
+Applying (\ref{approx} ), gives the the following approximation :
 \begin{align}
-f_{\alpha,\Delta \omega, n}=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-n}^n e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}(\omega,\tau)
+f_{\alpha,\Delta \omega, N}=&\frac{\Delta \omega}{2\pi} \sum \limits_{k=-N}^{N-1} e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}(\omega,\tau)
 \\
-=& \frac{\Delta \omega}{\pi} \sum \limits_{i=0}^{n-1} Re[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)]
+=& \frac{\Delta \omega}{\pi} \sum \limits_{i=0}^{N-1} \text{Re}[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)]
 \label{fret}
-\end{align}
-\jcom{Use italics only for variables, operators in roman, calligraphic or fractura}
-
+\end{align} 
 Thus the option price is: 
 \begin{center}
 
 $f_{\Delta \omega, n}(x,\tau)= e^{\alpha x}f_{\alpha,\Delta \omega, n}(x,\tau)$
 \end{center}
+ 
+ Here we can see that [a,b]=[$\omega_{min},\omega_{max}$]
+ where,
+\begin{center}
+ $\omega_{min}=(-N+\frac{1}{2})\Delta \omega$\\
+ $\omega_{max}=(N-\frac{1}{2})\Delta \omega$
+\end{center}
 
 
-The truncation error of the trapezoidal rule is of order
-\jcom{What do you mean by "truncation error of the trapezoidal rule" and what is assumed of $f$ in this statement? Can you show this or cite a source?} ~~$ O(h^3 N)=O(h^2 (b-a))$ ,it is inversely proportional to N. Thus, we could expect to improve the accuracy by increasing the number of quadrature points.
+The efficiency of DFT lies in the choice of an appropriate truncated interval and the number of quadrature points. But before deciding on the truncated interval we need to identify the shape of the symmetric function inside the sum $ \text{Re}[e^{-i(k+\frac{1}{2}) \Delta \omega x }\hat{f}_{\alpha}((k+\frac{1}{2}\Delta\omega ),\tau)$ , it will denoted by $H(\omega)$\\
+
+
+Riemann-Lebesgue Lemma (Stenger, 1993) states that :\\ If f $\in L^1(\mathbb{R}$) and F is the Fourier transform of f, then  $\lim\limits_{x \rightarrow \pm \infty} F(\omega)=0$\\
+
+Thus we could say that $H(\omega)$ is vanishing at infinity and starting from a certain point we can truncate it. In order to better choose [$\omega_{min},\omega_{max}$] , we represent below H($\omega$) for the Merton model. The function is plotted for the same previously chosen values of the Merton model parameters taken from (Andersen and Andreseasen ,2001):\\ 
+$ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon = -88.98\%,\quad  \delta=45.05\% \quad T=1 year,\quad x=log(\frac{S_t}{S0})=1 $ 
+\\
+\begin{figure}[H]
+\centering
+\includegraphics{H.png} 
+\caption{Shape OF H($\omega$)}
+\end{figure}
+
+ 
+From the graph we can say that beyond $\omega=15 $, H becomes of negligible values, thus we can set
+\begin{center}
+$\omega_{max}=(N-\frac{1}{2})\Delta \omega=15$\\
+$\Delta \omega= \frac{\omega_{max}}{N-\frac{1}{2}}$
+
+\end{center} 
+ 
+Once $\omega_{max}$ is picked up we just need to choose the number of quadrature points N and we will obtain an approximated option price .
+\section{Closed-Form option valuation for the Merton Model}
+In order to evaluate the efficiency of the DFT method we need to  compare its results with a reliable reference value, this value will be also used for the subsequently presented methods.\\
+Merton assumed in his jump diffusion model that jumps are Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. The closed form formula is explained below and the whole derivation is in (Merton,1975).
+\begin{align}
+\label{sum2}
+\pi(S,\tau)=& e^{-r\tau} \sum \limits_{n=0}^{\infty} P(n~jumps~occurs)~\mathbb{E}(max(S-K,0)|k~jumps) \nonumber \\
+=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} ~ \mathbb{E}_0(max(S-K),0|n~jumps)\nonumber \\
+=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} BS(S,\tau,K,\sigma_k,r_k)
+\end{align}
+
+Where,
+\begin{center}
+$k=E^Y$\\
+$\sigma_k^2=\sigma^2+\frac{k}{\tau} \delta^2$\\
+$r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
+\end{center} 
+$E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\upsilon+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\upsilon,\delta^2$) )
+
+Although an infinite series appears in the formula of $\pi$, the following graphs proves that  generally within  10 to 15 iterations the price converges to a certain value that will be later considered  as a reference for the other methods. N denotes the number of iterations that are carried out in the sum \eqref{sum2}.
+
+
+
+Using Andersen $\&$ Andreseasen parameters, we will get the following figure: 
+
+\begin{figure}[H]
+\centering
+\includegraphics{maxiteration.png} 
+\caption{ European option price with the Merton extension series}
+\end{figure}
+
+
+\section{Evaluation of the DFT methods }
+
+To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ of the method.
+ $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
+
+
+
+
+
+ 
+The error of an N-point approximation converges at an incredible $\mathbb{O}$ ($-\frac{c}{N^2}$ )rate
+
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
@@ -838,46 +907,6 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 \\=\frac{\Delta \omega}{2\pi} e^{-i \omega_{min} x} \sum \limits_{k=0}^{N-1} e^{-i\frac{2 \pi}{N}j k} h_k
 \label{4.14}
 \end{equation}
-\section{Closed-Form option valuation for the Merton Model}
-
-Merton (1975) assumed in his jump diffusion model that jumps are
-Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. Identically, Kou obtained a semi-closed form formula explained below.
-\begin{align}
-\label{remark_n}
-\pi(S,\tau)=& e^{-r\tau} \sum \limits_{n=0}^{\infty} P(n~jumps~occurs)~\mathbb{E}(max(S-K,0)|k~jumps)\\
-=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} ~ \mathbb{E}_0(max(S-K),0|n~jumps)\\
-=& e^{-r\tau} \sum \limits_{n=0}^{\infty} \frac{e^{-k \lambda \tau}(\epsilon \lambda \tau)^n}{n!} BS(S,\tau,K,\sigma_k,r_k)
-\end{align}
-
-Where,
-\begin{center}
-$k=E^Y$\\
-$\sigma_k^2=\sigma^2+\frac{k}{\tau} \delta^2$\\
-$r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
-\end{center} 
-$E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\alpha+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\alpha,\delta^2$) )
-
-With the following parameters used in Andersen and Andreseasen (2001) we will get this figure: \\ 
-$r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=-88.98\%,\quad  \delta=45.05\%  T=1 year $ 
-
-\begin{figure}[H]
-\centering
-\includegraphics{maxiteration.png} 
-\caption{ European option price with the Merton extension series}
-\end{figure}
-
-
-
-\jcom{This is not very helpful, as for most of the width of the plot, there are no changes that can be seen
-with a human eye. Also, I would advice against using pixel rasterisations for graphical reasons.
-My recommendation is to use pgfplots, which has the benefit that you can change the titles without generating a new plot.
-For specifics, you may have a look at our manuscript source.
-Furthermore, this figure has not been referred to in the text, and there is no mention of what
-these numbers of iterations mean. If you are referring to equation \eqref{kou_model} ?, if so, you do not elaborate
-how this procedure can be turned into an iterative one, and in case you mean truncation of a series, you do
-not mention if you are truncating the series with respect to $k$ or $n$. Also, see my earlier remarks from commit
-{\tt{291c0c369d1c0225f90a89dc05c6bca084266077}} about consistency of notation.}
-
 
 \section{Results of the DFT and the FFT}
 \section{conclusion }
@@ -1053,6 +1082,12 @@ The payoff and the antiderivative of payoff are represented below:
 \bibitem{notes}Cont.R and Tankov.P {\em Financial Modelling with Jump processes}
 \bibitem {notes} Wang.W {\em Risk-neutral Approach to
 Lévy Processes in Financial Modelling}
+\bibitem{notes} Joshi.M.S.{\em Log-type models, Homogeneity OF Option prices and Convexity}
+\bibitem{notes} Stenger.F .{\em Numerical Methods
+Based on Sinc andAnalytic Functions}
+\bibitem{notes} Merton.R.C.{Option Pricing when the Underlying Stock Returns Are Discontinuous} 1975.
+\bibitem{notes}  Andersen, L. and Andreasen, J. {\em Jump Diffusion Processes: Volatility Smile Fitting
+and Numerical Methods for Option Pricing},2000.
  \end{thebibliography}{1}
 
 
