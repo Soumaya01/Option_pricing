@@ -1,0 +1,70 @@
+1. Error analysis (DL July 4th)
+The main point here is that we already have results that converge.
+Understanding why they converge and at what rate is a tougher challenge.
+We have two different methods with little error analysis.
+1.1 Known payoff function in fourier space
+1.1.1 Truncation error bound
+1.1.2 Quadrature error bound
+1.1.3 Decomposition of the error into its components, regularity
+assumptions and other tidbits that go with the work
+1.2 Numerically evaluated payoff function (or conversely, numerically
+evaluated density)
+1.2.1 Error in inverting the density
+1.2.2 Quadrature error (this is different analysis, because the function
+integrated is not hardy and the rate is polynomial)
+1.2.3 Truncation error (considerable overlap with the 1.1.1, but not
+identical)
+I have provided Soumaya with ample references for these. The main point
+is not to reinvent the wheel and I encourage taking other people's work
+quite shamelessly, as long as
+a) We give proper citation
+b) We know (and demonstrate) that the results we take from others are
+applicable and relevant (this is why stating regularity assumptions
+explicitly is more important than one would initially think)
+c) We merge all the things from different sources into a complete
+package that is coherent in notation and tone.
+
+2. Plots (DL July 4th)
+2.1 Adding the plots in their current, albeit incomplete form, time to
+tune for graphics later.
+
+3. Language (DL July 5th, this is a hard deadline because of the english
+language examination)
+Going through the language and addressing the comments that I have
+highlighted. Special emphasis on Abstract, Intro, and Conclusions as
+these are stated as the most important bits for the language examiner.
+Effort into other sections as time permits. At this point, we can replot
+the plots done earlier, the language professor will most likely not look
+too carefully into what exactly is in those plots. At this stage, I
+propose to:
+a) Produce vectorized graphs that can be edited when there is critique
+b) Make sure that the plots have coherent notation
+c) Merge the error analysis into the plots either by plotting the error
+bounds with the actual error or by fitting reference lines with the
+proper functional form into the text.
+
+4. General improvement on the manuscript (DL July 10th, hard deadline
+set by Soumaya's professor for turning in the final thesis)
+Dedicate the time between July 5th and July 10th to improve both the
+language as instructed by the language examiner as well as me, Fabian
+and Raul.
+
+5. Preparation for the defense (DL 13th the defense date, a hard DL)
+There is another three days to make changes if Soumaya's professor
+demands them. If no comments are needed, there is ample time to prepare
+the slides. Since the time for the presentation is limited to 15
+minutes, I proposed the following form
+5.1 Header slide
+5.2 Structure, table of contents
+5.3 Intro to quantitative finance
+5.4 More intro, going into more mathematical concepts like Levy
+processes, probability, Levy Khintchine...
+5.5 Description of the methods used
+5.6 Stated error bound theorems
+5.7 Plot with numerics and reference rates
+5.8 Conclusions
+The above is, of course, just a draft and if the material we have at
+that point lends itself to a different structure, nobody forces this
+upon us. In any case, I expect the slide preparation to be mostly a
+matter of reshaping pre-existing results that are already included in
+the thesis.
