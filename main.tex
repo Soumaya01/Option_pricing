@@ -830,35 +830,37 @@ $\epsilon_T=e^{\alpha x }|f_{\alpha,\Delta w }(\tau,x)-f_{\alpha,\Delta w, N }(\
 \end{center}
 
 
-
-
- While , (Strenger, 1993) assumes that the error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate as the  error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
- $H$ $\in  \emph{C}^2$, where $\eta$ depends on N (Trefethen and Weidman,2013 ) proved that Trapezoidal rule converges exponentially when applied to analytic functions.
-Before detailing more we need to define the following notions:
-
-Denote by $A_a$, with a > 0, the strip of width 2a around the real line:
-Aa  fz 2 C: jIm [z]j < ag
-
-In fact , 
-Theorem 6.1 in Trefethen and Weideman (2013)). Suppose $\omega$ is analytic in the strip |Im [x]| < a for some a > 0. Suppose further that w(x) ! 0 uniformly as
-jxj ! 1 in the strip, and for some M it satises
-
-\textbf{Definition: Analytic function} 
-
+Trefethen and Weidman proved that Trapezoidal rule converges exponentially when applied to analytic functions.
+Before detailing more we need to define the following notion, denote by $A_a$, with a > 0, the strip of width 2a around the real line:
+\begin{center}
+$A_a \equiv \{z \in \mathbb{C}: Im [z] < a\}$
+\end{center}
+The following theorem presents conditions under which the quadrature error goes to zero
+at a spectral rate as $\Delta \omega$ goes to zero. Three hypothesis must be admitted in order to use this error bound estimation :
+ \begin{itemize}
+\item The characteristic function of the random variable X1 has an analytic extension
+to the set.
+\item The Fourier transform of g(x) is analytic in the strip $A_a$ and 
+\end{itemize}
 
 
 
 
 
- We can suppose that the error coming from the truncation is a constant $\epsilon_T=c$. 
-Thus, 
-\begin{align}
-\epsilon=&\epsilon_Q+\epsilon_T \nonumber \\
-=&\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2+c \nonumber \\
-=&\frac{C_1}{N^2}+c_2
-\end{align}
-\jcom{Please produce a plot and put your stated line as a reference line. Also please include the derivation of what you assume for
-this stated result to hold. My understanding is that this is true for non-hardy functions whose second derivative is boudned on closed intervals.}
+
+
+Theorem 6.1 in Trefethen and Weideman (2013) states that :
+ Suppose $\omega$ is analytic in the strip $|Im [x]| < a$ for some a > 0. Suppose further that $w(x) \rightarrow 0$ uniformly as x in the strip, and for some M it satisfies:
+\begin{center}
+$\int $
+\end{center}
+
+
+
+
+
+
+
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
