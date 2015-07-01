@@ -781,9 +781,9 @@ $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon
 \end{figure}
 
  
-From the graph we can say that beyond $\omega=15 $, H becomes of negligible values, thus we can set
+From the graph we can say that beyond $\omega=10 $, H becomes of negligible values, thus we can set
 \begin{center}
-$\omega_{max}=(N-\frac{1}{2})\Delta \omega=15$\\
+$\omega_{max}=(N-\frac{1}{2})\Delta \omega=10$\\
 $\Delta \omega= \frac{\omega_{max}}{N-\frac{1}{2}}$
 
 \end{center} 
@@ -823,14 +823,16 @@ Using Andersen $\&$ Andreseasen parameters, we will get the following figure:
 \section{Evaluation of the DFT methods }
 
 To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ of the method.
- $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
+ $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
 
-
-
-
-
- 
-The error of an N-point approximation converges at an incredible $\mathbb{O}$ ($-\frac{c}{N^2}$ )rate
+ The error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate. Actually, (Strenger, 1993)  assumes that the error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
+ $H$ $\in  \emph{C}^2$, where $\eta$ depends on N. We can suppose that the error coming from the truncation is a constant $\epsilon_T=c$. 
+Thus, 
+\begin{align}
+\epsilon=&\epsilon_Q+\epsilon_T \nonumber \\
+=&\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2+c \nonumber \\
+=&\frac{C_1}{N^2}+c_2
+\end{align}
 
 
 \section{Fast Fourier Transform Algorithm}
