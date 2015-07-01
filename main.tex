@@ -301,29 +301,28 @@ path of $X_t$ has an infinite variation.
 \chapter{ Financial Modeling with Lévy Processes }
 
 After discussing general properties of Lévy processes, we can now give some tractable examples of Lévy processes that can be used in basic financial models and emphasize the different relations between them\jcor{}{.}\\
-All the models that will be discussed belong to a family of Lévy processes called “exponential Lévy processes”, under which the dynamic of the underlying stock prices \jcor{is}{are} given by: 
+All the models that will be discussed belong to a family of Lévy processes called “exponential Lévy processes”, under which the dynamic of the underlying stock prices are given by: 
 \begin{equation}
 S_t= S_0e^{X_t}
 \end{equation}
 where $X_t$ is a Lévy process under the risk-neutral measure  $\mathbb{Q}$ with
 characteristic triplet $(\sigma^2,\nu, \mu)$.
 \jcom{}{Isn't the risk-neutral dynamic independent of the expected return?} The log returns log($S_{t}/S_0$) of such a model
-\jcor{follows}{follow} the same distribution of the Lévy process $X_t$.
+follow the same distribution of the Lévy process $X_t$.
 \section{Examples of Lévy process }
 \subsection{Poisson process}
 The Poisson process counts the number of arrivals in particular time interval.\\
 To describe it more clearly, we consider a continuous time arrival process: $ W(u)=\delta(u)$. It is simply an impulse function
 \jcom{}{Impulse function is not really a function} every time an event occurs:
-\begin{figure}[h]
-
+\begin{figure}[H]
 \centering
 \includegraphics[scale=0.7]{poisson.jpg} 
 \caption{An arrival process in the interval time [0 u]}
 \end{figure}
-\\
+
 The Poisson process $X_t$ will be the integral of this continuous time arrival process between 0 and t :\\
 $X_t=\displaystyle \int_{0}^{t} W(u) \, \mathrm{d}u=\displaystyle \int_{0}^{t} \delta(u) \, \mathrm{d}u$ , which represents the total number of arrivals up to  time t.\\
-\jcom{Isn't $\int_{0}^{t} \delta(u) \, \mathrm{d}u=1$ ???}
+
 
 \begin{figure}[h]
 
@@ -336,13 +335,12 @@ As we can see, $X_t$ is continuous time discrete valued process with independent
 
 i) The waiting time between two successive jumps, it is a random variable called the interarrival time. \\
 ii) The interarrival time in the Poisson process follows an exponential distribution that has a very important characteristic called "memorylessness" 
-\jcom{Do not use italics for operators. Define a macro for probability if it helps.}
-\begin{gather}
- \forall t > s > 0, P(T > t + s|T > t) = P(T > s)
-\end{gather}
-\jcom{What is the quantity averaged here? Aren't the times deterministic?}
 
-iii) Every Poisson is characterized by a rate parameter $\lambda$, also known as the intensity of the process such that the number of arrivals in time interval $[t, t + \epsilon]$ follows a Poisson distribution with associated parameter \jcor{$\lambda \tau$}{$\lambda \epsilon$} . This relation is given as
+\begin{gather}
+ \forall t > s > 0, \text{P}(T > t + s|T > t) = \text{P}(T > s)
+\end{gather}
+
+iii) Every Poisson is characterized by a rate parameter $\lambda$, also known as the intensity of the process such that the number of arrivals in time interval $[t, t + \epsilon]$ follows a Poisson distribution with associated parameter $\lambda \epsilon$ . This relation is given as
 \begin{gather}
  P [N(t+ \epsilon) - N(t) = k] = \frac{e^{-\lambda \epsilon} (\lambda \epsilon)^k}{k!}  \qquad k= 0,1,\ldots,
 \label{foo}
@@ -770,8 +768,6 @@ The efficiency of DFT lies in the choice of an appropriate truncated interval an
 
 
 Riemann-Lebesgue Lemma (Stenger, 1993) states that :\\ If f $\in L^1(\mathbb{R}$) and F is the Fourier transform of f, then  $\lim\limits_{x \rightarrow \pm \infty} F(\omega)=0$\\
-\jcom{I would include a precise citation for this. Also, this is a nice general remark for the fourier transform, but aren't we implicitly
-assuming regularity in the $L_2$ sense?}
 
 Thus we could say that $H(\omega)$ is vanishing at infinity and starting from a certain point we can truncate it. In order to better choose [$\omega_{min},\omega_{max}$] , we represent below H($\omega$) for the Merton model. The function is plotted for the same previously chosen values of the Merton model parameters taken from (Andersen and Andreseasen ,2001):\\ 
 $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon = -88.98\%,\quad  \delta=45.05\% \quad T=1 year,\quad x=log(\frac{S_t}{S0})=1 $ 
@@ -783,15 +779,13 @@ $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon
 \end{figure}
 
  
-From the graph we can say that beyond $\omega=10 $, H becomes of negligible values, thus we can set
+From the graph we can say that beyond $\omega=\omega^* $, H becomes of negligible values, thus we can set
 \begin{center}
-$\omega_{max}=(N-\frac{1}{2})\Delta \omega=10$\\
+$\omega_{max}=(N-\frac{1}{2})\Delta \omega=\omega^*$\\
 $\Delta \omega= \frac{\omega_{max}}{N-\frac{1}{2}}$
-
 \end{center} 
-\jcom{Like I explained earlier, one may not choose the cutoff in this way. Come back to the counterexample I gave you on a whiteboard where the characteristic function is asymptotically $\bigo{\absval{\omega}^{-1}}$. If you want to do the cutoff using a fixed cutoff point that assures that the truncation error has at most the magnitude of the floating point errors, you need to give justification for it and possibly explain the tradoffs that come with that choice, namely poorer convergence.}
- 
-Once $\omega_{max}$ is picked up we just need to choose the number of quadrature points N and we will obtain an approximated option price .
+
+Once $\omega^*$ is picked up we just need to choose the number of quadrature points N and we will obtain an approximated option price .
 \section{Closed-Form option valuation for the Merton Model}
 In order to evaluate the efficiency of the DFT method we need to  compare its results with a reliable reference value, this value will be also used for the subsequently presented methods.\\
 Merton assumed in his jump diffusion model that jumps are Gaussian.~Based on this assumption, he developed a closed-form solution for an option as a series expansion of weighted Black and  Scholes prices. The closed form formula is explained below and the whole derivation is in (Merton,1975).
@@ -811,7 +805,6 @@ $r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
 $E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\upsilon+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\upsilon,\delta^2$) )
 
 Although an infinite series appears in the formula of $\pi$, the following graphs proves that  generally within  10 to 15 iterations the price converges to a certain value that will be later considered  as a reference for the other methods.
-\jcom{Do you have a plot that shows how your different methods converge to the same result?}
 N denotes the number of iterations that are carried out in the sum \eqref{sum2}.
 
 
@@ -826,9 +819,17 @@ Using Andersen $\&$ Andreseasen parameters, we will get the following figure:
 
 
 \section{Evaluation of the DFT methods }
-
+\textbf{Error Analysis }
 To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ of the method.
  $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
+\begin{center}
+$|\epsilon|=|\epsilon_Q+\epsilon_T|$\\
+$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|$
+$\epsilon_Q=e^{\alpha x }|f_{\alpha}()|$
+$\epsilon_T$
+\end{center}
+
+
 
 
  The error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate. Actually, (Strenger, 1993)  assumes that the error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
