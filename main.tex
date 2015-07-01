@@ -775,7 +775,8 @@ $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon
 \begin{figure}[H]
 \centering
 \includegraphics{H.png} 
-\caption{Shape OF H($\omega$)}
+\caption{Shape of H($\omega$)}
+\label{H(w)}
 \end{figure}
 
  
@@ -841,24 +842,17 @@ at a spectral rate as $\Delta \omega$ goes to zero. Three hypothesis must be adm
 \item The characteristic function of the random variable X has an analytic extension
 to the set.
 \item The Fourier transform of g(x) is analytic in the strip $A_a$ and
-\item $\lim\limits_{\omega \rightarrow +\infty} sup _{} f(x)$
-
+\item $\lim\limits_{\omega \rightarrow +\infty} sup _{\beta \in (-a,a)} |\hat{f}_{\alpha}(\tau, \omega+i\beta)|=0$
 \end{itemize}
 
-Then consider $M()=\int_a^b \! f(x) \, \mathrm{d}x$.
+Then consider $M_{\alpha, a}(\tau,x)=sup _{\beta \in (-a,a)} \int_\mathbb{R} | e^{-i(\omega+i\beta x)}\hat{f}_{\alpha}(\tau, \omega+i\beta) |\,
+ \mathrm{d} w$.
 
-
-
-
-
-Theorem 6.1 in Trefethen and Weideman (2013) states that :
- Suppose $\omega$ is analytic in the strip $|Im [x]| < a$ for some a > 0. Suppose further that $w(x) \rightarrow 0$ uniformly as x in the strip, and for some M it satisfies:
-\begin{center}
-$\int $
-\end{center}
-
-
-
+Then, for any $\Delta \omega$ > 0, $f_{\alpha,\Delta w }(\tau,x)$ as defined by \eqref{fret} exists and satisfies
+\begin{gather}
+|f_{\alpha}(\tau,x)-f_{\alpha,\Delta \omega }(\tau,x)| < e^{\alpha x} \frac{M_{\alpha, a}(\tau,x)}{\pi(e^{\frac{2\pi a}{\delta \omega}}-1)}
+\end{gather}
+Returning back to our function H(w),we know that it is analytic in the strip $A_a$, and concerning the last hypothesis the 
 
 
 
