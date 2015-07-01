@@ -824,16 +824,34 @@ To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ o
  $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
 \begin{center}
 $|\epsilon|=|\epsilon_Q+\epsilon_T|$\\
-$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|$
-$\epsilon_Q=e^{\alpha x }|f_{\alpha}()|$
-$\epsilon_T$
+$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|$\\
+$\epsilon_Q=e^{\alpha x }|f_{\alpha}(\tau,x)-f_{\alpha,\Delta w }(\tau,x)|$\\
+$\epsilon_T=e^{\alpha x }|f_{\alpha,\Delta w }(\tau,x)-f_{\alpha,\Delta w, N }(\tau,x)|$
 \end{center}
 
 
 
 
- The error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate. Actually, (Strenger, 1993)  assumes that the error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
- $H$ $\in  \emph{C}^2$, where $\eta$ depends on N. We can suppose that the error coming from the truncation is a constant $\epsilon_T=c$. 
+ While , (Strenger, 1993) assumes that the error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate as the  error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
+ $H$ $\in  \emph{C}^2$, where $\eta$ depends on N.\\
+
+(Trefethen and Weidman,2013 ) proved that Trapezoidal rule converges exponentially when applied to analytic functions.
+Before detailing more we need to define the following notions:
+
+
+
+In fact , 
+Theorem 6.1 in Trefethen and Weideman (2013)). Suppose $\omega$ is analytic in the strip |Im [x]| < a for some a > 0. Suppose further that w(x) ! 0 uniformly as
+jxj ! 1 in the strip, and for some M it satises
+
+\textbf{Definition: Analytic function} 
+
+
+
+
+
+
+ We can suppose that the error coming from the truncation is a constant $\epsilon_T=c$. 
 Thus, 
 \begin{align}
 \epsilon=&\epsilon_Q+\epsilon_T \nonumber \\
@@ -1098,6 +1116,7 @@ Based on Sinc andAnalytic Functions}
 \bibitem{notes} Merton.R.C.{Option Pricing when the Underlying Stock Returns Are Discontinuous} 1975.
 \bibitem{notes}  Andersen, L. and Andreasen, J. {\em Jump Diffusion Processes: Volatility Smile Fitting
 and Numerical Methods for Option Pricing},2000.
+\bibitem{notes} Trefethen.L and Weidman.J.A.C.{\em The Exponentially  Convergent  of Trapezoidal  Rule}.2013
  \end{thebibliography}{1}
 
 
