@@ -852,9 +852,11 @@ Then, for any $\Delta \omega$ > 0, $f_{\alpha,\Delta w }(\tau,x)$ as defined by 
 \begin{gather}
 |f_{\alpha}(\tau,x)-f_{\alpha,\Delta \omega }(\tau,x)| < e^{\alpha x} \frac{M_{\alpha, a}(\tau,x)}{\pi(e^{\frac{2\pi a}{\delta \omega}}-1)}
 \end{gather}
-Returning back to our function H(w),we know that it is analytic in the strip $A_a$, and concerning the last hypothesis the 
+Returning back to our function H(w),we know that it is analytic in the strip $A_a$, and concerning the last hypothesis, the graph \eqref{H(w)} proves the vanishing property of H. Thus we can substitute the bound provided by Trefethen and Weidman theorem for our quadrature error .
+For what concerns the truncation error we can say that H(w) decays rapidly. we could then truncate the infinite series at quite small |k| with negligible effect.
 
 
+\textcolor{blue}{Insert the graph and short comment }
 
 
 
@@ -933,7 +935,17 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 \label{4.14}
 \end{equation}
 
-\section{Results of the DFT and the FFT}
+\section{Evaluation of the FFT method }
+
+
+
+
+
+
+
+
+
+
 \section{conclusion }
 We have seen that a European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of computing an integral that involves the inner product of the terminal payoff and the density function we compute the integral of the inner product of the  Fourier transforms of these two components. This is convenient because in some cases the Levy process is known by its characteristic function.
 
