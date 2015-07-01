@@ -770,6 +770,8 @@ The efficiency of DFT lies in the choice of an appropriate truncated interval an
 
 
 Riemann-Lebesgue Lemma (Stenger, 1993) states that :\\ If f $\in L^1(\mathbb{R}$) and F is the Fourier transform of f, then  $\lim\limits_{x \rightarrow \pm \infty} F(\omega)=0$\\
+\jcom{I would include a precise citation for this. Also, this is a nice general remark for the fourier transform, but aren't we implicitly
+assuming regularity in the $L_2$ sense?}
 
 Thus we could say that $H(\omega)$ is vanishing at infinity and starting from a certain point we can truncate it. In order to better choose [$\omega_{min},\omega_{max}$] , we represent below H($\omega$) for the Merton model. The function is plotted for the same previously chosen values of the Merton model parameters taken from (Andersen and Andreseasen ,2001):\\ 
 $ r =5.59 \%,\quad \sigma=17.65\%,\quad  \lambda=8.90\%, \alpha=2,\quad \upsilon = -88.98\%,\quad  \delta=45.05\% \quad T=1 year,\quad x=log(\frac{S_t}{S0})=1 $ 
@@ -787,6 +789,7 @@ $\omega_{max}=(N-\frac{1}{2})\Delta \omega=15$\\
 $\Delta \omega= \frac{\omega_{max}}{N-\frac{1}{2}}$
 
 \end{center} 
+\jcom{Like I explained earlier, one may not choose the cutoff in this way. Come back to the counterexample I gave you on a whiteboard where the characteristic function is asymptotically $\bigo{\absval{\omega}^{-1}}$. If you want to do the cutoff using a fixed cutoff point that assures that the truncation error has at most the magnitude of the floating point errors, you need to give justification for it and possibly explain the tradoffs that come with that choice, namely poorer convergence.}
  
 Once $\omega_{max}$ is picked up we just need to choose the number of quadrature points N and we will obtain an approximated option price .
 \section{Closed-Form option valuation for the Merton Model}
@@ -807,7 +810,9 @@ $r_k=r-\lambda(E^Y-1)+k \frac{log(\epsilon)}{\tau}$\\
 \end{center} 
 $E^Y$ is the mean of the jump size, for the Merton model $E^Y = e^{\upsilon+\frac{1}{2}\delta^2}$(the jump $\sim$ N($\upsilon,\delta^2$) )
 
-Although an infinite series appears in the formula of $\pi$, the following graphs proves that  generally within  10 to 15 iterations the price converges to a certain value that will be later considered  as a reference for the other methods. N denotes the number of iterations that are carried out in the sum \eqref{sum2}.
+Although an infinite series appears in the formula of $\pi$, the following graphs proves that  generally within  10 to 15 iterations the price converges to a certain value that will be later considered  as a reference for the other methods.
+\jcom{Do you have a plot that shows how your different methods converge to the same result?}
+N denotes the number of iterations that are carried out in the sum \eqref{sum2}.
 
 
 
@@ -831,7 +836,8 @@ To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ o
 
  
 The error of an N-point approximation converges at an incredible $\mathbb{O}$ ($-\frac{c}{N^2}$ )rate
-
+\jcom{Please produce a plot and put your stated line as a reference line. Also please include the derivation of what you assume for
+this stated result to hold. My understanding is that this is true for non-hardy functions whose second derivative is boudned on closed intervals.}
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
