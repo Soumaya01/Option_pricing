@@ -830,16 +830,7 @@ Using Andersen $\&$ Andreseasen parameters, we will get the following figure:
 To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ of the method.
  $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
 
-<<<<<<< HEAD
 
-
-
-
- 
-The error of an N-point approximation converges at an incredible $\mathbb{O}$ ($-\frac{c}{N^2}$ )rate
-\jcom{Please produce a plot and put your stated line as a reference line. Also please include the derivation of what you assume for
-this stated result to hold. My understanding is that this is true for non-hardy functions whose second derivative is boudned on closed intervals.}
-=======
  The error of an N-point approximation converges at an incredible $\mathbb{O}$($-\frac{c}{N^2}$) rate. Actually, (Strenger, 1993)  assumes that the error coming from the midpoint rule is  $\epsilon_Q=\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2$ , if 
  $H$ $\in  \emph{C}^2$, where $\eta$ depends on N. We can suppose that the error coming from the truncation is a constant $\epsilon_T=c$. 
 Thus, 
@@ -848,8 +839,8 @@ Thus,
 =&\frac{H^{''}(\eta)}{24N^2} \omega_{max}^2+c \nonumber \\
 =&\frac{C_1}{N^2}+c_2
 \end{align}
-
->>>>>>> c4baf6b10f3a39126f6c2b705361fd6b2d699aa0
+\jcom{Please produce a plot and put your stated line as a reference line. Also please include the derivation of what you assume for
+this stated result to hold. My understanding is that this is true for non-hardy functions whose second derivative is boudned on closed intervals.}
 
 \section{Fast Fourier Transform Algorithm}
 The Fast Fourier Transform algorithm is numerically, efficient method to calculate Discrete Fourier Transform DFT. It was originally developed by Gauss (1805), but not recognized until Cooley and Tukey worked on it(1965).
