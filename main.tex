@@ -69,7 +69,7 @@ $
 \chapter{Black-Scholes-Merton model and its limitations}
 \section{Black -Scholes-Merton model}
 The Black-Scholes-Merton (or Black and Scholes ) model for evaluating the premium of an option was introduced in 1973 by three economists – Fischer Black, Myron Scholes and Robert Merton (Hull, 2009). They developed a formula to calculate the price of European put and call options. This model has become the world's most well-known options pricing formula and has had a significant influence on the way options was traded and priced.\\
-\jcom{I am still afraid that the beginning of the introduction is somewhat abrupt, as at this point, the whole concept of an option has not been introduced.}
+
 
 Black-Scholes-Merton model assumes that the price, $S_t$, of an asset follows a geometric Brownian motion,
 % equation non centrée
@@ -81,16 +81,16 @@ where $\mu$ and $\sigma$ are known constants,
 denoting respectively the expected return and the volatility of the asset and $W_t$ is a standard Brownian motion with drift (the Brownian motion will be further described later on in this chapter) .\\
 
 
-Before considering the Black-Scholes option price it is  important to understand the Brownian motion process that has been widely used to determine \jcom{What do you mean by determining return distributions of assets} the return distributions of assets. The Brownian motion is a particular type of Markovian stochastic process, where only the present value of a variable is relevant for prediction the future.\\
+Before considering the Black-Scholes option price it is  important to understand the Brownian motion process that has been widely used to describe the return distributions of assets. The Brownian motion is a particular type of Markovian stochastic process, where only the present value of a variable is relevant for prediction the future.\\
 
 Consider a variable, $W_{t_{t \geqslant 0}}$,  following a Brownian motion, then it has the following properties :\\
 $1)~ W_0=0 $\\
-$2)~W_t$ is almost surely  continuous in t.\jcom{At this stage, it is not clear what almost surely means. In fact, there is no mention of a random variable at this point.}\\
+$2)~W_t$ is almost surely (with probability 1) continuous in t.\\
 $3)~$ The change of $\Delta W_t$ in a  period of time $\Delta t$ is : 
 \begin{gather}
-\Delta W_t= \sqrt{\Delta t}~ N(0,1)
+\Delta W_t= \sqrt{\Delta t}~
 \end{gather}
-where N is the standard normal distribution .\\
+where  is the standard normal distribution .\\
 $4)~$ The values of $\Delta W_t$ of any two disjoint different short intervals of time,$\Delta t$, are independent.\\ 
 \jcom{This notation is a bit unclear as it does not make a distinction between a random variable and a distribution that it follows.}
 
