@@ -18,6 +18,7 @@
 \usepackage{adjustbox}
 \usepackage{caption} 
 \usepackage{babel,blindtext}
+\usepackage[toc,page]{appendix}
 \titleformat{\paragraph}
 {\normalfont\normalsize\bfseries}{\theparagraph}{1em}{}
 \titlespacing*{\paragraph}
@@ -63,8 +64,8 @@ $
 \end{titlepage}
 
 
+\chapter*{Introduction}
 
-\part{Introduction}
 \chapter{Black-Scholes-Merton model and its limitations}
 \section{Black -Scholes-Merton model}
 The Black-Scholes-Merton (or Black and Scholes ) model for evaluating the premium of an option was introduced in 1973 by three economists – Fischer Black, Myron Scholes and Robert Merton (Hull, 2009). They developed a formula to calculate the price of European put and call options. This model has become the world's most well-known options pricing formula and has had a significant influence on the way options was traded and priced.\\
@@ -491,52 +492,6 @@ $ \eta_1= 10,~\eta_2= 5,~\lambda=1,~\sigma= 16\%,~r=5\%,~ p=0.4,~ q=0.6 ~ and ~T
 
 The values of the parameters \jcor{was}{were} taken from these \jcom{which references?} references in order to be able to benchmark the forward results \jcom{which forward results?} with the exact option price calculated in these papers .
 
-\subsection{Infinite activity pure jump models}
-
-If $\nu$ is an infinite measure, then we are talking about infinite activity Lévy processes. Two conditions should be verified by $\nu$ :\\
-- A finite number of large jumps $(|x|>1)$:
-$$\int_{|x|>1}|x|\nu( dx)< \infty $$
-- Small jumps $(|x|< 1)$ should have finite quadratic variation 
-
-$$\int_{|x|<1}x^2\nu( dx)< \infty $$
-In fact,by introducing the truncation function, $h(x)= x\mathbb{I}_{|x|< 1}$ as one of the possible forms \jcom{possible forms of what exactly? I cannot follow the text here?}, in the Lévy process we checked up these two conditions.
-\\
-
-\large\textbf{Variance Gamma model}\\
-
-Inside the classes of Lévy processes that allow to build a model for the dynamics of stock prices and have infinite activity, an attention was paid to the Variance Gamma model. This model was proposed by Madan and Seneta(1990) and Carr and Chang(1998) \jcom{citation} and unlike the finite activity models, it can capture the frequent and small jumps as well as infrequent and large ones.\\
-
-The idea of the variance gamma model is to change the time scale of the process by subordinating the Brownian motion to a gamma process. Initially, the variance of the Brownian motion is one, the variance of the changed Brownian motion is gamma distributed, thus, the model is called the \textit{ Variance Gamma  model}. \\   
-\jcom{What is $\gamma$ ???}
-
-Consider a traditional Brownian motion:
-
-\[B(t)=B(t,\mu,\sigma)=\mu t +\sigma W(t)\] 
-
-Then, the Variance Gamma model is constructed as below: 
-\begin{gather}
- (t; \mu,\sigma,\alpha,\beta)=B(\gamma(t,\alpha,\beta);\mu,\sigma) 
-\end{gather}
-
-
-There exist many representations of the VG Lévy measure , here is one of them :
-
- \[\nu_{VG}(y)= \begin{cases} 
-  \frac{K_+ e^{y \eta_+}}{y}~ if ~y >0 \\
-    
-    \frac{K_- e^{y \eta_-}}{y}~ if y \leq 0 
-         \end{cases}
-          \]
-Taking the following parameter values $\mu= 0.1,\sigma=0.2 \alpha=1 and \beta=1   $, will give us the following log-price simulated paths.
-\begin{figure}[h]
-
-\centering
-\includegraphics[scale=0.7]{VG.png} 
-\caption{Simulated log-price sample paths with Variance Gamma model }
-\end{figure}
-\jcom{What are the parameters for this model? How was the simulation carried out and why is there only very few jumps?}
-
-
 \chapter{Fourier Transform Methods For Option pricing }
 
 Various methods can be used to price an option when the underlying
@@ -590,8 +545,7 @@ In the following table we define the risk-neutral characteristic functions for o
 Merton model  & $r-\frac{\sigma^2}{2}-\lambda (e^{\alpha+\frac{\delta^2}{2}}-1)$ & $\psi (z)= i\mu^{RN}z - \frac{1}{2}\sigma^2  z^2 + \lambda (e^{i \alpha z - \frac{1}{2} \delta ^2 \sigma^2}-1)$  \\
  \hline
  Kou model  & $r-\frac{\sigma^2}{2}-\lambda \big(\frac{p \eta_+}{\eta_+ -1}-\frac{q \eta_-}{\eta_- + 1}-1\big)$ & $\psi (z)= i\mu^{RN}z - \frac{1}{2}\sigma^2  z^2 + i z \lambda \big(\frac{p}{\eta_+- i z}- \frac{q}{\eta_- + i z}\big) $   \\
-\hline
-Variance Gamma & drift of the Brownian motion & $\frac{-t}{\nu}~$log($1-\theta \nu z +\frac{\sigma^2 z^2 \nu}{2}$)  \\
+
 \hline
 \end{tabular}
 \end{center}
@@ -1034,7 +988,7 @@ The error coming from the FFT approach can be evaluated in term of the probabili
 $ \Delta y \sum_{k=0}^{N-1}p_{\tau}(y_k) \approx 1$
 \end{center}
  
-The truncation error is negligible, for the Merton model the probability density is assumed to be Gaussian. Thus we can observe a central peak that contains the important information of the process and beyond a certain point we can say by analogy to signal processing that noise appears thus the truncation is needed to reduce the error in the price approximation. 
+The truncation error is negligible, for the Merton model the probability density is assumed to be Gaussian. Thus we can observe a central peak that contains the important information of the process and beyond a certain point we can say by analogy to signal processing that noise appears thus the truncation is needed to reduce the error in the price approximation. \\
   
 
 Either we choose to work in the Fourier space or the real space the same relative error will be evaluated as demonstrated before. The following graph shows the relative error of this method computed in the real space with Anderson and Andersen parameters value. We can remark that the relative error has shown a steady decline for $N < 10^4$ and keeps stable with an error in order of $10^{-6}$ after this value.The error of this method is not surprisingly  higher than the DFT method because the price was estimated without having an analytic form expression of the probability density. This converge plot proved the efficiency of this method in option pricing under under such condition.  \\
@@ -1097,26 +1051,61 @@ Every time we calculate the primitive of the payoff we are moving from a functio
 
 \section{Evaluation of the method }
 
-The total error $\epsilon$ of the integration by parts method can be split into three components denoted respectively by $\epsilon_{FFT}$, $\epsilon_T$ and $\epsilon_Q$: error that comes from  the FFT technique to approximate the density samples  , error from approximating the integral in \eqref{N-point} by a sum over N points and error due to the truncation of the density function.\\
-\begin{center}
-$|\epsilon|=|\epsilon_Q+\epsilon_T+\epsilon_{FFT}|$\\
-$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|+|\epsilon_{FFT}|$\\
-\end{center}   
-As we have the same source of error ,the latter can be interpreted as in the previous method. 
+The total error $\epsilon$ of the integration by parts method can be split into three components as the previous method. What distinguish the integration by parts is its quadrature error,the fact that we are applying the trapezoidal rule on more regular function makes it converge faster and by regularity we mean a continuous function that has a first derivative function.
+
+Generally the truncation and the FFT errors are dominated by the quadrature error. Thus, we expect the overall error of this method TO converge faster than the previous one.
+
+The first graph represents the relative error of the integration by parts computed with Anderson and Andersen parameters. Here we can remarkably see that the total error converges within $N = 10^3 < 10^4 $ and stabilize  approximately in $\epsilon=10^-7$\\
+
+The second graph proves the effect of the gain in regularity.As we moved from a differentiable to a twice differentiable function, we can see that for the range of quadrature points such that $N > 10^3$ the integration by parts is faster than before
+
 \begin{figure}[H]
 
 \centering
-\includegraphics{Integrationbp.png} 
+\includegraphics[scale=0.7]{Integrationbp.png} 
 \caption{Error of the integration by parts method}
 \end{figure}
  
+\begin{figure}[H]
+
+\centering
+\includegraphics[scale=0.7]{1st2nd.png} 
+\caption{Comparing the first and the second derivative}
+\end{figure}
 \chapter{Conclusion }
 We have seen that a European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of computing an integral that involves the inner product of the terminal payoff and the density function we compute the integral of the inner product of the  Fourier transforms of these two components. This is convenient because in some cases the Levy process is known by its characteristic function.
 
 [the characteristic function  of the Levy process is easier to be handled than the density function itself.]\\
 
+\newpage
+\appendix
+\section{Appendix 4.5} \label{App:AppendixA}
+In the following part we detail the expression of $f(x,\tau)$ used in chapter 4 equation \eqref{moneq}
+\begin{align*}
+f(x,\tau)=& e^{-r\tau}\expp{g \parent{X_T}|X_{T-\tau} = x}\\
+&=\expp{g \parent{X_T}|X_{t} = x}\\
+&=\int_{-\infty}^{\infty}g(y)p(X_T =y|X_t = x) dy 
+\end{align*}
+Here we develop the expression of the the conditional probability density based on Levy processes properties:
+\begin{align*}
+p(X_T =y|X_t = x,X_0=0)=&\frac{p(X_T-X_{T-\tau}=y-x)\cap p(X_{T-\tau}=x)}{ p(X_{T-\tau}=x)}\\
+=&\frac{p(X_T-X_{T-\tau}=y-x) \cdot p(X_{T-\tau}=x)}{ p(X_{T-\tau}=x)},~ \text{Independent increments}\\
+=&p(X_T-X_{T-\tau}=y-x),~ \text{Stationary increments}\\
+=&p_{T-(T-\tau)}(y-x)\\
+=&p_{\tau}(y-x)
+\end{align*}
+\section{Appendix } \label{App:AppendixB}
+In the following part we detail the expression of $\hat{g}_{\alpha}$
+\begin{align*}
+\hat{g}_{\alpha}=&\int_{\mathbb{R}} e^{i\omega x}e^{-\alpha x}g(x)dx\\
+=&\int_{\mathbb{R}} e^{(i\omega+\alpha) x}(S_0(e^x-e^k))\\
+=& S_0 \int_{k}^{\infty} e^{(i\omega+\alpha) x}(e^{x}-e^{k})\\
+=& S_0 \frac{e^{(1-\alpha+i\omega)k}}{(1+i\omega-\alpha)(i \omega-\alpha)}
+\end{align*}
+
+\newpage
+
  \begin{thebibliography}{1}
- 
   \bibitem{notes} Hull.J.C. {\em options futures and other derivatives ($7^{th}$ edition)}  2009.
 \bibitem{NOTES}Merton. R.C.{option Pricing when the underlying stock returns are discontinuous} 1976
 \bibitem{notes}Cont.R and Tankov.P {\em Financial Modelling with Jump processes}
@@ -1130,7 +1119,5 @@ Based on Sinc andAnalytic Functions}
 and Numerical Methods for Option Pricing},2000.
 \bibitem{notes} Trefethen.L and Weidman.J.A.C.{\em The Exponentially  Convergent  of Trapezoidal  Rule}.2013
 \end{thebibliography}{1}
-\appendix
-
  
 \end{document}
