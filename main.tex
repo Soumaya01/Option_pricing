@@ -865,8 +865,6 @@ For what concerns the truncation error we can say that H(w) decays rapidly. we c
 
 
 
-\textcolor{blue}{Insert the graph and short comment }
-
 
 
 \section{Fast Fourier Transform Algorithm}
@@ -1017,14 +1015,33 @@ The left part of the equality represents an approximation of the integral in rea
 
  Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
 \section{Evaluation of the method}
-Either we choose to work in the Fourier space or the real space the same error we will do 
-The total error $\epsilon$ of this method can be split into three components denoted respectively by $\epsilon_{FFT}$, $\epsilon_T$ and $\epsilon_Q$: error that comes from  the FFT technique to approximate the density samples  , error from truncating and  approximating the integral in \eqref{{ff}} by a sum over N points.\\
+
+The total error $\epsilon$ of this method can be split into three components denoted respectively by $\epsilon_{FFT}$, $\epsilon_T$ and $\epsilon_Q$: error that comes from  the FFT technique to approximate the density samples, error from truncating and  approximating the integral in \eqref{ff} by a sum over N points.\\
+
 \begin{center}
 $|\epsilon|=|\epsilon_Q+\epsilon_T+\epsilon_{FFT}|$\\
 $|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|+|\epsilon_{FFT}|$\\
-\end{center}   
-\begin{figure}[H]
+\end{center} 
 
+As the function under the integral is not analytic we are not able to apply the previous Strenger bound .Nevertheless, Strenger assumed that generally the quadrature error verifies :
+\begin{center}
+$|\epsilon_Q| \leq \frac{c}{N^2}$
+\end{center}
+where c is a constant that depends on the interval $[0 ,y^*]$ and $\Delta y$.
+
+The error coming from the FFT approach can be evaluated in term of the probability density samples.In fact, we can verify that :
+\begin{center}
+$ \Delta y \sum_{k=0}^{N-1}p_{\tau}(y_k) \approx 1$
+\end{center}
+ 
+The truncation error is negligible, for the Merton model the probability density is assumed to be Gaussian. Thus we can observe a central peak that contains the important information of the process and beyond a certain point we can say by analogy to signal processing that noise appears thus the truncation is needed to reduce the error in the price approximation. 
+  
+
+Either we choose to work in the Fourier space or the real space the same relative error will be evaluated as demonstrated before. The following graph shows the relative error of this method computed in the real space with Anderson and Andersen parameters value. We can remark that the relative error has shown a steady decline for $N < 10^4$ and keeps stable with an error in order of $10^{-6}$ after this value.The error of this method is not surprisingly  higher than the DFT method because the price was estimated without having an analytic form expression of the probability density. This converge plot proved the efficiency of this method in option pricing under under such condition.  \\
+
+
+ 
+\begin{figure}[H]
 \centering
 \includegraphics{2.png} 
 \caption{Relative error of the method}
@@ -1085,21 +1102,7 @@ The total error $\epsilon$ of the integration by parts method can be split into 
 $|\epsilon|=|\epsilon_Q+\epsilon_T+\epsilon_{FFT}|$\\
 $|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|+|\epsilon_{FFT}|$\\
 \end{center}   
-
-As the function under the integral is not analytic we are not able to apply the previous Strenger bound .Nevertheless, Strenger assumed that generally the quadrature error verifies :
-\begin{center}
-$|\epsilon_Q| \leq \frac{c}{N^2}$
-\end{center}
-where c is a constant that depends on the interval $[0 ,y^*]$ and $\Delta y$.
-
-The error coming from the FFT approach can be evaluated in term of the probability density samples.In fact, we can verify that :
-\begin{center}
-$ \Delta y \sum_{k=0}^{N-1}p_{\tau}(y_k) \approx 1$
-\end{center}
- 
-The truncation error is negligible, for the Merton model the probability density is assumed to be Gaussian. Thus we can observe a central peak that contains the important information of the process and beyond a certain point we can say by analogy to signal processing that noise appears thus the truncation is needed to reduce the error in the price approximation. 
- 
-
+As we have the same source of error ,the latter can be interpreted as in the previous method. 
 \begin{figure}[H]
 
 \centering
