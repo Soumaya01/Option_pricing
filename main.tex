@@ -822,7 +822,7 @@ Using Andersen $\&$ Andreseasen parameters, we will get the following figure:
 \section{Evaluation of the DFT methods }
 \textbf{Error Analysis }
 To evaluate the DFT we need to identify and quantify the total erro $\epsilon$ of the method.
- $\epsilon$ can be splited into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
+ $\epsilon$ can be split into a sum of two terms: the quadrature and truncation errors denoted respectively by $\epsilon_Q$ and $\epsilon_T$. The former is the error from the approximation of the integral in \eqref{ghat} by an infnite sum, while the latter is due to the truncation of the infnite sum to a sum over N points .\\
 \begin{center}
 $|\epsilon|=|\epsilon_Q+\epsilon_T|$\\
 $|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|$\\
@@ -856,6 +856,15 @@ Returning back to our function H(w),we know that it is analytic in the strip $A_
 For what concerns the truncation error we can say that H(w) decays rapidly. we could then truncate the infinite series at quite small |k| with negligible effect.
 
 
+\begin{figure}[H]
+
+\centering
+\includegraphics{DFT.png} 
+\caption{Error the DFT method}
+\end{figure}
+
+
+
 \textcolor{blue}{Insert the graph and short comment }
 
 
@@ -877,14 +886,14 @@ If we consider how much complication is involved in this DFT we will find :
 - N-1 complex additions. \\
 - We need to repeat that for k=0,...,N-1\\
 
-In total, we need ~$O(N(N+N-1)) \approx O(N^2)$ \jcom{ why $\approx$ } operations to evaluate the quadrature rule for N asset value points. The FFT reduces significantly the complexity from order $O(N^2)$ to order $O(N log_2N)$.\\
+In total, we need ~$O(N(N+N-1)) = O(N^2)$  operations to evaluate the quadrature rule for N asset value points. The FFT reduces significantly the complexity from order $O(N^2)$ to order $O(N log_2N)$.\\
  Although it appears to  have the same computation time, will figure out that FFT makes  a big difference when N is very large.
 \begin {table}[h!]
 \begin{center}
- \begin{tabular}{||c c c ||} 
+ \begin{tabular}{|c |c |c |} 
  \hline
 N & $N^2$ & N $log_2 N$ \\ [0.5ex] 
- \hline\hline
+ \hline
  100 & $10^6$ & $10^4$ \\ 
  \hline
  $10^6$ & $10^{12}$ & $20.10^6$ \\
@@ -899,18 +908,16 @@ N & $N^2$ & N $log_2 N$ \\ [0.5ex]
 
  As we see when N is large the FFT reduces the amount of time that usual DFT takes to perform the option price. we will also see that it provides an efficient way of computing the previous bound eq \eqref{FFT} for several values of x at the same time.\\
 
- We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way to enter a vector and a matrix \jcom{Why not define the matrix and the vector that you use as inputs?} as inputs in order to obtain a sequence of option prices for different spot values of the asset. 
+ We can clearly notice that the summation in \eqref{fret} is not a direct application of the FFT algorithm. We need to modify it in a way to enter a vector and a matrix as inputs in order to obtain a sequence of option prices for different spot values of the asset. 
 
 We consider the following frequency and log-price domains :
 \begin{center}
-$\omega_k=\omega_{min}+k\Delta _omega$ for ~~~ k=0,...,~N-1\\
+$\omega_k=\omega_{min}+k\Delta \omega$ for ~~~ k=0,...,~N-1\\
 $x_j=x_{min}+j\Delta x$ ~~~ j=0,...,~N-1
 \end{center}
-\jcom{typos?}
 
-Here $\Delta x$ and $\Delta \omega$ are the grid spacing or the discretization steps,    $\omega_{k_{0\leq k <N }}$ and $x_{j_{0\leq j <N }}$ are 
-\jcom{Is this subscript as you meant it?}
-equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the integration domains.\\
+
+Here $\Delta x$ and $\Delta \omega$ are the grid spacing or the discretization steps,    $\omega_{k_{0\leq k <N }}$ and $x_{j_{0\leq j <N }}$ are equidistant points, $\omega_{min}$ and $x_{min}$ are the lower limits of the integration domains.\\
 
 Using these grids, we can rewrite the integral that appears in the formula \eqref{fret} as follows:
 
@@ -921,7 +928,7 @@ f_{\alpha,\Delta \omega, n}(x_j)=&\frac{\Delta \omega}{2\pi} \sum \limits_{i=-N}
 \\=&\frac{\Delta \omega}{2\pi}
 \label{fret}e^{-i \omega_{min} (x_{min}+j\Delta x) } \sum \limits_{k=0}^{N-1} e^{-i\Delta \omega \Delta x j k} e^{-i k x_{min} \Delta \omega}\hat{f}_{\alpha}(\omega_k,\tau) \nonumber
 \end{align}
-One more condition must be necessarily verified before performing the FFT \jcom{This is probably worth explanation too}:
+One more condition must be necessarily verified before performing the FFT in order to obtain the same form as in eq \eqref{FFT}, we must set :
 \begin{center}
 $\Delta \omega \Delta x = \frac{2 \pi}{N}$
 \end{center} 
@@ -935,21 +942,6 @@ By setting $h_k=  e^{-i k x_{min} \Delta \omega } \hat{f}_{\alpha}(\omega_k,\tau
 \label{4.14}
 \end{equation}
 
-\section{Evaluation of the FFT method }
-
-
-
-
-
-
-
-
-
-
-\section{conclusion }
-We have seen that a European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of computing an integral that involves the inner product of the terminal payoff and the density function we compute the integral of the inner product of the  Fourier transforms of these two components. This is convenient because in some cases the Levy process is known by its characteristic function.
-
-[the characteristic function  of the Levy process is easier to be handled than the density function itself.]\\
 \chapter{Extension of the FFT method }
 
 As we have seen so far, if we have the Fourier transform of the payoff and the characteristic function, we are almost always able to apply the Fourier transform approach in order to reconstruct $f$ from $\hat f$ .\\
@@ -957,8 +949,8 @@ As we have seen so far, if we have the Fourier transform of the payoff and the c
 
 In this chapter we will introduce a method allowing us to obtain an option price even if we have an analytical form expression of the payoff and the characteristic function but we do not know a closed form expression of the Fourier transform of the payoff and the probability density functions. Thus, we will have more flexibility to compute the expectation integral in the real space and the Fourier space .\\ 
 
-The aim of this chapter is to develop a mathematical formulation based on Parseval equality  and followed by a numerical convergence approximation to prove that using an FFT technique applied on the payoff (in case we compute the inner product in the real space) or applied on the characteristic function (in case we compute the inner product in the Fourier space), we will get exactly the same option price.\\
-\textcolor{blue}{ I reformulated what i meant } \\
+The aim of this chapter is to develop a mathematical formulation based on Parseval equality  and followed by a numerical convergence approximation to prove that using an FFT technique applied on the payoff (in case we compute the inner product in the Fourier space) or applied on the characteristic function (in case we compute the inner product in the real space), we will get exactly the same option price.\\
+
 
 \newpage
 
@@ -973,47 +965,45 @@ As explained before, we will prove that without knowing the expression of $\hat 
 $\mathbf{{p_T}(x) ?}$ ~  $\leftarrow$ ~  $ \varphi (\omega)$
 \end{center}
 
-We know that the option price is given by \jcom{Why repeat \eqref{moneq}}
-\begin{align*}
-\pi(\tau,x)= & e^{-r\tau} \expp{g(x)|X_{T-\tau} = x}\\
-\label{ff}
-=& e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy \\
+We know that the option price is given by:
+\begin{align}
+\pi(\tau,x)=& e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy \nonumber \\
 \simeq  & e^{-r\tau} \sum_{i=-N}^{N}g(y_i)p_{\tau} (y_i-x)
-\end{align*}
+\label{ff}
+\end{align}
+
 \textbf{Parseval's Theorem } : \\
-The Parseval equality \jcom{cite!} in the discrete space states that: 
+The Parseval equality in the discrete space states that: 
 \begin{center}
 \label{sum}
 $\sum \limits_{n=0}^{N-1} x(n)y^*(n)= \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)$
 \end{center} 
 where $\{X(k), Y(k)\}_{-N \leq k \leq N} = \mathcal{F} \{ x(n),y(n)\}_{-N \leq n \leq N} $ represents the discrete  Fourier transform respectively of x(n) and y(n).
-\jcom{}\\
 
 Using the Parseval equality we can say that :
 \begin{align}
 \sum_{i=-N}^{N}g(y_i)p_{\tau}(y_i-x)=\frac{1}{N}\sum_{k=-N}^{N}\hat {g}(\omega_k)\varphi^*(\omega_i-x)
 \end{align}
 this equality is a required prior for the proof, now we should use the FFT approach to extract a vector of the distribution function from the characteristic function.
-As we know the distribution function is the inverse fourier transform of the characteristic function :
+As we know the distribution function is the inverse fourier transform of the characteristic function.\\ Thus:
 \begin{align*}
 p_T(x)=&\frac{1}{2 \pi}\int_{\mathbb{R}}e^{-i \omega x } \varphi(\omega) d\omega\\
 \simeq &\frac{1}{2 \pi}\sum_{k=0}^{N-1}e^{-i \omega_k x } \varphi(\omega_k) \\
 \end{align*}
 To recover a distribution vector measured at N points we should  apply the same steps as in eq \eqref{4.14}, we will get :
 \begin{align}
-p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \\
-\nonumber
-=&\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N\\
-\label{denstrans}
+p_T(x_j)=&\frac{1}{2 \pi} e^{- w_{min} x_j}\sum_{k=0}^{N-1} e^{- i k \frac{2 \pi}{N}} e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \nonumber \\
+=&\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
+\label{destrib}
 \end{align}
-\jcom{this lacks weights. Furthermore the same inner product arguments have been repeated quite a few times here. I recommend writing
-them only once and referring to them later on. The same goes for the definitions of the fourier transform and the FFT algorithm.}
-The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
-\begin{align*}
-\hat g (\omega_k)=& e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N\\
-\end{align*}
 
-Substituting each element of the Parseval equality with its corresponding expression, we will find the following equality :
+The same approach is followed to obtain ${\hat g (\omega_k) } from ~g(x_j)$:
+\begin{align}
+\label{g}
+\hat g (\omega_k)=& e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) ~~for~ 0 \leqslant k < N
+\end{align}
+
+Substituting each element of the Parseval equality with its corresponding expression eq \eqref{destrib} and eq \eqref{g}, we will find the following equality :
 \begin{equation}
 \label{sum}
 \sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(y_j) p_{\tau}(y_j-x)\\
@@ -1023,58 +1013,26 @@ Substituting each element of the Parseval equality with its corresponding expres
 \label{rm2}
 \frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
 \end{equation}
-The left part of the equality represents an approximation of the integral in real space and the  right part is the integral in the Fourier space. Hence, this equality proves that working in the first space or the other give exactly the same price.\\
-\jcom{I understand that you claim to have proven the quality of the right hand sides of equations \eqref{sum} and \eqref{rm2}.
-However, I don't see how this is proven. Furthermore, the furthest right hand side of \eqref{pr} does not depend on the payoff function,
-whereas \eqref{rm2} does. I do not see how these two statements are equal unless they are both zero.}
-\textcolor{blue}{ i have detailed the previous steps, i hope this is more clear , i will put the plots when i finish writing  } \\
-
-\jcom{
-If I got this right, the previous version of \eqref{sum} was.
-\begin{equation}
-\sum \limits_{j=0}^{N-1} x(n)y^*(n)= \sum \limits_{j=0}^{N-1} g(x_j) p_t(x_j)\\
-=\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
-\end{equation}
-whereas \eqref{rm2} was
-\begin{equation}
-\frac{1}{N} \sum \limits_{k=0}^{N-1} X(k)Y^*(k)=\frac{1}{N}\sum \limits_{k=0}^{N-1} \hat{g}(\omega_k) \varphi(\omega_k)=\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
-\end{equation}.
-I see that the end result has changed and as far as the right hand sides are concerned, the change has been the following:
-\begin{align}
-&\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
-\\
-\nonumber
-\mapsto&
-\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} g(y_j)e^{- iw_{min} (y_j-x)} \text{FFT} \big ( e^{-i \Delta\omega (y_{min}-x) } \varphi(\omega_k) \big)
-\\
-&\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} iFFT\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
-\nonumber
-\\
-\mapsto& 
-\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
-\end{align}
-However, in the text part you claim, that the result is not dependent on which transform one makes. Thus, in the previous
-version I would have liked to see a proof for
-\begin{align}
-\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} e^{- iw_{min} x_j} FFT\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big)
-=
-\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
-\end{align},
-or as the current version of your manuscript stands,
-\begin{align}
-\frac{1}{2 \pi}\sum \limits_{j=0}^{N-1} g(y_j)e^{- iw_{min} (y_j-x)} \text{FFT} \big ( e^{-i \Delta\omega (y_{min}-x) } \varphi(\omega_k) \big)
-\nonumber \\
-=
-\frac{1}{N}\sum \limits_{k=0}^{N-1}e^{i w x_{min}} \text{iFFT}\big ( e^{i \Delta x w_{min} } g(\omega_j) \big) \varphi^*(\omega_k)
-\end{align}
-Isn't that what you are saying when you state "Hence, this equality proves that working in the first space or the other give exactly the same price."  or am I missing something here?
-}
+The left part of the equality represents an approximation of the integral in real space and the  right part is the integral in the Fourier space. Hence, this equality proves that working in the first space or the other give exactly gives the same price.\\
 
  Along these lines we could say that knowing the analytical expression of  more than two functions is perfect but this method works well when we know just the characteristic function of the Lévy process and the the payoff.  
+\section{Evaluation of the method}
+Either we choose to work in the Fourier space or the real space the same error we will do 
+The total error $\epsilon$ of this method can be split into three components denoted respectively by $\epsilon_{FFT}$, $\epsilon_T$ and $\epsilon_Q$: error that comes from  the FFT technique to approximate the density samples  , error from truncating and  approximating the integral in \eqref{{ff}} by a sum over N points.\\
+\begin{center}
+$|\epsilon|=|\epsilon_Q+\epsilon_T+\epsilon_{FFT}|$\\
+$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|+|\epsilon_{FFT}|$\\
+\end{center}   
+\begin{figure}[H]
+
+\centering
+\includegraphics{2.png} 
+\caption{Relative error of the method}
+\end{figure}
 \section{Second framework: integration by par parts }
 
-The methods that were previously developed have shown to have good overall average approximation of the option price. However, another method looks to be interesting especially when the fourier transform of the payoff for some option's type is difficult to be \jcor{analatycillly}{analytically} defined.\\
-With the integration by parts approach, instead of caculating the fourier transform, we just need to  determine the integral of the payoff.~Very often, this integral brings more regularity to the approximation (barrier option , European option) and it has a good rate of convergence.\\
+The methods that were previously developed have shown to have good overall average approximation of the option price. However, another method looks to be interesting especially when the fourier transform of the payoff for some option's type is difficult to be analytically defined.\\
+With the integration by parts approach, instead of caculating the fourier transform, we just need to  determine the integral of the payoff.~Very often, this integral brings more regularity to the approximation (barrier option , European option) , this regularity will improve the rate of convergence of the method.\\
 
 \textbf{ integration by parts Theorem }
 \begin{equation*}
@@ -1082,26 +1040,26 @@ With the integration by parts approach, instead of caculating the fourier transf
 \end{equation*}
 
 For our case the option price is always given by :
-\jcom{See earlier comments on redundance}
 \begin{gather*}
 \pi(x, \tau)=e^{-r\tau} \int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy 
 \end{gather*}
 for a fixed value of x, we set $p_{\tau}(y-x)=F(y) $\\
 Thus, 
-\begin{gather*}
-\int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy =\int_{\mathbb{R}}g(y)F(y)dy=[F(y) G(y)]_{\mathbb{R}} - \int_{\mathbb{R}} G(y) f(y)  dy
-\end{gather*}
+\begin{align*}
+&\int_{\mathbb{R}}g(y)p_{\tau}(y-x)dy =\int_{\mathbb{R}}g(y)F(y)dy\\
+&=[F(y) G(y)]_{\mathbb{R}} - \int_{\mathbb{R}} G(y) f(y)  dy\\
+&=[p_{\tau}(y) G(y)]_{\mathbb{R}} - \int_{\mathbb{R}} G(y) p'_{\tau}(y)  dy
+\end{align*}
 
-Where G(y) is the antiderivative of g(y), and f(y) is the derivative of F(y)
+Where G(y) is the antiderivative of $g(y)$, and $p'_{\tau}(y)$ is the derivative of F(y).
+We will see that the probability density can be truncated at some point$y^*$ with a negligible effect.Thus the price will be approximated by :
 
-As mentioned before the characteristic function is always easier to handle. \jcom{Please be more specific on what you mean by ease of handling} Thus we could use the derivation of the probability density samples from the characteristic function samples :
-\jcom{What does the equation below add to \eqref{denstrans} ??}
 \begin{gather}
-p_T(x_j)=\frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
-\end{gather}
-
-
-as we need samples of the derivative of the probability density we can use an important property of the Fourier transform illustrated by :
+\pi=-e^{-r\tau}\int_{0}^{y^*} G(y) p'_{\tau}(y)  dy \nonumber \\
+\simeq -e^{-r\tau} \Delta y \sum_{k=0}^{N-1}G(y_k) p'_{\tau}(y_k)
+\label{N-point}
+\end{gather} 
+In order to have a price approximation, we need to calculate the primitive of the payoff and the derivative of the probability density. we have already extracted a vector of the density using the FFT technique applied on the characteristic function \eqref{destrib} .To obtain samples of the derivative of the probability density we can use an important property of the Fourier transform illustrated by :
 \begin{gather*}
 f'(x)= i \omega \cdot \hat{f}(\omega)
 \end{gather*}
@@ -1110,7 +1068,49 @@ Thus,
 p'_T(x_j)= i \omega_j \cdot   \frac{1}{2 \pi} e^{- iw_{min} x_j} \text{FFT}\big ( e^{-i \Delta\omega x_{min} } \varphi(\omega_k) \big) ~~for~ 0 \leqslant j < N
 \end{gather}
 
-The payoff and the antiderivative of payoff are represented below:
+The main advantage of the integration by parts is bringing more regularity to the function on which we desire apply the Trapezoidal rule and thus improving the convergence of the method. Moreover, we could work with the second and the third derivatives of the density function.
+\begin{align*}
+&\int_{0}^{y^*}g(y)p_{\tau}(y-x)dy = -
+\int_{0}^{y^*} G(y) p'_{\tau}(y)  dy
+=\int_{0}^{y^*} {\cal{G}}(y) p''_{\tau}(y)dy
+=-\int_{0}^{y^*} {\mathbb{G}}(y) p'''_{\tau}(y)dy
+\end{align*}   
+
+Every time we calculate the primitive of the payoff we are moving from a function that has not a  first derivative to a function that has and that is more regular than its derivative. 
+
+\section{Evaluation of the method }
+
+The total error $\epsilon$ of the integration by parts method can be split into three components denoted respectively by $\epsilon_{FFT}$, $\epsilon_T$ and $\epsilon_Q$: error that comes from  the FFT technique to approximate the density samples  , error from approximating the integral in \eqref{N-point} by a sum over N points and error due to the truncation of the density function.\\
+\begin{center}
+$|\epsilon|=|\epsilon_Q+\epsilon_T+\epsilon_{FFT}|$\\
+$|\epsilon| \leq |\epsilon_Q|+|\epsilon_T|+|\epsilon_{FFT}|$\\
+\end{center}   
+
+As the function under the integral is not analytic we are not able to apply the previous Strenger bound .Nevertheless, Strenger assumed that generally the quadrature error verifies :
+\begin{center}
+$|\epsilon_Q| \leq \frac{c}{N^2}$
+\end{center}
+where c is a constant that depends on the interval $[0 ,y^*]$ and $\Delta y$.
+
+The error coming from the FFT approach can be evaluated in term of the probability density samples.In fact, we can verify that :
+\begin{center}
+$ \Delta y \sum_{k=0}^{N-1}p_{\tau}(y_k) \approx 1$
+\end{center}
+ 
+The truncation error is negligible, for the Merton model the probability density is assumed to be Gaussian. Thus we can observe a central peak that contains the important information of the process and beyond a certain point we can say by analogy to signal processing that noise appears thus the truncation is needed to reduce the error in the price approximation. 
+ 
+
+\begin{figure}[H]
+
+\centering
+\includegraphics{Integrationbp.png} 
+\caption{Error of the integration by parts method}
+\end{figure}
+ 
+\chapter{Conclusion }
+We have seen that a European option price can be obtained via samples of the characteristic function and the Fourier Transform of the payoff. Instead of computing an integral that involves the inner product of the terminal payoff and the density function we compute the integral of the inner product of the  Fourier transforms of these two components. This is convenient because in some cases the Levy process is known by its characteristic function.
+
+[the characteristic function  of the Levy process is easier to be handled than the density function itself.]\\
 
  \begin{thebibliography}{1}
  
@@ -1126,8 +1126,8 @@ Based on Sinc andAnalytic Functions}
 \bibitem{notes}  Andersen, L. and Andreasen, J. {\em Jump Diffusion Processes: Volatility Smile Fitting
 and Numerical Methods for Option Pricing},2000.
 \bibitem{notes} Trefethen.L and Weidman.J.A.C.{\em The Exponentially  Convergent  of Trapezoidal  Rule}.2013
- \end{thebibliography}{1}
-
+\end{thebibliography}{1}
+\appendix
 
  
 \end{document}
