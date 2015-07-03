@@ -313,7 +313,7 @@ To describe it more clearly, we consider a continuous time arrival process: $ W(
 \jcom{}{Impulse function is not really a function} every time an event occurs:
 \begin{figure}[H]
 \centering
-\includegraphics[scale=0.7]{poisson.jpg} 
+\includegraphics[scale=0.7]{arrival.png} 
 \caption{An arrival process in the interval time [0 u]}
 \end{figure}
 
@@ -1096,6 +1096,7 @@ In the following part we detail the expression of $\hat{g}_{\alpha}$
 \hat{g}_{\alpha}=&\int_{\mathbb{R}} e^{i\omega x}e^{-\alpha x}g(x)dx\\
 =&\int_{\mathbb{R}} e^{(i\omega+\alpha) x}(S_0(e^x-e^k))\\
 =& S_0 \int_{k}^{\infty} e^{(i\omega+\alpha) x}(e^{x}-e^{k})\\
+=& S_0 \frac{e^{(1-\alpha+i\omega)k}}{(1+i\omega-\alpha)(i \omega-\alpha)}=& S_0 \int_{k}^{\infty} e^{(i\omega+\alpha) x}(e^{x}-e^{k})\\
 =& S_0 \frac{e^{(1-\alpha+i\omega)k}}{(1+i\omega-\alpha)(i \omega-\alpha)}
 \end{align*}
 
