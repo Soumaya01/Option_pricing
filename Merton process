@@ -1,0 +1,36 @@
+function [p]= Merton_process(t)
+[lambda,N,r,S0,K,T,sigma,m,v]=Data_value_merton()
+[W]=bpath1(t)
+% alpha is the instantanuous return of the asset 
+%mu is the drift of the asset 
+N=100;
+k=(exp(m+0.5*v^2))-1;
+mu=r-(0.5*sigma^2)-(lambda*k);
+dT=t/N;
+% X represents The continuous log return of the asset with the black
+% and scholes model 
+X=zeros(1,length(W));
+for i=1:length(W)
+X(i)=mu*t+sigma*W(i);
+end
+% b contains two sources of randomness
+[b]= compound_poisson(lambda,t,m,v)
+Z=zeros(1,length(W));
+for i=1:length(W)
+Z(i)=X(i)+b;
+end
+p=Z(length(W));
+figure(4)
+plot([0:dT:t],[0,W],'b-',[0:dT:t],mu*[0:dT:t],'k-',[0:dT:t],[0,X],'r')
+grid on
+legend('brownian motion','Drift','Log return Xt BS model')
+title(['Black and Scholes model '])
+figure(5)
+plot([0:dT:t],[0,X],'r-',[0:dT:t],[0,Z],'g-')
+legend('Log return Xt BS model','Log return Xt Merton model')
+title(['Black and Scholes model Vs Merton model'])
+legend('The Black and Sholes model','The Merton model')
+end
+ 
+        
+     
