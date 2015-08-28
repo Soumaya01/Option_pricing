@@ -1,0 +1,31 @@
+function [y] = FFT_PRICES( N, Wmax)
+%Model parameters
+alpha=3;
+sigma = -0.1765; % Volatility
+r = 0.05; % Risk-free rate
+T = 1; % Time to maturity
+m= -0.8898; % Mean jump
+v= 0.4505; % Jump volatility
+S = 100; % Initial stock price
+K= 100; % Strike price
+lambda=0.089;
+% Parameters for the CF grid (0,Wmax)
+delta_w = (2*Wmax)./N; % Integration grid spacing
+k=(0:N-1);
+w0=-Wmax+0.5*delta_w ;
+w=w0+k *delta_w; % Support for integration 
+% Creation of the grid
+delta_x = (2*pi)./(N*delta_w); % Log-strikes grid spacing
+% x0 = -N*delta_x/2; % 1st pt of the log-strikes grid
+x0=0;
+x = x0+ (0:N-1)*delta_x; % Support for log-strikes
+% Application of the rules on the grid
+h= f_merton(alpha,w,T,lambda,r,S,K,sigma,m,v); % f_hat_alpha function values
+% on the integration grid
+h2 = delta_w * exp(-1i*x0*k*delta_w) .* h; % Function to integrate
+g = fft(h2); % Application of the FFT
+gg=exp(-1i*w0*x).*g;
+price = real(exp(-r*T)*exp(alpha*x)/(2*pi).*gg); % Normalized prices
+St=S*log(x);
+% St : Set of spot values
+end
