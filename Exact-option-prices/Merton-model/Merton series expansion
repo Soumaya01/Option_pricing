@@ -1,0 +1,11 @@
+f u n c ti o n c = MJD(type , So ,X,T, v , m , lambda , sigma , r ,N) 
+K = exp (m + 0.5 *vˆ2 ) − 1 ;
+c = 0 ;
+for n = 0 : N
+      sigma_n = sqrt ( sigmaˆ2 + n*vˆ2/T) ;
+r_n = r − lambda*K + n*log(1+K) /T;
+f_n = BS(type , So ,X, r n , 0 , sigma n ,T) ;
+c = c + exp(−lambda*(1+K)*T ) *(lambda*(1+K) *)ˆn * f_n /factorial(n) ;
+
+end
+end
