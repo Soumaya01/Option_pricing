@@ -1,10 +1,11 @@
+`Merton characteristic function
 
 function [ch]=charact_merton(t,w)
 [M]=Merton_exponent(w);
 ch=exp(t*M);
 end
 
-
+`Kou characteristic function
 function [ch]=charact_kou(t,w)
 [M]=Kou_exponent(w);
 ch=exp(t*M);
