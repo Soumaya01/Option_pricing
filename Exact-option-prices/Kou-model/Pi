@@ -1,0 +1,3 @@
+function out=Pi(n , lambda ,T)
+out=(exp(-lambda*T)*lambda^n) / (factorial (n) ) ;
+end
