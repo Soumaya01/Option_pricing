@@ -1,0 +1,15 @@
+function [lambda,N,r,S0,K,T,sigma,p,q,mu1,mu2]=Data_value_kou()
+%General parametrs 
+S0=100; %the stock value
+K=98; % the strike value
+r= 0.05; % the risk free interest rate 
+T=1 ;%years
+%Parametrs of the Merton model
+sigma=0.16; % the asset volatility/diffusion volatility
+N=100; % the number of steps in the brownian motion
+lambda=1;% the intensity of the poisson process
+p=0.4;
+q=0.6;
+mu1=10;
+mu2=5;
+end
