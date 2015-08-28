@@ -1,0 +1,17 @@
+
+```html
+   // 
+Value of Merton parameters value 
+function [lambda,N,r,S0,K,sigma,m,v]=Data_value_merton()
+%General parametrs 
+S0=100; %the stock value
+K=100; % the strike value
+r= 0.05; % the risk free interest rate 
+%Parametrs of the Merton model
+sigma=0.1765; % the asset volatility/diffusion volatility
+N=50; % the number of steps in the brownian motion
+lambda=0.089;% the intensity of the poisson process
+v=0.4505; %the standard deviation of the jumps 
+m=-0.8898; %The mean of the jumps
+end
+```
