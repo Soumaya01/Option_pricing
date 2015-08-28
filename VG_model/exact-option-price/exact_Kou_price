@@ -1,0 +1,19 @@
+function out = price(type , S0 ,X, r , sigma , lambda , p , eta1 , eta2 ,T) 
+q=1-p ;
+if eta1 <=1 && eta2<=0
+out=0;
+else
+zeta=(p* eta1 ) / ( eta1 -1)+(q* eta2 ) / ( eta2+1)-1;
+p_tilde =(p/(1+ zeta ) ) *( eta1 / ( eta1 -1) ) ;
+q_tilde=1-p_tilde;
+eta1_tilde=eta1 -1;
+eta2_tilde=eta2 +1;
+lambda_tilde=lambda *( zeta+1) ;
+call=S0*Psi( r+sigma^2/2-lambda* zeta , sigma , lambda_tilde ,p_tilde, q_tilde , eta1_tilde , eta2_tilde, log (X/S0 ),T) -X*exp(-r *T) *Psi(r-sigma^2/2-lambda* zeta , sigma ,lambda , p , q , eta1 , eta2 , log (X/S0 ) ,T) ;
+if type==1
+out =call;
+else
+put = X*exp(-r*T)-S0+call ;
+out=put ;
+end
+end
