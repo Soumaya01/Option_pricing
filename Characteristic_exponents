@@ -1,0 +1,16 @@
+`Merton characteristic exponent
+
+function [M]=Merton_exponent(z)
+[lambda,r,S0,K,sigma,m,v]=Data_value_merton();  
+mu=r-0.5*sigma^2-lambda*[exp(m+0.5*v^2)-1];
+M=0.5*(sigma^2*z^2)+(mu*z)+lambda*[exp(0.5*v^2*z^2+m*z)-1];
+end`
+
+`Kou characteristic exponent
+
+function [M]=kou_exponent(w)
+[lambda,r,S0,K,sigma,p,q,mu1,mu2]=Data_value_kou();
+ku=((p*mu1/(mu1-1))-(q*mu2/(mu2+1))-1);
+mu=(r-0.5*sigma^2-lambda*ku);
+M=(sigma^2*w^2)/2+(mu*w)+w*lambda*((p*mu1/(mu1-w))-(q*mu2/(mu2+w))-1);
+end`

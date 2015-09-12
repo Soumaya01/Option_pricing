@@ -1,0 +1,16 @@
+function [out] = Hh(n , x )
+if n== (-1)
+out= sqrt(2* pi )*normpdf(x , 0 , 1 ) ;
+end
+if n==0
+out= sqrt(2*pi ) * normcdf(-x , 0 , 1 ) ;
+end
+if n>0
+v ( 1 )=sqrt(2* pi ) *normpdf(x , 0 , 1 ) ;
+v ( 2 )=sqrt(2* pi ) *normcdf(-x , 0 , 1 ) ;
+for i =3:n+2
+v( i ) =(1/(i - 2) ) * v ( i-2)-x*v ( i -1)  ;
+end
+out=v (n+2) ;
+end
+end

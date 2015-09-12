@@ -1,0 +1,6 @@
+function out = Psi (mu, sigma , lambda , p , q , eta1 , eta2 , a ,T)
+sum old= Pi ( 0 , lambda ,T) *normcdf(−(a−mu*T) / (sigma *sqrt(T) ), 0 , 1 ) ;
+n=1;
+dif =1;
+out=sum_old ;
+end

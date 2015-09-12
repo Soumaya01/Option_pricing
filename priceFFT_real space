@@ -1,0 +1,51 @@
+function [density]=FFT_real(charact)
+t=1; 
+r=0.05;
+S0=100;
+K=100;
+k=log(K/S0);
+N = 2^11;
+Nss=(1:N);
+dy = 14/N;
+dw = (2*pi / N)/dy ; 
+% //y0 = -(N-1)*dy/2
+% Define the grid of Y (in the real space )and W (in the fourier space)
+y0 = 0;
+w0 = -(N-1)*dw/2;
+Yss = y0 + Nss*dy;
+Wss = w0 + Nss*dw;
+X1=charact(t,Wss);% characteristic function
+density = dw/(2*pi)* exp(-1i*w0*Yss).* fft(X1.*exp(-1i*y0*Nss*dw));  % sampling of the density function after applying the fft to X 
+imag_density = imag(density);
+real_density = real(density);
+% plot(Yss,real_density)
+% plot(Yss,imag_density)
+% To check the error in transforming to the real space and back to Fourier
+% Applying the fft and going back by applying the ifft  
+% Xback = dy *N* exp(1j*y0*Wss).* fft(ifft(density.*exp(1j*w0*Nss*dy))); 
+% error=(X1-Xback);
+% print(Wss,error); 
+% The upper part of the density samples contains a noise part that should be truncated 
+% otherwise the error will be multiplied by the exponential payoff -> hudge
+% error
+gvec = zeros(1,N);
+for i=1:N
+if Yss(i)<7 || exp(Yss(i))> exp(k)
+        gvec(i)=S0*(exp(Yss(i))-exp(k));
+else
+       gvec(i)=0;
+end
+end
+X=gvec.*density;
+real_price =dy*exp(-r*t)* sum(X); %numerical integral in the original space
+% Useful graphs to visualize to output of the density samples by the fft
+% technique
+figure(1)
+subplot(2,1,1);
+plot(Yss,real_density)
+subplot(2,1,2);
+plot(Yss,gvec)
+figure(2)
+plot(Yss,X)
+
+end

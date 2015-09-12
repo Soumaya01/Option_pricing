@@ -1,0 +1,11 @@
+function out = Q(n , i , p , q , eta1 , eta2 )
+if i==n
+out=q^n ;
+else
+sum=0;
+for j =1:n-1
+sum = sum + q^ j *p^(n-j ) * nchoosek (n-i-1,j-1) *( eta2 / (eta1+eta2 ) ) ^( j -1) *( eta1 / ( eta1+eta2 ) ) ^ (n-j) ;
+end
+out=sum ;
+end
+end
